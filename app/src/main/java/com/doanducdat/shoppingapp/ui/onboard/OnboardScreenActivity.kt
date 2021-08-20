@@ -2,7 +2,6 @@ package com.doanducdat.shoppingapp.ui.onboard
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager2.widget.ViewPager2
@@ -11,7 +10,6 @@ import com.doanducdat.shoppingapp.adapter.ScreenSlidePagerAdapter
 import com.doanducdat.shoppingapp.animation.ZoomOutPageTransformer
 import com.doanducdat.shoppingapp.databinding.ActivityOnboardScreenBinding
 import com.doanducdat.shoppingapp.ui.login.LoginActivity
-import com.doanducdat.shoppingapp.ui.main.MainActivity
 import com.doanducdat.shoppingapp.utils.AppConstants
 
 class OnboardScreenActivity : AppCompatActivity() {

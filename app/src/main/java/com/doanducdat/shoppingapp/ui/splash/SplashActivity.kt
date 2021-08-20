@@ -2,7 +2,6 @@ package com.doanducdat.shoppingapp.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.ui.login.LoginActivity
@@ -10,7 +9,6 @@ import com.doanducdat.shoppingapp.ui.onboard.OnboardScreenActivity
 import com.doanducdat.shoppingapp.utils.MyDataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/_290sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.onboard.SecondFragment">
+    tools:context=".ui.onboard.fragment.SecondFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/anim_first"

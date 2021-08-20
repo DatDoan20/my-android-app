@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.ui.onboard
+package com.doanducdat.shoppingapp.ui.onboard.fragment
 
 import android.os.Bundle
 import android.view.View

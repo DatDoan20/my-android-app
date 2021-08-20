@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
-                    android:textColor="@color/textColorGeneric"
+                    android:textColor="@color/textTitleColorGeneric"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:textColor="@color/textColorGeneric"
+                    android:textColor="@color/textDesColorGeneric"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintTop_toBottomOf="@id/txt_title" />
 
