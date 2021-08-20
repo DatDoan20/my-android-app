@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!-- custom color Light -->
+    <!-- Splash-->
+    <color name="bgSplash">#474168</color>
+
+    <!-- Onboard-->
+    <color name="bgOnboard">#c6c5d6</color>
+    <color name="textColorGeneric">#FF000000</color>
+    <color name="textColorBtnGeneric">#FFFFFFFF</color>
+    <color name="bgColorBtnGeneric">#1b1463</color>
+    <color name="bgColorBtnGenericClick">#5b52b6</color>
+    <color name="bgCardView">#FFFFFFFF</color>
+    <color name="bgIndicator">#1b1463</color>
+
+
+</resources>
