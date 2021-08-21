@@ -11,29 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bgSplash"
-        tools:context=".ui.login.fragment.SignInFragment">
+        tools:context=".ui.login.signin.SignInFragment">
 
         <ImageView
             android:id="@+id/img_logo_shop"
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_130sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:src="@drawable/logo"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txt_input_layout"
+            android:id="@+id/txt_input_layout_phone"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_40sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:hint="@string/phone"
             android:padding="5dp"
             android:textColorHint="@color/textDesColorGeneric"
+            app:boxStrokeColor="@color/boxStrokeTextInputGeneric"
             app:counterEnabled="true"
             app:counterMaxLength="20"
             app:counterTextColor="@color/textTitleColorGeneric"
@@ -41,8 +43,9 @@
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/ic_error"
             app:errorTextColor="@color/red"
-            app:helperText="Bắt buộc"
+            app:helperText="@string/require"
             app:helperTextTextColor="@color/textTitleColorGeneric"
+            app:hintTextColor="@color/boxStrokeTextInputGeneric"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_logo_shop"
@@ -52,13 +55,129 @@
                 android:id="@+id/txt_input_edt_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textTitleColorGeneric"
-                android:textStyle="bold"
                 android:inputType="number"
                 android:maxLength="21"
                 android:maxLines="1"
-                android:singleLine="true" />
-
+                android:singleLine="true"
+                android:textColor="@color/textTitleColorGeneric"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_layout_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:hint="@string/password"
+            android:padding="5dp"
+            android:textColorHint="@color/textDesColorGeneric"
+            app:boxStrokeColor="@color/boxStrokeTextInputGeneric"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/red"
+            app:helperText="@string/requireLengthPassword"
+            app:helperTextTextColor="@color/textTitleColorGeneric"
+            app:hintTextColor="@color/boxStrokeTextInputGeneric"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_phone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_input_edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/textTitleColorGeneric"
+                android:textSize="@dimen/_14sdp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            app:ccpDialog_background="@drawable/bg_dialog_ccp_region_phone"
+            app:ccpDialog_fastScroller_bubbleColor="@color/textTitleColorGeneric"
+            app:ccpDialog_fastScroller_handleColor="@color/textTitleColorGeneric"
+            app:ccpDialog_searchEditTextTint="@color/textTitleColorGeneric"
+            app:ccpDialog_showTitle="false"
+            app:ccpDialog_textColor="@color/textTitleColorGeneric"
+            app:ccp_contentColor="@color/textTitleColorGeneric"
+            app:ccp_countryPreference="VN"
+            app:ccp_defaultNameCode="VN"
+            app:ccp_showFullName="true"
+            app:layout_constraintBottom_toTopOf="@id/txt_input_layout_phone"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_check_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:contentDescription="@string/stateCheckPhone"
+            android:src="@drawable/ic_unvalid"
+            app:layout_constraintBottom_toTopOf="@id/txt_input_layout_phone"
+            app:layout_constraintStart_toEndOf="@id/ccp_login" />
+
+        <TextView
+            android:id="@+id/txt_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:gravity="center"
+            android:text="@string/forgotPassword"
+            android:textColor="@color/textDesColorGeneric"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_layout_password" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/bg_btn_generic_two_style"
+            android:paddingLeft="@dimen/_13sdp"
+            android:paddingRight="@dimen/_13sdp"
+            android:text="@string/signIn"
+            android:textAllCaps="false"
+            android:textColor="@color/textColorBtnGeneric"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_input_layout_password" />
+
+        <TextView
+            android:id="@+id/txt_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:gravity="center"
+            android:text="@string/youDontHaveAccount"
+            android:textColor="@color/textDesColorGeneric"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
+        <TextView
+            android:id="@+id/txt_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:text="@string/signUp"
+            android:textColor="@color/textTitleColorGeneric"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_text1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

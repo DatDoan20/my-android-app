@@ -23,5 +23,5 @@
     <color name="bgCardView">#FFFFFFFF</color>
     <color name="bgIndicator">#261c87</color>
     <!-- SignIn -->
-
+    <color name="boxStrokeTextInputGeneric">#726cea</color>
 </resources>

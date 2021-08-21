@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.ui.login.fragment
+package com.doanducdat.shoppingapp.ui.login.signup
 
 import androidx.fragment.app.Fragment
 import com.doanducdat.shoppingapp.R
