@@ -3,7 +3,7 @@ package com.doanducdat.shoppingapp.utils
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
 import java.util.regex.Pattern
-
+/*** function check: error -> return "error message", not error -> return "null" */
 object FormValidation {
 
     fun checkLengthNumberPhone(conditionResult: Boolean): String? {
@@ -52,6 +52,7 @@ object FormValidation {
         return null
     }
 
+    /*** return name was formatted */
     fun formatName(name: String): String {
         var formattedName: StringBuffer = StringBuffer()
         var list: List<String> = name.trim().split(" ")

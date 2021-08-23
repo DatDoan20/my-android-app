@@ -81,11 +81,11 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
     }
 
     private fun setUpActionClick() {
-        binding.btnLogin.setOnClickListener {
+        binding.btnSignIn.setOnClickListener {
             doActionClick(AppConstants.ActionClick.SIGN_IN)
         }
         binding.txtSignUp.setOnClickListener {
-            doActionClick(AppConstants.ActionClick.NAV_SIGNUP)
+            doActionClick(AppConstants.ActionClick.NAV_SIGN_UP)
         }
         binding.txtForgotPassword.setOnClickListener {
             doActionClick(AppConstants.ActionClick.NAV_FORGOT)
@@ -97,8 +97,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
             AppConstants.ActionClick.SIGN_IN-> {
                 login()
             }
-            AppConstants.ActionClick.NAV_SIGNUP -> {
-                controller.navigate(R.id.signUpFragment)
+            AppConstants.ActionClick.NAV_SIGN_UP -> {
+                controller.navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
             }
         }
     }

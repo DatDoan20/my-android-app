@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.doanducdat.shoppingapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -15,9 +16,6 @@
             android:exported="true" />
         <activity
             android:name=".ui.onboard.OnboardScreenActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.onboard.OnBoardingScreenActivity"
             android:exported="true" />
         <activity
             android:name=".ui.splash.SplashActivity"

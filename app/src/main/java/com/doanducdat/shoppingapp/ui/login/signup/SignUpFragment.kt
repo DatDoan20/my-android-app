@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignUpBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
+import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
@@ -120,7 +122,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
             doActionClick(AppConstants.ActionClick.SIGN_UP)
         }
         binding.imgBack.setOnClickListener {
-            controller.navigate(R.id.verifyOTPFragment)
+            doActionClick(AppConstants.ActionClick.NAV_SIGN_IN)
         }
     }
 
@@ -128,6 +130,9 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.SIGN_UP -> {
                 checkValidForm()
+            }
+            AppConstants.ActionClick.NAV_SIGN_IN -> {
+                controller.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignInFragment())
             }
         }
     }
@@ -168,9 +173,40 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
     }
 
     private fun signUp() {
+        val phoneNumberWithCountryCode =
+            binding.ccpSignUp.selectedCountryCodeWithPlus + binding.txtInputEdtPhone.text.toString()
+        val phoneNumber = binding.txtInputEdtPhone.text.toString()
         val formattedName = FormValidation.formatName(binding.txtInputEdtName.text.toString())
+        val email = binding.txtInputEdtEmail.text.toString()
+        val password = binding.txtInputEdtPassword.text.toString()
 
         binding.txtInputEdtName.setText(formattedName)
+
+        val callbackWhenCodeSent = object : MyPhoneAuth.WhenCodeSent {
+            override fun setWhenCodeSent(
+                verificationId: String,
+                phoneNumberWithCountryCode: String,
+                phoneNumber: String
+            ) {
+                val bundle: Bundle = bundleOf(
+                    "PHONE_COUNTRY_WITH_PLUSH" to phoneNumberWithCountryCode,
+                    "PHONE" to phoneNumber,
+                    "NAME" to formattedName,
+                    "EMAIL" to email,
+                    "PASSWORD" to password,
+                    "VERIFICATION_ID" to verificationId
+                )
+                controller.navigate(R.id.verifyOTPFragment, bundle)
+            }
+        }
+
+        viewModel.generateOTP(
+            requireContext(),
+            phoneNumberWithCountryCode,
+            phoneNumber,
+            callbackWhenCodeSent,
+            requireActivity()
+        )
     }
 
 
