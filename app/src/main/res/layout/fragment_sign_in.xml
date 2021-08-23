@@ -98,7 +98,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.hbb20.CountryCodePicker
-            android:id="@+id/ccp_login"
+            android:id="@+id/ccp_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
@@ -124,7 +124,7 @@
             android:contentDescription="@string/stateCheckPhone"
             android:src="@drawable/ic_unvalid"
             app:layout_constraintBottom_toTopOf="@id/txt_input_layout_phone"
-            app:layout_constraintStart_toEndOf="@id/ccp_login" />
+            app:layout_constraintStart_toEndOf="@id/ccp_sign_in" />
 
         <TextView
             android:id="@+id/txt_forgot_password"

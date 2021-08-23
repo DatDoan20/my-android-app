@@ -17,5 +17,13 @@
         android:id="@+id/signUpFragment"
         android:name="com.doanducdat.shoppingapp.ui.login.signup.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_verifyOTPFragment"
+            app:destination="@id/verifyOTPFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyOTPFragment"
+        android:name="com.doanducdat.shoppingapp.ui.login.signup.VerifyOTPFragment"
+        android:label="VerifyOTPFragment" />
 </navigation>

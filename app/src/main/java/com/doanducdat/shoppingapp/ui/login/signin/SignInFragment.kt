@@ -68,8 +68,8 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
     }
 
     private fun checkValidationNumberPhone() {
-        binding.ccpLogin.registerCarrierNumberEditText(binding.txtInputEdtPhone)
-        binding.ccpLogin.setPhoneNumberValidityChangeListener {
+        binding.ccpSignIn.registerCarrierNumberEditText(binding.txtInputEdtPhone)
+        binding.ccpSignIn.setPhoneNumberValidityChangeListener {
             if (it) {
                 validationPhone = true
                 binding.imgCheckPhone.setImageResource(R.drawable.ic_valid)
@@ -82,7 +82,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
 
     private fun setUpActionClick() {
         binding.btnLogin.setOnClickListener {
-            doActionClick(AppConstants.ActionClick.LOGIN)
+            doActionClick(AppConstants.ActionClick.SIGN_IN)
         }
         binding.txtSignUp.setOnClickListener {
             doActionClick(AppConstants.ActionClick.NAV_SIGNUP)
@@ -94,7 +94,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
-            AppConstants.ActionClick.LOGIN -> {
+            AppConstants.ActionClick.SIGN_IN-> {
                 login()
             }
             AppConstants.ActionClick.NAV_SIGNUP -> {

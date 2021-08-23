@@ -14,7 +14,7 @@
         tools:context=".ui.login.signin.SignInFragment">
 
         <com.hbb20.CountryCodePicker
-            android:id="@+id/ccp_login"
+            android:id="@+id/ccp_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
@@ -40,7 +40,7 @@
             android:contentDescription="@string/stateCheckPhone"
             android:src="@drawable/ic_unvalid"
             app:layout_constraintBottom_toTopOf="@id/txt_input_layout_phone"
-            app:layout_constraintStart_toEndOf="@id/ccp_login" />
+            app:layout_constraintStart_toEndOf="@id/ccp_sign_up" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_input_layout_phone"
@@ -133,9 +133,6 @@
             android:padding="5dp"
             android:textColorHint="@color/textDesColorGeneric"
             app:boxStrokeColor="@color/boxStrokeTextInputGeneric"
-            app:counterEnabled="true"
-            app:counterMaxLength="20"
-            app:counterTextColor="@color/textTitleColorGeneric"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/ic_error"
@@ -153,7 +150,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:maxLength="21"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/textTitleColorGeneric"
@@ -194,7 +190,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
@@ -217,7 +213,7 @@
             android:src="@drawable/ic_back"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+            app:layout_constraintTop_toBottomOf="@id/btn_sign_up" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
