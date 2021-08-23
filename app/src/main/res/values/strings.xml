@@ -15,5 +15,6 @@
     <string name="youDontHaveAccount">Bạn chưa có tài khoản?</string>
     <string name="signUp">Đăng ký</string>
     <string name="verify">Xác nhận</string>
+    <string name="tryAgain">Thử lại</string>
     <string name="forgotPassword"><u>Quên mật khẩu?</u></string>
 </resources>

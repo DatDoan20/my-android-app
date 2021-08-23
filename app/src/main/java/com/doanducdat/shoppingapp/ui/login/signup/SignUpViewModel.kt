@@ -25,11 +25,11 @@ class SignUpViewModel @Inject constructor(
         context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
-        callbackWhenCodeSent: MyPhoneAuth.WhenCodeSent,
+        callbackResultGenerateOTP: MyPhoneAuth.ResultGenerateOTP,
         activity: Activity,
     ) {
         signUpRepository.generateOTP(
-            context, phoneNumberWithCountryCode, phoneNumber, callbackWhenCodeSent, activity
+            context, phoneNumberWithCountryCode, phoneNumber, callbackResultGenerateOTP, activity
         )
     }
 

@@ -18,6 +18,7 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.FormValidation
+import com.doanducdat.shoppingapp.utils.MyDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,6 +63,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
     }
 
     //<editor-fold desc="Check Form Sign Up">
+
     private fun checkLengthNumberPhone() {
         binding.txtInputEdtPhone.doOnTextChanged { text, _, _, _ ->
             binding.txtInputLayoutPhone.error =
@@ -117,11 +119,12 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
     }
     //</editor-fold>
 
+
     private fun setUpActionClick() {
         binding.btnSignUp.setOnClickListener {
             doActionClick(AppConstants.ActionClick.SIGN_UP)
         }
-        binding.imgBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             doActionClick(AppConstants.ActionClick.NAV_SIGN_IN)
         }
     }
@@ -137,6 +140,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
         }
     }
 
+    //<editor-fold desc="Check Form Sign Up">
     private fun checkValidForm() {
         when {
             stateErrPhone -> {
@@ -167,26 +171,50 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
         signUp()
     }
 
+    private fun setStateForm(progressBar: Int, btnBack: Boolean, btnSignUp: Boolean) {
+        binding.spinKitProgressBar.visibility = progressBar
+        binding.btnBack.isEnabled = btnBack
+        binding.btnSignUp.isEnabled = btnSignUp
+    }
+
     private fun requestFocusForm(view: View, msg: String) {
         view.requestFocus()
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
+    //</editor-fold>
 
     private fun signUp() {
+        setStateForm(View.VISIBLE, btnBack = false, btnSignUp = false)
         val phoneNumberWithCountryCode =
             binding.ccpSignUp.selectedCountryCodeWithPlus + binding.txtInputEdtPhone.text.toString()
         val phoneNumber = binding.txtInputEdtPhone.text.toString()
         val formattedName = FormValidation.formatName(binding.txtInputEdtName.text.toString())
-        val email = binding.txtInputEdtEmail.text.toString()
+        val email = binding.txtInputEdtEmail.text.toString().trim()
         val password = binding.txtInputEdtPassword.text.toString()
-
         binding.txtInputEdtName.setText(formattedName)
 
-        val callbackWhenCodeSent = object : MyPhoneAuth.WhenCodeSent {
-            override fun setWhenCodeSent(
+        val callbackResultGenerateOTP = callbackResultGenerateOTP(formattedName, email, password)
+
+        viewModel.generateOTP(
+            requireContext(),
+            phoneNumberWithCountryCode,
+            phoneNumber,
+            callbackResultGenerateOTP,
+            requireActivity()
+        )
+    }
+
+    private fun callbackResultGenerateOTP(
+        formattedName: String,
+        email: String,
+        password: String
+    ): MyPhoneAuth.ResultGenerateOTP {
+        return object : MyPhoneAuth.ResultGenerateOTP {
+            override fun onCodeSentSuccess(
                 verificationId: String,
                 phoneNumberWithCountryCode: String,
-                phoneNumber: String
+                phoneNumber: String,
+                msg: String
             ) {
                 val bundle: Bundle = bundleOf(
                     "PHONE_COUNTRY_WITH_PLUSH" to phoneNumberWithCountryCode,
@@ -196,18 +224,18 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
                     "PASSWORD" to password,
                     "VERIFICATION_ID" to verificationId
                 )
+                setStateForm(View.GONE, btnBack = true, btnSignUp = true)
                 controller.navigate(R.id.verifyOTPFragment, bundle)
             }
+
+            override fun onCodeSentFail(msg: String) {
+                val onClick: () -> Unit = {
+                    MyDialog.dismiss()
+                }
+                MyDialog.build(requireActivity(), msg, onClick)
+                MyDialog.show()
+                setStateForm(View.GONE, btnBack = true, btnSignUp = true)
+            }
         }
-
-        viewModel.generateOTP(
-            requireContext(),
-            phoneNumberWithCountryCode,
-            phoneNumber,
-            callbackWhenCodeSent,
-            requireActivity()
-        )
     }
-
-
 }

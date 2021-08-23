@@ -38,25 +38,23 @@ object PhoneAuthentication {
         context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
-        callbackWhenCodeSent: MyPhoneAuth.WhenCodeSent
+        callbackResultGenerateOTP: MyPhoneAuth.ResultGenerateOTP
     ): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
         return object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {}
 
             override fun onVerificationFailed(error: FirebaseException) {
-                val msgErr = when (error) {
+                var msg = AppConstants.MsgError.GENERIC_ERR_MSG
+                when (error) {
                     is FirebaseAuthInvalidCredentialsException -> {
-                        AppConstants.PhoneAuth.INVALID_CREDENTIALS
+                        msg = AppConstants.PhoneAuth.INVALID_CREDENTIALS
                     }
                     is FirebaseTooManyRequestsException -> {
-                        AppConstants.PhoneAuth.INVALID_CREDENTIALS
-                    }
-                    else -> {
-                        AppConstants.MsgError.GENERIC_ERR_MSG
+                        msg = AppConstants.PhoneAuth.INVALID_CREDENTIALS
                     }
                 }
-                Toast.makeText(context, msgErr, Toast.LENGTH_SHORT).show()
+                callbackResultGenerateOTP.onCodeSentFail(msg)
             }
 
             override fun onCodeSent(
@@ -64,10 +62,12 @@ object PhoneAuthentication {
                 token: PhoneAuthProvider.ForceResendingToken
             ) {
                 super.onCodeSent(verificationId, token)
-                callbackWhenCodeSent.setWhenCodeSent(
+                val msg = AppConstants.PhoneAuth.VERIFY_OTP_MSG
+                callbackResultGenerateOTP.onCodeSentSuccess(
                     verificationId,
                     phoneNumberWithCountryCode,
-                    phoneNumber
+                    phoneNumber,
+                    msg
                 )
             }
         }

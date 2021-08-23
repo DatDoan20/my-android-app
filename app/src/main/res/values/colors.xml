@@ -9,9 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#CF1E1E</color>
     <!-- custom color Light -->
-    <!--    color button:261c87,    color background:f4f3f9 -->
+    <!--    color button:261c87,    color background:f4f3f9, conner button: 5sdp,
+     conner dialog, card view: 13sdp -->
     <!-- Splash-->
     <color name="bgSplash">#f4f3f9</color>
+    <color name="bgWaiting">#474747</color>
 
     <!-- Onboard-->
     <color name="bgOnboard">#f4f3f9</color>

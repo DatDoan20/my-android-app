@@ -92,7 +92,8 @@ dependencies {
     implementation 'com.hbb20:ccp:2.5.4'
     //OPT PinView
     implementation 'io.github.chaosleung:pinview:1.4.4'
-
+    //SpinKit progressbar
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'

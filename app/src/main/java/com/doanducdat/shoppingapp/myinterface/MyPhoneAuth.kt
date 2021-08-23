@@ -2,13 +2,15 @@ package com.doanducdat.shoppingapp.myinterface
 
 interface MyPhoneAuth {
 
-    interface WhenCodeSent {
+    interface ResultGenerateOTP {
         /*** Generate OTP success */
-        fun setWhenCodeSent(
+        fun onCodeSentSuccess(
             verificationId: String,
             phoneNumberWithCountryCode: String,
-            phoneNumber: String
+            phoneNumber: String,
+            msg: String
         )
+        fun onCodeSentFail(msg:String)
     }
     interface VerifyOTP{
         fun setVerifyOTP()

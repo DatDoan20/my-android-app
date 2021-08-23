@@ -16,24 +16,24 @@ class SignUpRepository @Inject constructor(
         context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
-        callbackWhenCodeSent: MyPhoneAuth.WhenCodeSent,
+        callbackResultGenerateOTP: MyPhoneAuth.ResultGenerateOTP,
         activity: Activity,
     ) {
-        val callbackVerifyOTP =
+        val callbackVerification =
             generateCallbacksVerification(
                 context,
                 phoneNumberWithCountryCode,
                 phoneNumber,
-                callbackWhenCodeSent
+                callbackResultGenerateOTP
             )
-        PhoneAuthentication.generateOTP(phoneNumberWithCountryCode, activity, callbackVerifyOTP)
+        PhoneAuthentication.generateOTP(phoneNumberWithCountryCode, activity, callbackVerification)
     }
 
     private fun generateCallbacksVerification(
         context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
-        callbackWhenCodeSent: MyPhoneAuth.WhenCodeSent,
+        callbackWhenCodeSent: MyPhoneAuth.ResultGenerateOTP,
     ): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
         return PhoneAuthentication.generateCallbacksVerification(
             context,

@@ -60,6 +60,18 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
         }
     }
 
+    private fun checkOTP(): Boolean {
+        otp = binding.pinViewOtp.text.toString()
+        if (TextUtils.isEmpty(otp)) {
+            binding.pinViewOtp.error = AppConstants.MsgError.OTP_ERR_MSG_EMPTY
+            return false
+        } else if (otp!!.length < 6) {
+            binding.pinViewOtp.error = AppConstants.MsgError.OTP_ERR_MSG_NOT_ENOUGH
+            return false
+        }
+        return true
+    }
+
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.VERIFY_OTP -> {
@@ -87,15 +99,5 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
         }
     }
 
-    private fun checkOTP(): Boolean {
-        otp = binding.pinViewOtp.text.toString()
-        if (TextUtils.isEmpty(otp)) {
-            binding.pinViewOtp.error = AppConstants.MsgError.OTP_ERR_MSG_EMPTY
-            return false
-        } else if (otp!!.length < 6) {
-            binding.pinViewOtp.error = AppConstants.MsgError.OTP_ERR_MSG_NOT_ENOUGH
-            return false
-        }
-        return true
-    }
+
 }
