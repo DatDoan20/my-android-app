@@ -29,6 +29,7 @@
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
             android:cursorVisible="true"
             android:inputType="number"
             android:padding="@dimen/_5sdp"
@@ -42,7 +43,6 @@
             app:itemHeight="48dp"
             app:itemRadius="5dp"
             app:itemSpacing="0dp"
-            android:layout_marginTop="@dimen/_20sdp"
             app:itemWidth="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,5 +67,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pin_view_otp" />
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit_progress_bar"
+            style="@style/SpinKitView.Large.FadingCircle"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/bgColorBtnGeneric"
+            android:background="@android:color/transparent"
+            app:circularflow_defaultRadius="@dimen/_50sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

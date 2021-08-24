@@ -1,11 +1,17 @@
 package com.doanducdat.shoppingapp.repository
 
 import android.app.Activity
-import android.content.Context
+import com.doanducdat.shoppingapp.module.Response
+import com.doanducdat.shoppingapp.module.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.retrofit.UserAPI
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.PhoneAuthentication
+import com.doanducdat.shoppingapp.utils.response.DataState
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class SignUpRepository @Inject constructor(
@@ -13,7 +19,6 @@ class SignUpRepository @Inject constructor(
 ) {
 
     fun generateOTP(
-        context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
         callbackResultGenerateOTP: MyPhoneAuth.ResultGenerateOTP,
@@ -21,7 +26,6 @@ class SignUpRepository @Inject constructor(
     ) {
         val callbackVerification =
             generateCallbacksVerification(
-                context,
                 phoneNumberWithCountryCode,
                 phoneNumber,
                 callbackResultGenerateOTP
@@ -30,13 +34,11 @@ class SignUpRepository @Inject constructor(
     }
 
     private fun generateCallbacksVerification(
-        context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
         callbackWhenCodeSent: MyPhoneAuth.ResultGenerateOTP,
     ): PhoneAuthProvider.OnVerificationStateChangedCallbacks {
         return PhoneAuthentication.generateCallbacksVerification(
-            context,
             phoneNumberWithCountryCode,
             phoneNumber,
             callbackWhenCodeSent
@@ -47,9 +49,27 @@ class SignUpRepository @Inject constructor(
         verificationID: String,
         otp: String,
         activity: Activity,
-        context: Context,
         callbackVerifyOTP: MyPhoneAuth.VerifyOTP
     ) {
-        PhoneAuthentication.verifyOTP(verificationID, otp, activity, context, callbackVerifyOTP)
+        PhoneAuthentication.verifyOTP(verificationID, otp, activity, callbackVerifyOTP)
+    }
+
+    suspend fun signUpUser(userSignUp: UserSignUp) = flow {
+        emit(DataState.loading(null))
+        try {
+            val responseSignUpUser: Response = userAPI.signUpUser(userSignUp)
+            emit(DataState.success(responseSignUpUser))
+        } catch (e: Throwable) {
+            var msg = ""
+            when (e) {
+                is HttpException -> {
+                    msg = e.code().toString() + "\n" + e.response()?.errorBody()?.source()
+                }
+                is IOException -> {
+                    msg = " error network"
+                }
+            }
+            emit(DataState.error(null, msg ?: AppConstants.MsgError.GENERIC_ERR_MSG))
+        }
     }
 }

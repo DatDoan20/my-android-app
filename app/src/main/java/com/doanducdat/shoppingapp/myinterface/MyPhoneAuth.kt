@@ -10,9 +10,10 @@ interface MyPhoneAuth {
             phoneNumber: String,
             msg: String
         )
-        fun onCodeSentFail(msg:String)
+        fun onCodeSentFailed(msg:String)
     }
     interface VerifyOTP{
-        fun setVerifyOTP()
+        fun onVerifySuccess(msg:String)
+        fun onVerifyFailed(msg: String)
     }
 }

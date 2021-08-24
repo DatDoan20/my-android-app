@@ -222,6 +222,7 @@
             android:visibility="gone"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
+            android:background="@android:color/transparent"
             app:SpinKit_Color="@color/bgColorBtnGeneric"
             app:circularflow_defaultRadius="@dimen/_50sdp"
             app:layout_constraintBottom_toBottomOf="parent"

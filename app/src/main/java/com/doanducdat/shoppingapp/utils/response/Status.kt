@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.response
 
 enum class Status {
     ERROR,

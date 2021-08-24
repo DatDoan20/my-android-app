@@ -1,9 +1,6 @@
 package com.doanducdat.shoppingapp.utils
 
 import android.app.Activity
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -35,7 +32,6 @@ object PhoneAuthentication {
      * OTP was sent -> handle by callback function
      * */
     fun generateCallbacksVerification(
-        context: Context,
         phoneNumberWithCountryCode: String,
         phoneNumber: String,
         callbackResultGenerateOTP: MyPhoneAuth.ResultGenerateOTP
@@ -51,10 +47,10 @@ object PhoneAuthentication {
                         msg = AppConstants.PhoneAuth.INVALID_CREDENTIALS
                     }
                     is FirebaseTooManyRequestsException -> {
-                        msg = AppConstants.PhoneAuth.INVALID_CREDENTIALS
+                        msg = AppConstants.PhoneAuth.TOO_MANY_REQUESTS
                     }
                 }
-                callbackResultGenerateOTP.onCodeSentFail(msg)
+                callbackResultGenerateOTP.onCodeSentFailed(msg)
             }
 
             override fun onCodeSent(
@@ -62,7 +58,7 @@ object PhoneAuthentication {
                 token: PhoneAuthProvider.ForceResendingToken
             ) {
                 super.onCodeSent(verificationId, token)
-                val msg = AppConstants.PhoneAuth.VERIFY_OTP_MSG
+                val msg = AppConstants.PhoneAuth.CODE_SENT_SUCCESS
                 callbackResultGenerateOTP.onCodeSentSuccess(
                     verificationId,
                     phoneNumberWithCountryCode,
@@ -78,22 +74,20 @@ object PhoneAuthentication {
         verificationId: String,
         otp: String,
         activity: Activity,
-        context: Context,
         callbackVerifyOTP: MyPhoneAuth.VerifyOTP
     ) {
         val credential = PhoneAuthProvider.getCredential(verificationId, otp)
         auth.signInWithCredential(credential).addOnCompleteListener(activity) { task ->
-            var msgResult = AppConstants.PhoneAuth.VERIFY_OTP_MSG
+            var msg = AppConstants.PhoneAuth.VERIFY_OTP_MSG_SUCCESS
             if (task.isSuccessful) {
-                Toast.makeText(context, msgResult, Toast.LENGTH_SHORT).show()
-                callbackVerifyOTP.setVerifyOTP()
+                callbackVerifyOTP.onVerifySuccess(msg)
             } else {
-                msgResult = if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                    AppConstants.PhoneAuth.INVALID_CREDENTIALS
+                msg = if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    AppConstants.PhoneAuth.OTP_ERR_MSG_UN_VALID
                 } else {
                     AppConstants.MsgError.GENERIC_ERR_MSG
                 }
-                Toast.makeText(context, msgResult, Toast.LENGTH_SHORT).show()
+                callbackVerifyOTP.onVerifyFailed(msg)
             }
 
         }

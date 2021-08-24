@@ -25,7 +25,11 @@ object AppConstants {
             const val LANGUAGE_CODE_VN = "vi"
             const val INVALID_CREDENTIALS = "Yêu cầu gửi đi không hợp lệ!"
             const val TOO_MANY_REQUESTS = "Yêu cầu gửi đi quá nhiều lần, thử lại sau!"
-            const val VERIFY_OTP_MSG = "Xác nhận thành công"
+            const val VERIFY_OTP_MSG_SUCCESS = "Đăng ký Thành công! bạn có thể đăng nhập"
+            const val CODE_SENT_SUCCESS = "Gửi mã OTP thành công, vui chờ và kiểm tra tin nhắn"
+            const val OTP_ERR_MSG_EMPTY = "Vui lòng nhập mã OTP để xác nhận số điện thoại!"
+            const val OTP_ERR_MSG_UN_VALID = "Mã OTP không hợp lệ!"
+            const val OTP_ERR_MSG_NOT_ENOUGH = "Mã OTP phải đủ 6 số"
         }
     }
 
@@ -40,11 +44,8 @@ object AppConstants {
             const val PASSWORD_ERR_MSG = "Mật khẩu không hợp lệ"
             const val EMAIL_ERR_MSG = "Email không hợp lệ"
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
-            const val NAME_ERR_MSG = "Tên không được chứa kí đặc biệt tự hoặc số"
-            const val NAME_ERR_MSG_EMPTY = "Tên không hợp lệ"
-            const val OTP_ERR_MSG_EMPTY = "Vui lòng nhập mã OTP để xác nhận số điện thoại!"
-            const val OTP_ERR_MSG_UN_VALID = "Mã OTP không hợp lệ!"
-            const val OTP_ERR_MSG_NOT_ENOUGH = "Mã OTP phải đủ 6 số"
+            const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
+
         }
     }
 

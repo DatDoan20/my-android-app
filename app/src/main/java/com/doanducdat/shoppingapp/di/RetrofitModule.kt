@@ -25,13 +25,13 @@ object RetrofitModule {
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit.Builder {
         return Retrofit.Builder()
-            .baseUrl("https://open-api.xyz/placeholder/")
+            .baseUrl("http://10.0.2.2:3000")
             .addConverterFactory(GsonConverterFactory.create(gson))
     }
 
     @Singleton
     @Provides
-    fun provideBlogService(retrofit: Retrofit.Builder): UserAPI{
+    fun provideUserService(retrofit: Retrofit.Builder): UserAPI{
         return retrofit.build().create(UserAPI::class.java)
     }
 }
