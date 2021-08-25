@@ -78,11 +78,10 @@ object PhoneAuthentication {
     ) {
         val credential = PhoneAuthProvider.getCredential(verificationId, otp)
         auth.signInWithCredential(credential).addOnCompleteListener(activity) { task ->
-            var msg = AppConstants.PhoneAuth.VERIFY_OTP_MSG_SUCCESS
             if (task.isSuccessful) {
-                callbackVerifyOTP.onVerifySuccess(msg)
+                callbackVerifyOTP.onVerifySuccess()
             } else {
-                msg = if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                val msg = if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     AppConstants.PhoneAuth.OTP_ERR_MSG_UN_VALID
                 } else {
                     AppConstants.MsgError.GENERIC_ERR_MSG

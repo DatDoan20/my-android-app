@@ -8,6 +8,7 @@ import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.PhoneAuthentication
 import com.doanducdat.shoppingapp.utils.response.DataState
+import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -60,16 +61,7 @@ class SignUpRepository @Inject constructor(
             val responseSignUpUser: Response = userAPI.signUpUser(userSignUp)
             emit(DataState.success(responseSignUpUser))
         } catch (e: Throwable) {
-            var msg = ""
-            when (e) {
-                is HttpException -> {
-                    msg = e.code().toString() + "\n" + e.response()?.errorBody()?.source()
-                }
-                is IOException -> {
-                    msg = " error network"
-                }
-            }
-            emit(DataState.error(null, msg ?: AppConstants.MsgError.GENERIC_ERR_MSG))
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }
     }
 }

@@ -37,6 +37,7 @@ object AppConstants {
     annotation class MsgError {
         companion object {
             const val GENERIC_ERR_MSG = "Thất bại! đã có lỗi xảy ra, thử lại sau"
+            const val GENERIC_ERR_RESPONSE = "Đường truyền mạng internet bị gián đoạn, thử lại sau"
             const val PHONE_ERR_LENGTH = "Chiều dài không hợp lệ"
             const val PASSWORD_ERR_LENGTH = "Độ dài ít hơn 8 kí tự, không chứa khoảng trắng"
             const val NAME_ERR_LENGTH = "Độ dài tối đa 50 kí tự"

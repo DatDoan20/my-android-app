@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.ui.login.signup
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +17,8 @@ import com.doanducdat.shoppingapp.databinding.FragmentSignUpBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.FormValidation
-import com.doanducdat.shoppingapp.utils.MyDialog
+import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
+import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -230,9 +231,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
             }
 
             override fun onCodeSentFailed(msg: String) {
-                val onClick: () -> Unit = {}
-                MyDialog.build(requireContext(), msg, onClick)
-                MyDialog.show()
+                val dialog: Dialog = MyBasicDialog().initDialog(requireContext(), msg)
+                dialog.show()
                 viewModel.isLoading.value = false
             }
         }

@@ -13,7 +13,7 @@ interface MyPhoneAuth {
         fun onCodeSentFailed(msg:String)
     }
     interface VerifyOTP{
-        fun onVerifySuccess(msg:String)
+        fun onVerifySuccess()
         fun onVerifyFailed(msg: String)
     }
 }

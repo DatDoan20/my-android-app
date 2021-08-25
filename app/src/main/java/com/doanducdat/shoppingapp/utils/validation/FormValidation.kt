@@ -1,7 +1,8 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.validation
 
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.utils.AppConstants
 import java.util.regex.Pattern
 /*** function check: error -> return "error message", not error -> return "null" */
 object FormValidation {

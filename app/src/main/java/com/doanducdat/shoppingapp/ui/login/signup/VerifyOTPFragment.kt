@@ -1,11 +1,13 @@
 package com.doanducdat.shoppingapp.ui.login.signup
 
+import android.app.Dialog
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -16,7 +18,7 @@ import com.doanducdat.shoppingapp.module.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.MyDialog
+import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.response.Status
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -94,38 +96,7 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
     private fun verifyOTP() {
         if (checkOTP() && verificationId != null && otp != null) {
             viewModel.isLoading.value = true
-            val callbackVerifyOTP = object : MyPhoneAuth.VerifyOTP {
-                //Match OTP - send API
-                override fun onVerifySuccess(msg: String) {
-
-                    viewModel.dataState.observe(viewLifecycleOwner, {
-                        when (it.status) {
-                            Status.LOADING -> {
-                                viewModel.isLoading.value = true
-                            }
-                            Status.ERROR -> {
-                                viewModel.isLoading.value = false
-                                val onClick: () -> Unit = {}
-                                MyDialog.build(requireContext(), it.message!!, onClick)
-                                MyDialog.show()
-                            }
-                            Status.SUCCESS -> {
-                                Log.e("TAG", "onVerifySuccess: ${it.response}")
-                            }
-                        }
-                    })
-                    viewModel.signUpUser(userSignUp)
-//                    controller.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignInFragment())
-                }
-
-                override fun onVerifyFailed(msg: String) {
-                    val onClick: () -> Unit = {}
-                    MyDialog.build(requireContext(), msg, onClick)
-                    MyDialog.show()
-                    viewModel.isLoading.value = false
-                }
-            }
-            viewModel.verifyOTP(verificationId!!, otp!!, requireActivity(), callbackVerifyOTP)
+            viewModel.verifyOTP(verificationId!!, otp!!, requireActivity(), callbackVerifyOTP())
         }
     }
 
@@ -139,5 +110,41 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
             return false
         }
         return true
+    }
+
+    private fun callbackVerifyOTP(): MyPhoneAuth.VerifyOTP {
+        return object : MyPhoneAuth.VerifyOTP {
+            //Match OTP - send API signUpUser to server
+            override fun onVerifySuccess() {
+                signUpUser()
+            }
+
+            override fun onVerifyFailed(msg: String) {
+                val dialog: Dialog = MyBasicDialog().initDialog(requireContext(), msg)
+                dialog.show()
+                viewModel.isLoading.value = false
+            }
+        }
+    }
+
+    private fun signUpUser() {
+        viewModel.dataState.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    viewModel.isLoading.value = false
+                    val dialog: Dialog = MyBasicDialog().initDialog(requireContext(), it.message!!)
+                    dialog.show()
+                }
+                Status.SUCCESS -> {
+                    viewModel.isLoading.value = false
+                    Toast.makeText(requireContext(), it.response?.message, Toast.LENGTH_SHORT).show()
+                    controller.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignInFragment())
+                }
+            }
+        })
+        viewModel.signUpUser(userSignUp)
     }
 }
