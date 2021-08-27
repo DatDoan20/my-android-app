@@ -6,8 +6,9 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-object PhoneAuthentication {
+class PhoneAuthentication @Inject constructor() {
     private val auth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }

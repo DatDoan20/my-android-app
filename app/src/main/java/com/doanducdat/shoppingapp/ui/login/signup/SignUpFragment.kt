@@ -1,6 +1,5 @@
 package com.doanducdat.shoppingapp.ui.login.signup
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
 
     private lateinit var binding: FragmentSignUpBinding
-
+    val dialog: MyBasicDialog = MyBasicDialog(requireContext())
     private val controller by lazy {
         (requireActivity().supportFragmentManager.findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
@@ -231,7 +230,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
             }
 
             override fun onCodeSentFailed(msg: String) {
-                val dialog: Dialog = MyBasicDialog().initDialog(requireContext(), msg)
+                dialog.setText(msg)
                 dialog.show()
                 viewModel.isLoading.value = false
             }

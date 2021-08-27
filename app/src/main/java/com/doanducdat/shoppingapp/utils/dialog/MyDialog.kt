@@ -5,20 +5,21 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import com.doanducdat.shoppingapp.R
-import com.doanducdat.shoppingapp.databinding.MyDialogBinding
 
 
-class MyBasicDialog() {
+class MyBasicDialog(context: Context) {
     private lateinit var dialog: Dialog
     //use binding -> layout was broken
-//    private lateinit var binding: MyDialogBinding
+//    private late init var binding: MyDialogBinding
 
-    fun initDialog(context: Context, msgDialog: String): Dialog {
+    init {
+        initDialog(context)
+    }
+
+    fun initDialog(context: Context) {
 //        binding = MyDialogBinding.inflate(LayoutInflater.from(context), null, false)
         dialog = Dialog(context)
         dialog.setContentView(R.layout.my_dialog)
@@ -29,13 +30,18 @@ class MyBasicDialog() {
             window.setGravity(Gravity.CENTER)
             window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-        val msgText: TextView = dialog.findViewById(R.id.txt_msg)
         val btnTryAgain: Button = dialog.findViewById(R.id.btn_try_again)
-        msgText.text = msgDialog
         btnTryAgain.setOnClickListener {
             dialog.dismiss()
         }
+    }
 
-        return dialog
+    fun setText(msgDialog: String) {
+        val msgText: TextView = dialog.findViewById(R.id.txt_msg)
+        msgText.text = msgDialog
+    }
+
+    fun show() {
+        dialog.show()
     }
 }
