@@ -19,7 +19,7 @@ class MyBasicDialog(context: Context) {
         initDialog(context)
     }
 
-    fun initDialog(context: Context) {
+    private fun initDialog(context: Context) {
 //        binding = MyDialogBinding.inflate(LayoutInflater.from(context), null, false)
         dialog = Dialog(context)
         dialog.setContentView(R.layout.my_dialog)

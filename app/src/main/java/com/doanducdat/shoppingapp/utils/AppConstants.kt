@@ -34,7 +34,7 @@ object AppConstants {
     }
 
 
-    annotation class MsgError {
+    annotation class MsgErr {
         companion object {
             const val GENERIC_ERR_MSG = "Thất bại! đã có lỗi xảy ra, thử lại sau"
             const val GENERIC_ERR_RESPONSE = "Đường truyền mạng internet bị gián đoạn, thử lại sau"

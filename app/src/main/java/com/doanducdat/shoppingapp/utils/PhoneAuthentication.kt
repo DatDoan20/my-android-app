@@ -42,7 +42,7 @@ class PhoneAuthentication @Inject constructor() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {}
 
             override fun onVerificationFailed(error: FirebaseException) {
-                var msg = AppConstants.MsgError.GENERIC_ERR_MSG
+                var msg = AppConstants.MsgErr.GENERIC_ERR_MSG
                 when (error) {
                     is FirebaseAuthInvalidCredentialsException -> {
                         msg = AppConstants.PhoneAuth.INVALID_CREDENTIALS
@@ -85,7 +85,7 @@ class PhoneAuthentication @Inject constructor() {
                 val msg = if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     AppConstants.PhoneAuth.OTP_ERR_MSG_UN_VALID
                 } else {
-                    AppConstants.MsgError.GENERIC_ERR_MSG
+                    AppConstants.MsgErr.GENERIC_ERR_MSG
                 }
                 callbackVerifyOTP.onVerifyFailed(msg)
             }

@@ -9,21 +9,21 @@ object FormValidation {
 
     fun checkLengthNumberPhone(conditionResult: Boolean): String? {
         if (conditionResult) {
-            return AppConstants.MsgError.PHONE_ERR_LENGTH
+            return AppConstants.MsgErr.PHONE_ERR_LENGTH
         }
         return null
     }
 
     fun checkLengthName(conditionResult: Boolean): String? {
         if (conditionResult) {
-            return AppConstants.MsgError.NAME_ERR_LENGTH
+            return AppConstants.MsgErr.NAME_ERR_LENGTH
         }
         return null
     }
 
     fun checkLengthPassword(conditionResult: Boolean): String? {
         if (conditionResult) {
-            return AppConstants.MsgError.PASSWORD_ERR_LENGTH
+            return AppConstants.MsgErr.PASSWORD_ERR_LENGTH
         }
         return null
     }
@@ -32,7 +32,7 @@ object FormValidation {
         if (Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
             return null
         }
-        return AppConstants.MsgError.EMAIL_ERR_MSG
+        return AppConstants.MsgErr.EMAIL_ERR_MSG
     }
 
     fun checkValidationNumberPhone(conditionResult: Boolean): Int {
@@ -48,7 +48,7 @@ object FormValidation {
             Pattern.compile(AppConstants.RegexCheck.CONTAINS_SPECIAL_CHARACTER);
         val name = name.trim()
         if (regexNumber.matcher(name).find() || regexSpecialCharacter.matcher(name).find()) {
-            return AppConstants.MsgError.NAME_ERR_MSG
+            return AppConstants.MsgErr.NAME_ERR_MSG
         }
         return null
     }

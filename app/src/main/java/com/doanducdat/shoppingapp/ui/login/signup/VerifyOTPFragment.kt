@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentVerifyOTPBinding
-import com.doanducdat.shoppingapp.module.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -24,15 +23,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp {
 
     private lateinit var binding: FragmentVerifyOTPBinding
-    private val dialog: MyBasicDialog = MyBasicDialog(requireContext())
+    private val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
     private val controller by lazy {
         (requireActivity().supportFragmentManager.findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
     private val viewModel: SignUpViewModel by viewModels()
 
+
     private var verificationId: String? = null
     private var otp: String? = null
-    private lateinit var userSignUp: UserSignUp
+    private lateinit var callbackVerifyOTP: MyPhoneAuth.VerifyOTP
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,6 +49,7 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
         subscribeListenLoadingForm()
         subscribeListenSignUp()
         setUpActionClick()
+        callbackVerifyOTP = callbackVerifyOTP()
     }
 
 
@@ -55,11 +57,9 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
         val bundle: Bundle? = arguments
         if (bundle != null) {
             verificationId = bundle.getString("VERIFICATION_ID", null)
-            userSignUp = UserSignUp(
-                bundle.getString("PHONE", ""),
-                bundle.getString("NAME", ""),
-                bundle.getString("PASSWORD", "")
-            )
+            viewModel.phone = bundle.getString("PHONE", null)
+            viewModel.name = bundle.getString("NAME", null)
+            viewModel.password = bundle.getString("PASSWORD", null)
         }
     }
 
@@ -116,7 +116,7 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
     private fun verifyOTP() {
         if (checkOTP() && verificationId != null && otp != null) {
             viewModel.isLoading.value = true
-            viewModel.verifyOTP(verificationId!!, otp!!, requireActivity(), callbackVerifyOTP())
+            viewModel.verifyOTP(verificationId!!, otp!!, requireActivity(), callbackVerifyOTP)
         }
     }
 
@@ -148,6 +148,6 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
     }
 
     private fun signUpUser() {
-        viewModel.signUpUser(userSignUp)
+        viewModel.signUpUser()
     }
 }

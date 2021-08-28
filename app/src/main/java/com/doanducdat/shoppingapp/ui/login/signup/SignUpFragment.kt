@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
 
     private lateinit var binding: FragmentSignUpBinding
-    val dialog: MyBasicDialog = MyBasicDialog(requireContext())
+    val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
     private val controller by lazy {
         (requireActivity().supportFragmentManager.findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
@@ -33,7 +33,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
 
     private var stateErrPhone: Boolean = true
     private var stateErrName: Boolean = true
-//    private var stateErrEmail: Boolean = true
+
+    //    private var stateErrEmail: Boolean = true
     private var stateErrPassword: Boolean = true
 
     override fun onCreateView(
@@ -55,9 +56,9 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
 
     private fun subscribeListenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
-            if(it) {
+            if (it) {
                 setStateForm(View.VISIBLE, isEnable = false)
-            }else{
+            } else {
                 setStateForm(View.GONE, isEnable = true)
             }
         })
@@ -163,19 +164,16 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
     private fun checkValidForm() {
         when {
             stateErrPhone -> {
-                return focusView(binding.txtInputEdtPhone, AppConstants.MsgError.PHONE_ERR_MSG)
+                return focusView(binding.txtInputEdtPhone, AppConstants.MsgErr.PHONE_ERR_MSG)
             }
             stateErrName -> {
-                return focusView(binding.txtInputEdtName, AppConstants.MsgError.NAME_ERR_MSG)
+                return focusView(binding.txtInputEdtName, AppConstants.MsgErr.NAME_ERR_MSG)
             }
 //            stateErrEmail -> {
-//                return focusView(binding.txtInputEdtEmail, AppConstants.MsgError.EMAIL_ERR_MSG)
+//                return focusView(binding.txtInputEdtEmail, AppConstants.MsgErr.EMAIL_ERR_MSG)
 //            }
             stateErrPassword -> {
-                return focusView(
-                    binding.txtInputEdtPassword,
-                    AppConstants.MsgError.PASSWORD_ERR_MSG
-                )
+                return focusView(binding.txtInputEdtPassword, AppConstants.MsgErr.PASSWORD_ERR_MSG)
             }
         }
         signUp()

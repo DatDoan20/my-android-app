@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.doanducdat.shoppingapp.module.Response
-import com.doanducdat.shoppingapp.module.UserSignUp
+import com.doanducdat.shoppingapp.module.ResponseAuth
+import com.doanducdat.shoppingapp.module.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.repository.SignUpRepository
 import com.doanducdat.shoppingapp.utils.response.DataState
@@ -20,11 +20,16 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val signUpRepository: SignUpRepository
 ) : ViewModel() {
-    private val _dataState: MutableLiveData<DataState<Response>> = MutableLiveData()
-    val dataState: LiveData<DataState<Response>>
+    private val _dataState: MutableLiveData<DataState<ResponseAuth>> = MutableLiveData()
+    val dataState: LiveData<DataState<ResponseAuth>>
         get() = _dataState
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    var phone: String = ""
+    var name: String = ""
+    var password: String = ""
+
 
     fun generateOTP(
         phoneNumberWithCountryCode: String,
@@ -47,7 +52,8 @@ class SignUpViewModel @Inject constructor(
     }
 
 
-    fun signUpUser(userSignUp:UserSignUp) = viewModelScope.launch {
+    fun signUpUser() = viewModelScope.launch {
+        val userSignUp: UserSignUp = UserSignUp(phone, name, password)
         signUpRepository.signUpUser(userSignUp).onEach {
             _dataState.value = it
         }.launchIn(viewModelScope)

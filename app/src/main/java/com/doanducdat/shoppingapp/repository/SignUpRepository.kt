@@ -1,8 +1,8 @@
 package com.doanducdat.shoppingapp.repository
 
 import android.app.Activity
-import com.doanducdat.shoppingapp.module.Response
-import com.doanducdat.shoppingapp.module.UserSignUp
+import com.doanducdat.shoppingapp.module.ResponseAuth
+import com.doanducdat.shoppingapp.module.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.PhoneAuthentication
@@ -56,8 +56,8 @@ class SignUpRepository @Inject constructor(
     suspend fun signUpUser(userSignUp: UserSignUp) = flow {
         emit(DataState.loading(null))
         try {
-            val responseSignUpUser: Response = userAPI.signUpUser(userSignUp)
-            emit(DataState.success(responseSignUpUser))
+            val responseAuthSignUpUser: ResponseAuth = userAPI.signUpUser(userSignUp)
+            emit(DataState.success(responseAuthSignUpUser))
         } catch (e: Throwable) {
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }
