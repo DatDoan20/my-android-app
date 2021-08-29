@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -14,34 +13,30 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentVerifyOTPBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
+import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.response.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp {
+class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp {
 
-    private lateinit var binding: FragmentVerifyOTPBinding
     private val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
     private val controller by lazy {
-        (requireActivity().supportFragmentManager.findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
     private val viewModel: SignUpViewModel by viewModels()
-
 
     private var verificationId: String? = null
     private var otp: String? = null
     private lateinit var callbackVerifyOTP: MyPhoneAuth.VerifyOTP
 
-    override fun onCreateView(
+    override fun getFragmentBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentVerifyOTPBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        container: ViewGroup?
+    ): FragmentVerifyOTPBinding = FragmentVerifyOTPBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,28 +47,26 @@ class VerifyOTPFragment : Fragment(R.layout.fragment_verify_o_t_p), MyActionApp 
         callbackVerifyOTP = callbackVerifyOTP()
     }
 
-
     private fun getDataSignUpFragment() {
         val bundle: Bundle? = arguments
         if (bundle != null) {
             verificationId = bundle.getString("VERIFICATION_ID", null)
             viewModel.phone = bundle.getString("PHONE", null)
             viewModel.name = bundle.getString("NAME", null)
+            viewModel.email = bundle.getString("NAME", null)
             viewModel.password = bundle.getString("PASSWORD", null)
         }
     }
 
-    private fun setStateForm(progressBar: Int, isEnable: Boolean) {
-        binding.spinKitProgressBar.visibility = progressBar
-        binding.btnVerifyOtp.isEnabled = isEnable
-    }
-
     private fun subscribeListenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
-            if (it) {
-                setStateForm(View.VISIBLE, isEnable = false)
-            } else {
-                setStateForm(View.GONE, isEnable = true)
+            with(binding) {
+                setStateViews(!it, btnVerifyOtp)
+                if (it) {
+                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                } else {
+                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                }
             }
         })
     }

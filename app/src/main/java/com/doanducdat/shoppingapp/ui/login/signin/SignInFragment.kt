@@ -5,15 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignInBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
+import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.response.Status
@@ -21,57 +20,44 @@ import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
+class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
 
-    private lateinit var binding: FragmentSignInBinding
-    private val navHostFragment by lazy {
-        requireActivity().supportFragmentManager.findFragmentById(R.id.container_login) as NavHostFragment
+    private val controller by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
-    private val controller by lazy { navHostFragment.findNavController() }
+
     private val viewModel: SignInViewModel by viewModels()
 
-    private var stateErrPhone: Boolean = true
-    private var stateErrPassword: Boolean = true
     private val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
 
-    override fun onCreateView(
+    override fun getFragmentBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSignInBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        container: ViewGroup?
+    ): FragmentSignInBinding = FragmentSignInBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         subscribeListenLoadingForm()
         subscribeListenSignIn()
 
-        checkLengthNumberPhone()
-        checkLengthPassword()
-        checkValidationNumberPhone()
+        setUpCheckForm()
         setUpActionClick()
 
     }
 
     private fun subscribeListenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
-            if (it) {
-                setStateForm(View.VISIBLE, isEnable = false)
-            } else {
-                setStateForm(View.GONE, isEnable = true)
+            with(binding) {
+                setStateViews(!it, btnSignIn, txtInputEdtPhone, txtInputEdtPassword)
+                if (it) {
+                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                } else {
+                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                }
             }
         })
-    }
-
-    private fun setStateForm(isVisible: Int, isEnable: Boolean) {
-        with(binding) {
-            spinKitProgressBar.visibility = isVisible
-            btnSignIn.isEnabled = isEnable
-            txtInputEdtPhone.isEnabled = isEnable
-            txtInputEdtPassword.isEnabled = isEnable
-        }
     }
 
     private fun subscribeListenSignIn() {
@@ -83,16 +69,22 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
                 Status.ERROR -> {
                     dialog.setText(it.message!!)
                     dialog.show()
-                    Log.e("TAG", "subscribeListenSignIn: ${it.message}", )
+                    Log.e("TAG", "subscribeListenSignIn: ${it.message}")
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
-                    Log.e("TAG", "subscribeListenSignIn: ${it.response?.token}", )
+                    Log.e("TAG", "subscribeListenSignIn: ${it.response?.token}")
                     viewModel.isLoading.value = false
                     //start activity main + save token
                 }
             }
         })
+    }
+
+    private fun setUpCheckForm() {
+        checkLengthNumberPhone()
+        checkLengthPassword()
+        checkValidationNumberPhone()
     }
 
     //<editor-fold desc="Check Form Sign In">
@@ -108,7 +100,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
             ccpSignIn.registerCarrierNumberEditText(txtInputEdtPhone)
             ccpSignIn.setPhoneNumberValidityChangeListener {
                 // if phone valid, it = true -> stateErrPhone = false
-                stateErrPhone = !it
+                viewModel.stateErrPhone = !it
                 imgCheckPhone.setImageResource(FormValidation.checkValidationNumberPhone(it))
             }
         }
@@ -118,8 +110,9 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
         with(binding) {
             txtInputLayoutPassword.errorIconDrawable = null
             txtInputEdtPassword.doOnTextChanged { text, _, _, _ ->
-                stateErrPassword = text!!.length < 8 || text.contains(" ")
-                txtInputLayoutPassword.error = FormValidation.checkLengthPassword(stateErrPassword)
+                viewModel.stateErrPassword = text!!.length < 8 || text.contains(" ")
+                txtInputLayoutPassword.error =
+                    FormValidation.checkLengthPassword(viewModel.stateErrPassword)
             }
         }
     }
@@ -141,7 +134,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.SIGN_IN -> {
-                checkValidForm()
+                handleSignIn()
             }
             AppConstants.ActionClick.NAV_SIGN_UP -> {
                 controller.navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
@@ -149,21 +142,17 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in), MyActionApp {
         }
     }
 
-    private fun checkValidForm() {
+    private fun handleSignIn() {
+        //handle result checking valid from
         when {
-            stateErrPhone -> {
+            viewModel.stateErrPhone -> {
                 return focusView(binding.txtInputEdtPhone, AppConstants.MsgErr.PHONE_ERR_MSG)
             }
-            stateErrPassword -> {
+            viewModel.stateErrPassword -> {
                 return focusView(binding.txtInputEdtPassword, AppConstants.MsgErr.PASSWORD_ERR_MSG)
             }
         }
         signIn()
-    }
-
-    private fun focusView(requestedView: View, msg: String) {
-        requestedView.requestFocus()
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun signIn() {

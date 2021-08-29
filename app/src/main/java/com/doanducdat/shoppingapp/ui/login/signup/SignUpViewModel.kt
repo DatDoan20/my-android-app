@@ -20,6 +20,7 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val signUpRepository: SignUpRepository
 ) : ViewModel() {
+
     private val _dataState: MutableLiveData<DataState<ResponseAuth>> = MutableLiveData()
     val dataState: LiveData<DataState<ResponseAuth>>
         get() = _dataState
@@ -29,7 +30,12 @@ class SignUpViewModel @Inject constructor(
     var phone: String = ""
     var name: String = ""
     var password: String = ""
+    var email: String = ""
 
+    var stateErrPhone: Boolean = true
+    var stateErrName: Boolean = true
+    var stateErrEmail: Boolean = true
+    var stateErrPassword: Boolean = true
 
     fun generateOTP(
         phoneNumberWithCountryCode: String,
@@ -53,7 +59,7 @@ class SignUpViewModel @Inject constructor(
 
 
     fun signUpUser() = viewModelScope.launch {
-        val userSignUp: UserSignUp = UserSignUp(phone, name, password)
+        val userSignUp: UserSignUp = UserSignUp(phone, name, password, email)
         signUpRepository.signUpUser(userSignUp).onEach {
             _dataState.value = it
         }.launchIn(viewModelScope)

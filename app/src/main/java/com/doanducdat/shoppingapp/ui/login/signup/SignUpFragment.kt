@@ -4,10 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -15,70 +14,56 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignUpBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
+import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
+class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), MyActionApp {
 
-    private lateinit var binding: FragmentSignUpBinding
     val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
+
     private val controller by lazy {
-        (requireActivity().supportFragmentManager.findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
     private val viewModel: SignUpViewModel by viewModels()
 
-
-    private var stateErrPhone: Boolean = true
-    private var stateErrName: Boolean = true
-
-    //    private var stateErrEmail: Boolean = true
-    private var stateErrPassword: Boolean = true
-
-    override fun onCreateView(
+    override fun getFragmentBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSignUpBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+        container: ViewGroup?
+    ): FragmentSignUpBinding = FragmentSignUpBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribeListenLoadingForm()
         setUpCheckForm()
         setUpActionClick()
-
     }
 
     private fun subscribeListenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
-            if (it) {
-                setStateForm(View.VISIBLE, isEnable = false)
-            } else {
-                setStateForm(View.GONE, isEnable = true)
+            with(binding) {
+                setStateViews(
+                    !it, btnBack, btnSignUp, txtInputEdtPhone, txtInputEdtEmail,
+                    txtInputEdtName, txtInputEdtPassword
+                )
+                if (it) {
+                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                } else {
+                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                }
             }
         })
-    }
-
-    private fun setStateForm(isVisible: Int, isEnable: Boolean) {
-        with(binding) {
-            spinKitProgressBar.visibility = isVisible
-            btnBack.isEnabled = isEnable
-            btnSignUp.isEnabled = isEnable
-            txtInputEdtPhone.isEnabled = isEnable
-            txtInputEdtName.isEnabled = isEnable
-            txtInputEdtPassword.isEnabled = isEnable
-        }
     }
 
     private fun setUpCheckForm() {
         checkLengthNumberPhone()
         checkValidationNumberPhone()
         checkLengthAndValidationName()
+        checkValidationEmail()
         checkLengthPassword()
     }
 
@@ -92,53 +77,59 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
     }
 
     private fun checkValidationNumberPhone() {
-        binding.ccpSignUp.registerCarrierNumberEditText(binding.txtInputEdtPhone)
-        binding.ccpSignUp.setPhoneNumberValidityChangeListener {
-            // if phone valid, it = true -> stateErrPhone = false
-            stateErrPhone = !it
-            binding.imgCheckPhone.setImageResource(FormValidation.checkValidationNumberPhone(it))
+        with(binding) {
+            ccpSignUp.registerCarrierNumberEditText(txtInputEdtPhone)
+            ccpSignUp.setPhoneNumberValidityChangeListener {
+                // if phone valid, it = true -> stateErrPhone = false
+                viewModel.stateErrPhone = !it
+                imgCheckPhone.setImageResource(FormValidation.checkValidationNumberPhone(it))
+            }
         }
     }
 
     private fun checkLengthAndValidationName() {
-        binding.txtInputEdtName.doOnTextChanged { text, _, _, _ ->
-            val errMsgValid = FormValidation.checkValidationName(text.toString())
-            val errMsgLength = FormValidation.checkLengthName(text.toString().trim().length > 50)
-            when {
-                errMsgLength == null && errMsgValid == null -> { // not any err
-                    stateErrName = false
-                    binding.txtInputLayoutName.error = null
-                }
-                errMsgLength != null -> { // err length
-                    stateErrName = true
-                    binding.txtInputLayoutName.error = errMsgLength
-                }
-                errMsgValid != null -> { // err contains number or special character
-                    stateErrName = true
-                    binding.txtInputLayoutName.error = errMsgValid
+        with(binding) {
+            txtInputEdtName.doOnTextChanged { text, _, _, _ ->
+                val errMsgValid = FormValidation.checkValidationName(text.toString())
+                val errMsgLength =
+                    FormValidation.checkLengthName(text.toString().trim().length > 50)
+                when {
+                    errMsgLength == null && errMsgValid == null -> { // not any err
+                        viewModel.stateErrName = false
+                        txtInputLayoutName.error = null
+                    }
+                    errMsgLength != null -> { // err length
+                        viewModel.stateErrName = true
+                        txtInputLayoutName.error = errMsgLength
+                    }
+                    errMsgValid != null -> { // err contains number or special character
+                        viewModel.stateErrName = true
+                        txtInputLayoutName.error = errMsgValid
+                    }
                 }
             }
         }
     }
 
-//    private fun checkValidationEmail() {
-//        binding.txtInputEdtEmail.doAfterTextChanged {
-//            val errMsgEmail = FormValidation.checkValidationEmail(it.toString())
-//            stateErrEmail = errMsgEmail != null
-//            binding.txtInputLayoutEmail.error = errMsgEmail
-//        }
-//    }
+    private fun checkValidationEmail() {
+        binding.txtInputEdtEmail.doAfterTextChanged {
+            val errMsgEmail = FormValidation.checkValidationEmail(it.toString())
+            viewModel.stateErrEmail = errMsgEmail != null
+            binding.txtInputLayoutEmail.error = errMsgEmail
+        }
+    }
 
     private fun checkLengthPassword() {
-        binding.txtInputLayoutPassword.errorIconDrawable = null
-        binding.txtInputEdtPassword.doOnTextChanged { text, _, _, _ ->
-            stateErrPassword = text!!.length < 8 || text.contains(" ")
-            binding.txtInputLayoutPassword.error =
-                FormValidation.checkLengthPassword(stateErrPassword)
+        with(binding) {
+            txtInputLayoutPassword.errorIconDrawable = null
+            txtInputEdtPassword.doOnTextChanged { text, _, _, _ ->
+                viewModel.stateErrPassword = text!!.length < 8 || text.contains(" ")
+                txtInputLayoutPassword.error =
+                    FormValidation.checkLengthPassword(viewModel.stateErrPassword)
+            }
         }
     }
     //</editor-fold>
-
 
     private fun setUpActionClick() {
         binding.btnSignUp.setOnClickListener {
@@ -152,7 +143,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.SIGN_UP -> {
-                checkValidForm()
+                handleSendOTP()
             }
             AppConstants.ActionClick.NAV_SIGN_IN -> {
                 controller.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignInFragment())
@@ -160,42 +151,38 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
         }
     }
 
-    //<editor-fold desc="Check Form Sign Up">
-    private fun checkValidForm() {
+    //<editor-fold desc="CLick button Sign Up">
+    private fun handleSendOTP() {
         when {
-            stateErrPhone -> {
+            viewModel.stateErrPhone -> {
                 return focusView(binding.txtInputEdtPhone, AppConstants.MsgErr.PHONE_ERR_MSG)
             }
-            stateErrName -> {
+            viewModel.stateErrName -> {
                 return focusView(binding.txtInputEdtName, AppConstants.MsgErr.NAME_ERR_MSG)
             }
-//            stateErrEmail -> {
-//                return focusView(binding.txtInputEdtEmail, AppConstants.MsgErr.EMAIL_ERR_MSG)
-//            }
-            stateErrPassword -> {
+            viewModel.stateErrEmail -> {
+                return focusView(binding.txtInputEdtEmail, AppConstants.MsgErr.EMAIL_ERR_MSG)
+            }
+            viewModel.stateErrPassword -> {
                 return focusView(binding.txtInputEdtPassword, AppConstants.MsgErr.PASSWORD_ERR_MSG)
             }
         }
-        signUp()
+        sendOTP()
     }
 
-    private fun focusView(requestedView: View, msg: String) {
-        requestedView.requestFocus()
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-    }
     //</editor-fold>
 
-    private fun signUp() {
+    private fun sendOTP() {
         viewModel.isLoading.value = true
         val phoneNumberWithCountryCode =
             binding.ccpSignUp.selectedCountryCodeWithPlus + binding.txtInputEdtPhone.text.toString()
         val phoneNumber = binding.txtInputEdtPhone.text.toString()
         val formattedName = FormValidation.formatName(binding.txtInputEdtName.text.toString())
-//        val email = binding.txtInputEdtEmail.text.toString().trim()
+        val email = binding.txtInputEdtEmail.text.toString().trim()
         val password = binding.txtInputEdtPassword.text.toString()
         binding.txtInputEdtName.setText(formattedName)
 
-        val callbackResultGenerateOTP = callbackResultGenerateOTP(formattedName, password)
+        val callbackResultGenerateOTP = callbackResultGenerateOTP(formattedName, password, email)
 
         viewModel.generateOTP(
             phoneNumberWithCountryCode,
@@ -207,7 +194,8 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
 
     private fun callbackResultGenerateOTP(
         formattedName: String,
-        password: String
+        password: String,
+        email:String
     ): MyPhoneAuth.ResultGenerateOTP {
         return object : MyPhoneAuth.ResultGenerateOTP {
             override fun onCodeSentSuccess(
@@ -220,6 +208,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up), MyActionApp {
                     "PHONE_COUNTRY_WITH_PLUSH" to phoneNumberWithCountryCode,
                     "PHONE" to phoneNumber,
                     "NAME" to formattedName,
+                    "EMAIL" to email,
                     "PASSWORD" to password,
                     "VERIFICATION_ID" to verificationId
                 )

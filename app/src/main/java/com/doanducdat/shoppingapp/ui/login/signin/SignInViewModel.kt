@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val signInRepository: SignInRepository
-): ViewModel(){
+) : ViewModel() {
 
     private val _dataState: MutableLiveData<DataState<ResponseAuth>> = MutableLiveData()
     val dataState: LiveData<DataState<ResponseAuth>>
@@ -25,11 +25,14 @@ class SignInViewModel @Inject constructor(
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    var phone:String = ""
-    var password:String =""
+    var phone: String = ""
+    var password: String = ""
+
+    var stateErrPhone: Boolean = true
+    var stateErrPassword: Boolean = true
 
     fun signInUser() = viewModelScope.launch {
-        val userSignIn:UserSignIn = UserSignIn(phone, password)
+        val userSignIn: UserSignIn = UserSignIn(phone, password)
         signInRepository.signInUser(userSignIn).onEach {
             _dataState.value = it
         }.launchIn(viewModelScope)
