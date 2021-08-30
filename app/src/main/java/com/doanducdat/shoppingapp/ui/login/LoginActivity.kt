@@ -1,10 +1,12 @@
 package com.doanducdat.shoppingapp.ui.login
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityLoginBinding
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.MyDataStore
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -18,8 +20,10 @@ class LoginActivity : AppCompatActivity() {
 
     @Inject
     lateinit var myDataStore: MyDataStore
-
     private lateinit var binding: ActivityLoginBinding
+
+    private var backPressTime: Long = System.currentTimeMillis()
+    private lateinit var toastExitApp: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,5 +39,19 @@ class LoginActivity : AppCompatActivity() {
                 myDataStore.writeCheckFirstTimeOpenApp(false)
             }
         }
+    }
+
+
+    override fun onBackPressed() {
+        if (backPressTime + 2000 > System.currentTimeMillis()) {
+            toastExitApp.cancel() // cancel when toast still there after exit app
+            super.onBackPressed()
+            return
+        } else {
+            toastExitApp = Toast.makeText(this,
+                AppConstants.MsgInfo.EXIT_APP, Toast.LENGTH_SHORT)
+            toastExitApp.show()
+        }
+        backPressTime = System.currentTimeMillis()
     }
 }

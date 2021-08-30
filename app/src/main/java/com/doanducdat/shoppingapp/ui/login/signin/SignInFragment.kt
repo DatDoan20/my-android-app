@@ -14,13 +14,22 @@ import com.doanducdat.shoppingapp.databinding.FragmentSignInBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.MyDataStore
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.response.Status
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
+
+    @Inject
+    lateinit var myDataStore: MyDataStore
 
     private val controller by lazy {
         (requireActivity().supportFragmentManager
@@ -69,13 +78,18 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                 Status.ERROR -> {
                     dialog.setText(it.message!!)
                     dialog.show()
-                    Log.e("TAG", "subscribeListenSignIn: ${it.message}")
+//                    Log.e("TAG", "subscribeListenSignIn: ${it.message}")
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
-                    Log.e("TAG", "subscribeListenSignIn: ${it.response?.token}")
-                    viewModel.isLoading.value = false
-                    //start activity main + save token
+                    //write token + navigate mainActivity
+                    CoroutineScope(Dispatchers.Main).launch {
+                        myDataStore.writeJwt(it.response!!.token)
+                        InfoUser.token.append(it.response.token)
+//                        Log.e("TAG", "token: ${InfoUser.token}")
+                        viewModel.isLoading.value = false
+                        controller.navigate(SignInFragmentDirections.actionSignInFragmentToMainActivity())
+                    }
                 }
             }
         })

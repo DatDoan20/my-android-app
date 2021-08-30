@@ -20,6 +20,12 @@ object AppConstants {
         }
     }
 
+    annotation class HeaderRequest {
+        companion object {
+            const val BEARER = "Bearer"
+        }
+    }
+
     annotation class PhoneAuth {
         companion object {
             const val LANGUAGE_CODE_VN = "vi"
@@ -32,7 +38,6 @@ object AppConstants {
             const val OTP_ERR_MSG_NOT_ENOUGH = "Mã OTP phải đủ 6 số"
         }
     }
-
 
     annotation class MsgErr {
         companion object {
@@ -47,6 +52,12 @@ object AppConstants {
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
             const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
 
+        }
+    }
+
+    annotation class MsgInfo{
+        companion object {
+            const val EXIT_APP = "Nhấn lần nữa để thoát"
         }
     }
 

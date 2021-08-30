@@ -10,11 +10,15 @@
     <string name="require">Bắt buộc</string>
     <string name="requireLengthPassword">Bắt buộc</string>
     <string name="stateCheckPhone">x: không hợp lệ, v: hợp lệ</string>
-    <string name="search">Tìm kiếm...</string>
+    <string name="search">Tìm kiếm</string>
     <string name="signIn">Đăng nhập</string>
     <string name="youDontHaveAccount">Bạn chưa có tài khoản?</string>
     <string name="signUp">Đăng ký</string>
     <string name="verify">Xác nhận</string>
     <string name="tryAgain">Thử lại</string>
     <string name="forgotPassword"><u>Quên mật khẩu?</u></string>
+    <string name="home">Trang chủ</string>
+    <string name="category">Danh mục</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="profile">Cá nhân</string>
 </resources>

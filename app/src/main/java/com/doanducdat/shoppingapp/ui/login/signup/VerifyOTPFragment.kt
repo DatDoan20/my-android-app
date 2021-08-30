@@ -83,8 +83,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
-                    Toast.makeText(requireContext(), it.response?.message, Toast.LENGTH_SHORT)
-                        .show()
+                    showToast(AppConstants.PhoneAuth.VERIFY_OTP_MSG_SUCCESS)
                     viewModel.isLoading.value = false
                     controller.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignInFragment())
                 }
