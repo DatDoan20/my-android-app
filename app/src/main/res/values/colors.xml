@@ -9,8 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#CF1E1E</color>
     <!-- custom color Light -->
-    <!--    color button:261c87,    color background:f4f3f9, conner button: 5sdp,
-     conner dialog, card view: 13sdp -->
+    <!--
+        Color button, title:261c87. Color background:f4f3f9. Conner button: 5sdp.
+        Conner dialog, card view: 13sdp. Color des 474747
+     -->
     <!-- Splash-->
     <color name="bgSplash">#f4f3f9</color>
     <color name="bgWaiting">#474747</color>

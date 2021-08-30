@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.ui.login.signin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignInBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.ui.main.MainActivity
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.MyDataStore
@@ -88,7 +90,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                         InfoUser.token.append(it.response.token)
 //                        Log.e("TAG", "token: ${InfoUser.token}")
                         viewModel.isLoading.value = false
-                        controller.navigate(SignInFragmentDirections.actionSignInFragmentToMainActivity())
+                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                        requireActivity().finish()
                     }
                 }
             }
