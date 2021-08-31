@@ -11,84 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.main.home.HomeFragment">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
-                android:fitsSystemWindows="true"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-                app:titleEnabled="false">
-
-                <SearchView
-                    android:id="@+id/search_view"
-                    android:animateLayoutChanges="true"
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_50sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@drawable/bg_search_view"
-                    android:iconifiedByDefault="false"
-                    android:queryHint="@string/searchProduct"
-                    android:theme="@style/MySearchView"
-                    app:layout_collapseMode="pin" />
-
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/tool_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:elevation="0dp"
-                    app:layout_collapseMode="pin">
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/img_avatar"
-                        android:layout_width="@dimen/_32sdp"
-                        android:layout_height="@dimen/_32sdp"
-                        android:layout_gravity="start"
-                        android:layout_margin="@dimen/_10sdp"
-                        android:src="@drawable/otter"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="@dimen/_1sdp" />
-                    <!--
-                    <SearchView
-                        android:id="@+id/search_view_top"
-                        android:layout_width="@dimen/_210sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@drawable/bg_search_view"
-                        android:iconifiedByDefault="false"
-                        android:visibility="gone"
-                        android:queryHint="@string/searchProduct"
-                        android:theme="@style/MySearchView"
-                        app:layout_collapseMode="pin" />
-                    -->
-                    <include
-                        layout="@layout/layout_notification"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_margin="@dimen/_10sdp" />
-                </com.google.android.material.appbar.MaterialToolbar>
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
+        <include
+            android:id="@+id/my_app_bar_layout"
+            layout="@layout/my_app_bar_layout" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -96,15 +23,49 @@
             android:background="@color/bgSplash"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <TextView
-                android:id="@+id/test"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:text="aaaaaaaaaaaaaaaaaaa" />
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/textTitleColorGeneric"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/view_pager_intro_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_180sdp"
+                        android:layout_centerInParent="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <me.relex.circleindicator.CircleIndicator3
+                        android:id="@+id/indicate_intro_top"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_marginBottom="@dimen/_12sdp"
+                        app:ci_drawable="@drawable/bg_circle_indicator"
+                        app:layout_constraintBottom_toBottomOf="@id/view_pager_intro_top"
+                        app:layout_constraintEnd_toEndOf="@id/view_pager_intro_top"
+                        app:layout_constraintStart_toStartOf="@id/view_pager_intro_top" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcv_new_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_intro" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

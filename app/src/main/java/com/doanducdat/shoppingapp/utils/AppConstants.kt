@@ -74,4 +74,13 @@ object AppConstants {
         }
     }
 
+    annotation class UrlImgTest{
+        companion object{
+            const val SALE = "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fsale_small.jpg?alt=media&token=68947f12-ad6c-4e89-8a63-89bcbc7214ed"
+            const val SPRING = "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fspring_small.jpg?alt=media&token=6e417621-73c1-4fc2-b89c-c687ab63c7be"
+            const val SUMMER ="https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fsummer_small.jpg?alt=media&token=73abb6ed-4524-45c0-a47d-b8fa1c14fc68"
+            const val AUTUMN ="https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fautumn_small.jpg?alt=media&token=9437d6f2-5d38-47d9-af5f-0e63f1da9cbb"
+            const val WINTER ="https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fwinter_small.jpg?alt=media&token=8bfec1e4-595d-44e5-a263-d81d1e17c818"
+        }
+    }
 }

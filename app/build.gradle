@@ -100,6 +100,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
     //Bubble Navigation (Bottom navigation)
     implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
+    //Coil
+    implementation 'io.coil-kt:coil:1.3.2'
 
 }
 kapt {

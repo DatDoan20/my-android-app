@@ -22,5 +22,6 @@
     <string name="category">Danh mục</string>
     <string name="cart">Giỏ hàng</string>
     <string name="profile">Cá nhân</string>
-    <string name="avatar">avatar</string>
+    <string name="avatar">Ảnh đại diện</string>
+    <string name="imageCover">Ảnh đại diện sản phẩm</string>
 </resources>
