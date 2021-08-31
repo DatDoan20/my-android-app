@@ -7,62 +7,106 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".ui.main.home.HomeFragment">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_avatar"
-            android:layout_width="@dimen/_32sdp"
-            android:layout_height="@dimen/_32sdp"
-            android:layout_margin="@dimen/_10sdp"
-            android:src="@drawable/otter"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="@dimen/_1sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/img_notification"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                android:contentDescription="@string/avatar"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                android:src="@drawable/ic_notifications" />
-
-            <ImageView
-                android:id="@+id/img_red_dot"
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_gravity="top|end"
-                android:layout_marginEnd="@dimen/_3sdp"
-                android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                android:src="@drawable/ic_red_dot" />
-        </FrameLayout>
-
-        <SearchView
-            android:id="@+id/search_view"
-            android:theme="@style/MySearchView"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/bg_search_view"
-            android:iconifiedByDefault="false"
-            android:queryHint="@string/searchProduct"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+                <SearchView
+                    android:id="@+id/search_view"
+                    android:animateLayoutChanges="true"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/bg_search_view"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="@string/searchProduct"
+                    android:theme="@style/MySearchView"
+                    app:layout_collapseMode="pin" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/tool_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:elevation="0dp"
+                    app:layout_collapseMode="pin">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/img_avatar"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="start"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:src="@drawable/otter"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="@dimen/_1sdp" />
+                    <!--
+                    <SearchView
+                        android:id="@+id/search_view_top"
+                        android:layout_width="@dimen/_210sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/bg_search_view"
+                        android:iconifiedByDefault="false"
+                        android:visibility="gone"
+                        android:queryHint="@string/searchProduct"
+                        android:theme="@style/MySearchView"
+                        app:layout_collapseMode="pin" />
+                    -->
+                    <include
+                        layout="@layout/layout_notification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_margin="@dimen/_10sdp" />
+                </com.google.android.material.appbar.MaterialToolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bgSplash"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <TextView
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="aaaaaaaaaaaaaaaaaaa" />
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

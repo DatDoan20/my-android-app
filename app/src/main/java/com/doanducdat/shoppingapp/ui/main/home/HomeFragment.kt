@@ -1,6 +1,5 @@
 package com.doanducdat.shoppingapp.ui.main.home
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,12 +24,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideSearchPlate()
+        hideSearchPlate(binding.searchView)
+        binding.appBarLayout.addOnOffsetChangedListener(
+            collapsingListen(
+                binding.searchView,
+                binding.collapsingToolBar
+            )
+        )
+
     }
 
-    private fun hideSearchPlate() {
-        val searchPlate = resources.getIdentifier("android:id/search_plate", null, null)
-        val mSearchPlate = binding.searchView.findViewById(searchPlate) as View
-        mSearchPlate.setBackgroundColor(Color.TRANSPARENT)
-    }
+
 }

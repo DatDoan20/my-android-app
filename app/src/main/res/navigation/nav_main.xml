@@ -6,14 +6,6 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.doanducdat.shoppingapp.ui.main.home.HomeFragment"
-        android:label="HomeFragment" >
-        <action
-            android:id="@+id/action_homeFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/categoryFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.category.CategoryFragment"
         android:label="fragment_category"
@@ -45,4 +37,12 @@
         android:name="com.doanducdat.shoppingapp.ui.main.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.home.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+    </fragment>
 </navigation>
