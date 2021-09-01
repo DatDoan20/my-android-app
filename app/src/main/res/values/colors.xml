@@ -11,15 +11,15 @@
     <color name="yellow">#FDCC0D</color>
     <!-- custom color Light -->
     <!--
-        Color button, title:261c87. Color background:f4f3f9. Conner button: 5sdp.
+        Color button, title:261c87. Color background:f2f1f7. Conner button: 5sdp.
         Conner dialog, card view: 13sdp. Color des 474747
      -->
     <!-- Splash-->
-    <color name="bgSplash">#f4f3f9</color>
+    <color name="bgSplash">#f2f1f7</color>
     <color name="bgWaiting">#474747</color>
 
     <!-- Onboard-->
-    <color name="bgOnboard">#f4f3f9</color>
+    <color name="bgOnboard">#f2f1f7</color>
     <color name="textTitleColorGeneric">#261c87</color>
     <color name="textDesColorGeneric">#474747</color>
     <color name="textColorBtnGeneric">#FFFFFFFF</color>

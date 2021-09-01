@@ -56,7 +56,6 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     fun collapsingListen(
         searchView: View,
-        collapsingToolBar: View
     ): AppBarLayout.OnOffsetChangedListener {
         return AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             val params = searchView.layoutParams

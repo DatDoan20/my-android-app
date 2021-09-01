@@ -1,6 +1,6 @@
 package com.doanducdat.shoppingapp.repository
 
-import com.doanducdat.shoppingapp.module.ResponseAuth
+import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.user.UserSignIn
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.response.DataState

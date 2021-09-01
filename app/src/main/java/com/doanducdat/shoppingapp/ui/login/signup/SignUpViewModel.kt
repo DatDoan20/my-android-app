@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.doanducdat.shoppingapp.module.ResponseAuth
+import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.repository.SignUpRepository

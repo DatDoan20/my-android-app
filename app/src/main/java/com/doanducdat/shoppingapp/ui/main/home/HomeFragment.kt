@@ -15,6 +15,7 @@ import com.doanducdat.shoppingapp.databinding.FragmentHomeBinding
 import com.doanducdat.shoppingapp.module.SlideImage
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.response.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,7 +25,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
+
     val viewModel: HomeViewModel by viewModels()
+
+    private val newProductAdapter = ProductAdapterBasic()
+
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -32,23 +37,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         hideSearchPlate(binding.myAppBarLayout.searchView)
-        subsCribCollapsingListen()
 
+        subscribeListenLoadingForm()
+        subsCribCollapsingListen()
         setUpSlideImageIntro()
 
+        setUpRecycleViewNewProduct()
+        subscribeLoadNewProduct()
         loadNewProduct()
 
+//        setUpSwipeRefreshLayout()
     }
 
 
+    private fun subscribeListenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            with(binding) {
+//                setStateViews(!it, btnSignIn, txtInputEdtPhone, txtInputEdtPassword)
+                if (it) {
+//                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                } else {
+//                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                }
+            }
+        })
+    }
+
     private fun subsCribCollapsingListen() {
         binding.myAppBarLayout.appBarLayout.addOnOffsetChangedListener(
-            collapsingListen(
-                binding.myAppBarLayout.searchView,
-                binding.myAppBarLayout.collapsingToolBar
-            )
+            collapsingListen(binding.myAppBarLayout.searchView)
         )
     }
 
@@ -59,10 +77,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setUpViewPager() {
         val adapter: SlideImageIntroAdapter = SlideImageIntroAdapter()
-        adapter.addImage(SlideImage(AppConstants.UrlImgTest.SALE))
-        adapter.addImage(SlideImage(AppConstants.UrlImgTest.SPRING))
-        adapter.addImage(SlideImage(AppConstants.UrlImgTest.SUMMER))
-        adapter.addImage(SlideImage(AppConstants.UrlImgTest.AUTUMN))
+        adapter.addImage(SlideImage(AppConstants.LinkImg.SALE))
+        adapter.addImage(SlideImage(AppConstants.LinkImg.SPRING))
+        adapter.addImage(SlideImage(AppConstants.LinkImg.SUMMER))
+        adapter.addImage(SlideImage(AppConstants.LinkImg.AUTUMN))
         binding.viewPagerIntroTop.adapter = adapter
         binding.viewPagerIntroTop.offscreenPageLimit = 5
     }
@@ -71,14 +89,39 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.indicateIntroTop.setViewPager(binding.viewPagerIntroTop)
     }
 
-    private fun loadNewProduct() {
-        val newProductAdapter = ProductAdapterBasic()
-        viewModel.getProducts()
-        //follow dataState + load data to UI
+    private fun setUpRecycleViewNewProduct() {
         binding.rcvNewProduct.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rcvNewProduct.setHasFixedSize(true)
+        binding.rcvNewProduct.isNestedScrollingEnabled = false
         binding.rcvNewProduct.adapter = newProductAdapter
-
     }
 
+    private fun subscribeLoadNewProduct() {
+        viewModel.dataState.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+//                    binding.swipeRefreshLayout.isRefreshing = true
+                }
+                Status.ERROR -> {
+//                    binding.swipeRefreshLayout.isRefreshing = false
+                    showToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                }
+                Status.SUCCESS -> {
+                    newProductAdapter.setProducts(it.response!!.data)
+//                    binding.swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        })
+    }
+
+    private fun loadNewProduct() {
+        viewModel.getProducts()
+    }
+
+//    private fun setUpSwipeRefreshLayout() {
+//        binding.swipeRefreshLayout.setOnRefreshListener {
+//            loadNewProduct()
+//        }
+//    }
 }

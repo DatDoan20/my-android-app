@@ -30,7 +30,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         } else {
             toastExitApp = Toast.makeText(
                 this,
-                AppConstants.MsgInfo.EXIT_APP, Toast.LENGTH_SHORT
+                AppConstants.MsgErr.EXIT_APP, Toast.LENGTH_SHORT
             )
             toastExitApp.show()
         }

@@ -1,6 +1,6 @@
 package com.doanducdat.shoppingapp.retrofit
 
-import com.doanducdat.shoppingapp.module.ResponseAuth
+import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.user.UserSignIn
 import com.doanducdat.shoppingapp.module.user.UserSignUp
 import retrofit2.http.Body

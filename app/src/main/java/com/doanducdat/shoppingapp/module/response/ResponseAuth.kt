@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.module
+package com.doanducdat.shoppingapp.module.response
 
 import com.google.gson.annotations.SerializedName
 

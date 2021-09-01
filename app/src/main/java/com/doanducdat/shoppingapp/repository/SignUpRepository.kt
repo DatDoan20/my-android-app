@@ -1,7 +1,7 @@
 package com.doanducdat.shoppingapp.repository
 
 import android.app.Activity
-import com.doanducdat.shoppingapp.module.ResponseAuth
+import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.retrofit.UserAPI

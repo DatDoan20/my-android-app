@@ -1,20 +1,24 @@
 package com.doanducdat.shoppingapp.module.product
 
+import com.doanducdat.shoppingapp.utils.AppConstants
+import com.google.gson.annotations.SerializedName
 import java.text.DecimalFormat
 
 class Product(
+    @SerializedName("_id")
+    val id: String,
     val name: String,
     val description: String,
     val images: List<String>,
-    val imageCover: String,
+    private val imageCover: String,
     val slug: String,
-    val price: Int,
+    private val price: Int,
     val brand: String,
     val size: String,
     val color: String,
     val material: String,
     val pattern: String,
-    val discount: Int,
+    private val discount: Int,
     val outOfStock: Boolean,
     val type: String,
     val category: String,
@@ -27,6 +31,10 @@ class Product(
     }
 
     fun getDiscount(): String {
-        return "$discount%"
+        return "-$discount%"
+    }
+
+    fun getUrlImgCover(): String {
+        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.PRODUCT}${id}/${imageCover}"
     }
 }

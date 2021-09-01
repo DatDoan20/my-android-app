@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.di
 
+import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -31,7 +32,14 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun provideUserService(retrofit: Retrofit.Builder): UserAPI{
+    fun provideUserService(retrofit: Retrofit.Builder): UserAPI {
         return retrofit.build().create(UserAPI::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideProductService(retrofit: Retrofit.Builder): ProductAPI {
+        return retrofit.build().create(ProductAPI::class.java)
+    }
+
 }
