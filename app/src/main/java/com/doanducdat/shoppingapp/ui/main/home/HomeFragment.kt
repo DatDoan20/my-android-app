@@ -17,6 +17,7 @@ import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.response.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -47,7 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         subscribeLoadNewProduct()
         loadNewProduct()
 
-//        setUpSwipeRefreshLayout()
+        setUpSwipeRefreshLayout()
     }
 
 
@@ -66,7 +67,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun subsCribCollapsingListen() {
         binding.myAppBarLayout.appBarLayout.addOnOffsetChangedListener(
-            collapsingListen(binding.myAppBarLayout.searchView)
+
+            collapsingListen(binding.myAppBarLayout.searchView, binding.swipeRefreshLayout)
         )
     }
 
@@ -119,9 +121,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.getProducts()
     }
 
-//    private fun setUpSwipeRefreshLayout() {
-//        binding.swipeRefreshLayout.setOnRefreshListener {
-//            loadNewProduct()
-//        }
-//    }
+    private fun setUpSwipeRefreshLayout() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadNewProduct()
+        }
+    }
 }

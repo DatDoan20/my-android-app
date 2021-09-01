@@ -56,15 +56,18 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     fun collapsingListen(
         searchView: View,
+        view: View
     ): AppBarLayout.OnOffsetChangedListener {
         return AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             val params = searchView.layoutParams
             if (verticalOffset == 0) {
+                view.isEnabled = true
 //                val newWidth = WindowManager.LayoutParams.MATCH_PARENT
 //                changeSizeSearchView(searchView, searchView.layoutParams.width, newWidth)
                 params.width = WindowManager.LayoutParams.MATCH_PARENT
                 params.height = WindowManager.LayoutParams.WRAP_CONTENT
-            } else  {
+            } else {
+                view.isEnabled = false
 //                val newWidth = (searchView.context.resources.displayMetrics.density *250).toInt()
 //                changeSizeSearchView(searchView, searchView.layoutParams.width, newWidth)
                 params.width = (searchView.context.resources.displayMetrics.density * 250).toInt()
