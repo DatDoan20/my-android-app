@@ -9,15 +9,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.adapter.ProductAdapterBasic
 import com.doanducdat.shoppingapp.adapter.SlideImageIntroAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentHomeBinding
 import com.doanducdat.shoppingapp.module.SlideImage
+import com.doanducdat.shoppingapp.module.category.Category
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.response.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -31,7 +32,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val newProductAdapter = ProductAdapterBasic()
     private val saleProductAdapter = ProductAdapterBasic()
-
+    private val hotCategoryAdapter = CategoryBasicAdapter()
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -57,6 +58,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setUpRecycleViewSaleProduct()
         subscribeLoadSaleProduct()
         loadSaleProduct()
+
+        //Hot Category
+        setUpRecyclerviewHotCategory()
+        loadHotCategory()
 
         //when refresh layout -> load all data relate
         setUpSwipeRefreshLayout()
@@ -147,11 +152,37 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         })
     }
-    //endregion
 
     private fun loadSaleProduct() {
         viewModel.getProducts()
     }
+    //endregion
+
+    //region Hot Categories
+    fun loadHotCategory(){
+        val categories:MutableList<Category> = mutableListOf()
+        categories.add(Category(R.drawable.vay, "Váy nữ"))
+        categories.add(Category(R.drawable.chan_vay, "Chân váy"))
+        categories.add(Category(R.drawable.ao_thun_tay_ngan_nu, "Áo thun nữ"))
+        categories.add(Category(R.drawable.do_the_thao_nu, "Đồ thể thao nữ"))
+        categories.add(Category(R.drawable.quan_thun_dai_nu, "Quần dài nữ"))
+
+        categories.add(Category(R.drawable.ao_so_mi_tay_dai_nam, "Áo sơ mi nam"))
+        categories.add(Category(R.drawable.ao_thun_tay_ngan_nam, "Áo thun nam"))
+        categories.add(Category(R.drawable.do_the_thao_nam, "Đồ thể thao nam"))
+        categories.add(Category(R.drawable.quan_tay_dai_nam, "Quần tây nam"))
+        categories.add(Category(R.drawable.non, "Nón"))
+        hotCategoryAdapter.setCategories(categories)
+
+    }
+    fun setUpRecyclerviewHotCategory() {
+        binding.rcvHotCategory.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rcvHotCategory.setHasFixedSize(true)
+        binding.rcvHotCategory.isNestedScrollingEnabled = false
+        binding.rcvHotCategory.adapter = hotCategoryAdapter
+    }
+    //endregion
 
     private fun setUpSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
