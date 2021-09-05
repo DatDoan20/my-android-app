@@ -18,15 +18,24 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
-    private val _dataState: MutableLiveData<DataState<ResponseProduct>> = MutableLiveData()
-    val dataState: LiveData<DataState<ResponseProduct>>
-        get() = _dataState
 
-    var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _dataStateNewProducts: MutableLiveData<DataState<ResponseProduct>> = MutableLiveData()
+    val dataStateNewProducts: LiveData<DataState<ResponseProduct>>
+        get() = _dataStateNewProducts
+
+    private val _dataStateSaleProducts: MutableLiveData<DataState<ResponseProduct>> = MutableLiveData()
+    val dataStateSaleProducts: LiveData<DataState<ResponseProduct>>
+        get() = _dataStateSaleProducts
 
     fun getProducts() = viewModelScope.launch {
         productRepository.getProducts(InfoUser.token.toString()).onEach {
-            _dataState.value = it
+            _dataStateNewProducts.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun getSaleProducts() = viewModelScope.launch {
+        productRepository.getSaleProducts(InfoUser.token.toString()).onEach {
+            _dataStateSaleProducts.value = it
         }.launchIn(viewModelScope)
     }
 }

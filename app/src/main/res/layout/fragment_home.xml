@@ -29,7 +29,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/bgSplash">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layout_intro"
@@ -66,13 +67,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_10sdp"
-                        android:text="@string/newProduct"
+                        android:text="@string/saleProduct"
                         android:textColor="@color/textTitleColorGeneric"
                         android:textSize="@dimen/_16sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/layout_intro" />
 
                     <TextView
+                        android:id="@+id/txt_see_all_sale_product"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_10sdp"
@@ -83,34 +85,68 @@
                         app:layout_constraintTop_toBottomOf="@id/layout_intro" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rcv_new_product"
+                        android:id="@+id/rcv_sale_product"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_32sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_36sdp"
                         app:layout_constraintTop_toBottomOf="@id/layout_intro" />
 
                     <TextView
-                        android:id="@+id/test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="@string/newProduct"
+                        android:textColor="@color/textTitleColorGeneric"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rcv_sale_product" />
+
+                    <TextView
+                        android:id="@+id/txt_see_all_new_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="@string/seeAll"
+                        android:textColor="@color/textDesColorGeneric"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rcv_sale_product" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_new_product"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_36sdp"
+                        app:layout_constraintTop_toBottomOf="@id/rcv_sale_product" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="@string/hotCategory"
+                        android:textColor="@color/textTitleColorGeneric"
+                        android:textSize="@dimen/_16sdp"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rcv_new_product" />
 
                     <TextView
-                        android:id="@+id/test1"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                        app:layout_constraintTop_toBottomOf="@id/test" />
+                        android:id="@+id/txt_see_all_hot_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:text="@string/seeAll"
+                        android:textColor="@color/textDesColorGeneric"
+                        android:textSize="@dimen/_14sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rcv_new_product" />
 
-                    <TextView
-                        android:id="@+id/test2"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_hot_category"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_100sdp"
-                        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                        app:layout_constraintTop_toBottomOf="@id/test1" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_36sdp"
+                        app:layout_constraintTop_toBottomOf="@id/rcv_new_product" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -27,9 +27,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
 
-    val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     private val newProductAdapter = ProductAdapterBasic()
+    private val saleProductAdapter = ProductAdapterBasic()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -38,40 +39,36 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //hide underline of search view
         hideSearchPlate(binding.myAppBarLayout.searchView)
 
-        subscribeListenLoadingForm()
+        // when collapsing -> disable refresh layout, expand fully -> enable refresh layout
         subsCribCollapsingListen()
+
         setUpSlideImageIntro()
 
+        //New product
         setUpRecycleViewNewProduct()
         subscribeLoadNewProduct()
         loadNewProduct()
 
+        //Sale product
+        setUpRecycleViewSaleProduct()
+        subscribeLoadSaleProduct()
+        loadSaleProduct()
+
+        //when refresh layout -> load all data relate
         setUpSwipeRefreshLayout()
-    }
-
-
-    private fun subscribeListenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
-            with(binding) {
-//                setStateViews(!it, btnSignIn, txtInputEdtPhone, txtInputEdtPassword)
-                if (it) {
-//                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
-                } else {
-//                    setStateProgressBar(View.GONE, spinKitProgressBar)
-                }
-            }
-        })
     }
 
     private fun subsCribCollapsingListen() {
         binding.myAppBarLayout.appBarLayout.addOnOffsetChangedListener(
-
             collapsingListen(binding.myAppBarLayout.searchView, binding.swipeRefreshLayout)
         )
     }
 
+    //region Slide Image Intro
     private fun setUpSlideImageIntro() {
         setUpViewPager()
         setUpIndicator()
@@ -90,7 +87,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setUpIndicator() {
         binding.indicateIntroTop.setViewPager(binding.viewPagerIntroTop)
     }
+    //endregion
 
+    //region New Product
     private fun setUpRecycleViewNewProduct() {
         binding.rcvNewProduct.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -100,30 +99,64 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun subscribeLoadNewProduct() {
-        viewModel.dataState.observe(viewLifecycleOwner, {
+        viewModel.dataStateNewProducts.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
-//                    binding.swipeRefreshLayout.isRefreshing = true
+                    binding.swipeRefreshLayout.isRefreshing = true
                 }
                 Status.ERROR -> {
-//                    binding.swipeRefreshLayout.isRefreshing = false
-                    showToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    showToast(it.message!!)
                 }
                 Status.SUCCESS -> {
                     newProductAdapter.setProducts(it.response!!.data)
-//                    binding.swipeRefreshLayout.isRefreshing = false
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
             }
         })
     }
 
     private fun loadNewProduct() {
+        viewModel.getSaleProducts()
+    }
+    //endregion
+
+    //region Sale Product
+    private fun setUpRecycleViewSaleProduct() {
+        binding.rcvSaleProduct.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rcvSaleProduct.setHasFixedSize(true)
+        binding.rcvSaleProduct.isNestedScrollingEnabled = false
+        binding.rcvSaleProduct.adapter = saleProductAdapter
+    }
+
+    private fun subscribeLoadSaleProduct() {
+        viewModel.dataStateSaleProducts.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    binding.swipeRefreshLayout.isRefreshing = true
+                }
+                Status.ERROR -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    showToast(it.message!!)
+                }
+                Status.SUCCESS -> {
+                    saleProductAdapter.setProducts(it.response!!.data)
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        })
+    }
+    //endregion
+
+    private fun loadSaleProduct() {
         viewModel.getProducts()
     }
 
     private fun setUpSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            loadNewProduct()
+//            loadNewProduct()
         }
     }
+
 }

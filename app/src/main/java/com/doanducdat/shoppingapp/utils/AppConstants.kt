@@ -22,6 +22,11 @@ object AppConstants {
             const val BEARER = "Bearer"
         }
     }
+    annotation class QueryRequest {
+        companion object {
+            const val LIMIT_10 = "10"
+        }
+    }
 
     annotation class LinkImg{
         companion object{
