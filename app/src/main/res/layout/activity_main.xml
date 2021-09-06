@@ -7,9 +7,10 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
 
         <androidx.fragment.app.FragmentContainerView
@@ -17,20 +18,20 @@
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@id/bubble_btm_nvg_main"
             app:navGraph="@navigation/nav_main" />
 
         <com.gauravk.bubblenavigation.BubbleNavigationConstraintView
             android:id="@+id/bubble_btm_nvg_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:background="@drawable/bg_layout_btm_nvg_main"
             android:elevation="@dimen/_4sdp"
             android:padding="@dimen/_8sdp"
-            app:bnc_mode="spread"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:bnc_mode="spread">
 
             <com.gauravk.bubblenavigation.BubbleToggleView
                 android:id="@+id/btn_home"
@@ -94,5 +95,5 @@
                 app:bt_titlePadding="@dimen/_5sdp" />
         </com.gauravk.bubblenavigation.BubbleNavigationConstraintView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

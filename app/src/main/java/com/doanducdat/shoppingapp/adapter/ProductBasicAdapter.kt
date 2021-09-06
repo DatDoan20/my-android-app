@@ -7,7 +7,7 @@ import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemProductBinding
 import com.doanducdat.shoppingapp.module.product.Product
 
-class ProductAdapterBasic : RecyclerView.Adapter<ProductAdapterBasic.ProductViewHolder>() {
+class ProductBasicAdapter : RecyclerView.Adapter<ProductBasicAdapter.ProductViewHolder>() {
     private var productList: List<Product> = listOf()
 
     fun setProducts(products: List<Product>) {

@@ -12,28 +12,37 @@ object AppConstants {
             const val VERIFY_OTP = 6
         }
     }
-    annotation class Server{
-        companion object{
+
+    annotation class Server {
+        companion object {
             const val HOST = "http://10.0.2.2:3000"
         }
     }
+
     annotation class HeaderRequest {
         companion object {
             const val BEARER = "Bearer"
         }
     }
+
     annotation class QueryRequest {
         companion object {
-            const val LIMIT_10 = "10"
+            const val LIMIT_10 = 10
+            const val PAGE_1  = 1
+            const val DISCOUNTING = 0
         }
     }
 
-    annotation class LinkImg{
-        companion object{
-            const val SALE = "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fsale_small.jpg?alt=media&token=68947f12-ad6c-4e89-8a63-89bcbc7214ed"
-            const val SPRING = "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fspring_small.jpg?alt=media&token=6e417621-73c1-4fc2-b89c-c687ab63c7be"
-            const val SUMMER ="https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fsummer_small.jpg?alt=media&token=73abb6ed-4524-45c0-a47d-b8fa1c14fc68"
-            const val AUTUMN ="https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fautumn_small.jpg?alt=media&token=9437d6f2-5d38-47d9-af5f-0e63f1da9cbb"
+    annotation class LinkImg {
+        companion object {
+            const val SALE =
+                "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fsale_small.jpg?alt=media&token=68947f12-ad6c-4e89-8a63-89bcbc7214ed"
+            const val SPRING =
+                "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fspring_small.jpg?alt=media&token=6e417621-73c1-4fc2-b89c-c687ab63c7be"
+            const val SUMMER =
+                "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fsummer_small.jpg?alt=media&token=73abb6ed-4524-45c0-a47d-b8fa1c14fc68"
+            const val AUTUMN =
+                "https://firebasestorage.googleapis.com/v0/b/shoppingapp-7a337.appspot.com/o/shop%2Fevent_small%2Fautumn_small.jpg?alt=media&token=9437d6f2-5d38-47d9-af5f-0e63f1da9cbb"
 
             /*** {Host}/img/products/{idProduct}/{nameImg} */
             const val PRODUCT = "/img/products/"
