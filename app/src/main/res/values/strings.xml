@@ -28,4 +28,10 @@
     <string name="newProduct">Sản phẩm mới</string>
     <string name="saleProduct">Sản phẩm đang giảm giá</string>
     <string name="hotCategory">Danh mục nổi bật</string>
+    <string name="dress">Đầm, Váy</string>
+    <string name="shirt">Áo</string>
+    <string name="trouser">Quần</string>
+    <string name="homeWear">Đồ bộ</string>
+    <string name="coat">Áo khoác</string>
+    <string name="sportsWear">Đồ thể thao</string>
 </resources>

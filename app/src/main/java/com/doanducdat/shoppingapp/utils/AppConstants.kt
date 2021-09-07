@@ -10,6 +10,13 @@ object AppConstants {
             const val SIGN_UP = 4
             const val NAV_SIGN_IN = 5
             const val VERIFY_OTP = 6
+            const val NAV_CATEGORY = 7
+            const val SELECT_SHIRT = 8
+            const val SELECT_DRESS = 9
+            const val SELECT_TROUSER = 10
+            const val SELECT_HOME_WEAR = 11
+            const val SELECT_COAT = 12
+            const val SELECT_SPORT_WEAR = 13
         }
     }
 
@@ -28,7 +35,7 @@ object AppConstants {
     annotation class QueryRequest {
         companion object {
             const val LIMIT_10 = 10
-            const val PAGE_1  = 1
+            const val PAGE_1 = 1
             const val DISCOUNTING = 0
         }
     }
@@ -100,6 +107,31 @@ object AppConstants {
             const val TITLE_THIRD_FRAGMENT = "Bảo mật thông tin"
             const val DES_THIRD_FRAGMENT =
                 "Thông tin của người dùng luôn được bảo mật, tránh rò rỉ thông tin"
+        }
+    }
+
+    annotation class Type {
+        companion object {
+            const val VAY_SUONG = "vay-suong"
+            const val CHAN_VAY = "chan-vay"
+            const val AO_THUN_TAY_DAI = "ao-thun-tay-dai"
+            const val AO_SO_MI_TAY_DAI = "ao-so-mi-tay-dai"
+            const val AO_THUN_TAY_NGAN = "ao-thun-tay-ngan"
+            const val AO_SO_MI_TAY_NGAN = "ao-so-mi-tay-ngan"
+            const val QUAN_THUN_DAI = "quan-thun-dai"
+            const val QUAN_THUN_NGAN = "quan-thun-ngan"
+            const val DO_BO = "do-bo"
+            const val AO_KHOAC = "ao-khoac"
+            const val DO_THE_THAO = "do-the-thao"
+            const val NON = "non"
+        }
+    }
+
+    annotation class Category {
+        companion object {
+            const val NamAndNu = "nam-nu"
+            const val NAM = "nam"
+            const val NU = "nu"
         }
     }
 }

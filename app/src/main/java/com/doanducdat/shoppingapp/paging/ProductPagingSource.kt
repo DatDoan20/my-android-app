@@ -14,24 +14,28 @@ import java.io.IOException
 class ProductPagingSource(private val productAPI: ProductAPI) : PagingSource<Int, Product>() {
 
     override fun getRefreshKey(state: PagingState<Int, Product>): Int? {
-        return null
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
-        val page = params.key ?: AppConstants.QueryRequest.PAGE_1
-        //params.loadSize is 10 (LIMIT_10)
+        val page = params.key ?: 1
         return try {
-            val products: ResponseProduct =
+            val response: ResponseProduct =
                 productAPI.getProducts(InfoUser.token.toString(), params.loadSize, page)
+            val products = response.data
             LoadResult.Page(
-                data = products.data,
-                prevKey = if (page == AppConstants.QueryRequest.PAGE_1) null else page - 1,
-                nextKey = if (products.data.isEmpty()) null else page + (params.loadSize / AppConstants.QueryRequest.LIMIT_10)
+                data = products,
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (products.isEmpty()) null else page + 1
             )
         } catch (ex: IOException) {
-            return LoadResult.Error(ex)
+            LoadResult.Error(ex)
         } catch (ex: HttpException) {
-            return LoadResult.Error(ex)
+            LoadResult.Error(ex)
         }
     }
 

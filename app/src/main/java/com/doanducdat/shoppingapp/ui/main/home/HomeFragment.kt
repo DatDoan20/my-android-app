@@ -6,27 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
-import com.doanducdat.shoppingapp.adapter.*
+import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
+import com.doanducdat.shoppingapp.adapter.ProductBasicAdapter
+import com.doanducdat.shoppingapp.adapter.SlideImageIntroAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentHomeBinding
 import com.doanducdat.shoppingapp.module.SlideImage
 import com.doanducdat.shoppingapp.module.category.Category
+import com.doanducdat.shoppingapp.module.category.CategoryListFactory
+import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.response.Status
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private val controller by lazy {
         (requireActivity().supportFragmentManager
@@ -35,7 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val newProductAdapter by lazy { ProductPagingAdapter() }
+    private val newProductAdapter by lazy { ProductBasicAdapter() }
     private val saleProductAdapter by lazy { ProductBasicAdapter() }
     private val hotCategoryAdapter by lazy { CategoryBasicAdapter() }
 
@@ -58,11 +58,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         //New product
         setUpRecycleViewNewProduct()
         subscribeLoadNewProduct()
+        loadIntroNewProduct()
 
         //Sale product
         setUpRecycleViewSaleProduct()
         subscribeLoadSaleProduct()
-        loadSaleProduct()
+        loadIntroSaleProducts()
 
         //Hot Category
         setUpRecyclerviewHotCategory()
@@ -70,6 +71,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         //when refresh layout -> load all data relate
         setUpSwipeRefreshLayout()
+
+        //Event click
+        setUpActionClick()
     }
 
     private fun subsCribCollapsingListen() {
@@ -101,26 +105,51 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     //region New Product
     private fun setUpRecycleViewNewProduct() {
+//        binding.rcvNewProduct.layoutManager =
+//            GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
+//
+//        binding.rcvNewProduct.setHasFixedSize(false)
+//        binding.rcvNewProduct.adapter = newProductAdapter.withLoadStateHeaderAndFooter(
+//            header = LoadStatePagingAdapter { newProductAdapter::retry },
+//            footer = LoadStatePagingAdapter { newProductAdapter::retry }
+//        )
         binding.rcvNewProduct.layoutManager =
-            GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
-
-//        binding.rcvNewProduct.setHasFixedSize(true)
-//        binding.rcvNewProduct.isNestedScrollingEnabled = false
-        binding.rcvNewProduct.adapter = newProductAdapter.withLoadStateFooter(
-            footer = LoadStatePagingAdapter(newProductAdapter::retry)
-        )
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rcvNewProduct.setHasFixedSize(true)
+        binding.rcvNewProduct.isNestedScrollingEnabled = false
+        binding.rcvNewProduct.adapter = newProductAdapter
     }
 
     //    private var jobGetNewProducts: Job? = null
     private fun subscribeLoadNewProduct() {
-        binding.swipeRefreshLayout.isRefreshing = true
+//        binding.swipeRefreshLayout.isRefreshing = true
 //        jobGetNewProducts?.cancel()
-        lifecycleScope.launch {
-            viewModel.getNewProducts().collectLatest {
-                newProductAdapter.submitData(it)
-                binding.swipeRefreshLayout.isRefreshing = false
+//        jobGetNewProducts = lifecycleScope.launch {
+//            viewModel.getNewProducts().collectLatest {
+//                newProductAdapter.submitData(it)
+//                binding.swipeRefreshLayout.isRefreshing = false
+//            }
+//        }
+        viewModel.dataStateNewProducts.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    binding.swipeRefreshLayout.isRefreshing = true
+                }
+                Status.ERROR -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    showToast(it.message!!)
+                    Log.e("TAG", "subscribeLoadNewProduct: ${it.message}")
+                }
+                Status.SUCCESS -> {
+                    newProductAdapter.setProducts(it.response!!.data)
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
             }
-        }
+        })
+    }
+
+    private fun loadIntroNewProduct() {
+        viewModel.getIntroNewProducts()
     }
     //endregion
 
@@ -152,32 +181,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
     }
 
-    private fun loadSaleProduct() {
-        viewModel.getSaleProducts()
+    private fun loadIntroSaleProducts() {
+        viewModel.getIntroSaleProducts()
     }
     //endregion
 
     //region Hot Categories
     private fun loadHotCategory() {
-        val categories: MutableList<Category> = mutableListOf()
-        categories.add(Category(R.drawable.vay, "Váy nữ"))
-        categories.add(Category(R.drawable.chan_vay, "Chân váy"))
-        categories.add(Category(R.drawable.ao_thun_tay_ngan_nu, "Áo thun nữ"))
-        categories.add(Category(R.drawable.do_the_thao_nu, "Đồ thể thao nữ"))
-        categories.add(Category(R.drawable.quan_thun_dai_nu, "Quần dài nữ"))
-
-        categories.add(Category(R.drawable.ao_so_mi_tay_dai_nam, "Áo sơ mi nam"))
-        categories.add(Category(R.drawable.ao_thun_tay_ngan_nam, "Áo thun nam"))
-        categories.add(Category(R.drawable.do_the_thao_nam, "Đồ thể thao nam"))
-        categories.add(Category(R.drawable.quan_tay_dai_nam, "Quần tây nam"))
-        categories.add(Category(R.drawable.non, "Nón"))
-        hotCategoryAdapter.setCategories(categories)
-
+        val hotCategory: MutableList<Category> = CategoryListFactory.getInstance().hotCategory()
+        hotCategoryAdapter.setCategoryList(hotCategory)
     }
 
     private fun setUpRecyclerviewHotCategory() {
         binding.rcvHotCategory.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false)
         binding.rcvHotCategory.setHasFixedSize(true)
         binding.rcvHotCategory.isNestedScrollingEnabled = false
         binding.rcvHotCategory.adapter = hotCategoryAdapter
@@ -187,6 +204,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setUpSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             subscribeLoadNewProduct()
+        }
+    }
+
+    private fun setUpActionClick() {
+        binding.txtSeeAllHotCategory.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.NAV_CATEGORY)
+        }
+    }
+
+    override fun doActionClick(CODE_ACTION_CLICK: Int) {
+        when (CODE_ACTION_CLICK) {
+            AppConstants.ActionClick.NAV_CATEGORY -> {
+                controller.navigate(HomeFragmentDirections.actionHomeFragmentToCategoryFragment())
+            }
         }
     }
 

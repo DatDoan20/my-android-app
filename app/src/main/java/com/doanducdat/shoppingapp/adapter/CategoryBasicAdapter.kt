@@ -10,8 +10,8 @@ class CategoryBasicAdapter : RecyclerView.Adapter<CategoryBasicAdapter.CategoryV
 
     private var categoryList: MutableList<Category> = mutableListOf()
 
-    fun setCategories(categories: MutableList<Category>) {
-        categoryList = categories
+    fun setCategoryList(categoryList: MutableList<Category>) {
+        this.categoryList = categoryList
         notifyDataSetChanged()
     }
 

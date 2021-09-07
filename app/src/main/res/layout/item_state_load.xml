@@ -18,14 +18,12 @@
         android:textSize="18sp"
         tools:text="Timeout" />
 
-    <com.github.ybq.android.spinkit.SpinKitView
+    <ProgressBar
         android:id="@+id/spin_kit_progress_bar"
-        style="@style/SpinKitView.Large.FadingCircle"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:layout_gravity="center"
         android:background="@android:color/transparent"
-        android:visibility="visible"
         app:SpinKit_Color="@color/bgColorBtnGeneric"
         app:circularflow_defaultRadius="@dimen/_50sdp" />
 

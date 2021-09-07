@@ -12,11 +12,12 @@ class LoadStatePagingAdapter(
     private val retry: () -> Unit
 ) : LoadStateAdapter<LoadStatePagingAdapter.LoadStatePagingViewHolder>() {
 
-    inner class LoadStatePagingViewHolder(val binding: ItemStateLoadBinding) :
+     class LoadStatePagingViewHolder(val binding: ItemStateLoadBinding, retry: () -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
-
+         init {
+             binding.btnTryAgain.setOnClickListener { retry.invoke() }
+         }
         fun bind(loadState: LoadState) {
-            binding.btnTryAgain.setOnClickListener { retry.invoke() }
             if (loadState is LoadState.Error) {
                 binding.txtErrMsg.text = loadState.error.localizedMessage
             }
@@ -38,6 +39,6 @@ class LoadStatePagingAdapter(
     ): LoadStatePagingViewHolder {
         val binding =
             ItemStateLoadBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LoadStatePagingViewHolder(binding)
+        return LoadStatePagingViewHolder(binding, retry)
     }
 }
