@@ -135,7 +135,7 @@
             android:layout_marginEnd="@dimen/_20sdp"
             android:gravity="center"
             android:text="@string/forgotPassword"
-            android:textColor="@color/textDesColorGeneric"
+            android:textColor="@color/textTitleColorGeneric"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_input_layout_password" />
 

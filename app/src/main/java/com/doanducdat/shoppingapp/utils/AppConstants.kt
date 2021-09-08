@@ -17,6 +17,7 @@ object AppConstants {
             const val SELECT_HOME_WEAR = 11
             const val SELECT_COAT = 12
             const val SELECT_SPORT_WEAR = 13
+            const val SEARCH_VIEW = 14
         }
     }
 

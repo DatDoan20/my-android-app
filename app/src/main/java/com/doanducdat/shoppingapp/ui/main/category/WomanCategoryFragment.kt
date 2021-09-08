@@ -1,16 +1,12 @@
 package com.doanducdat.shoppingapp.ui.main.category
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentWomanCategoryBinding
 import com.doanducdat.shoppingapp.module.category.CategoryListFactory
@@ -20,6 +16,8 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 
 
 class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyActionApp {
+    val adapter = CategoryBasicAdapter()
+    lateinit var listNameCategory: MutableList<TextView>
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -27,58 +25,63 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
     ): FragmentWomanCategoryBinding =
         FragmentWomanCategoryBinding.inflate(inflater, container, false)
 
-    val adapter = CategoryBasicAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setListNameCategory()
+        setUpRcvCategory()
+        setUpActionClick()
+
+    }
+
+    private fun setListNameCategory() {
+        with(binding) {
+            listNameCategory = mutableListOf(
+                txtDress, txtShirt, txtTrouser, txtCoat, txtHomeWear, txtSportWear
+            )
+        }
+    }
+
+    private fun setUpRcvCategory() {
         binding.rcvWomanCategory.layoutManager = GridLayoutManager(
             requireContext(), 2,
             RecyclerView.VERTICAL, false
         )
         binding.rcvWomanCategory.adapter = adapter
-
-        setUpActionClick()
-
     }
 
     private fun setUpActionClick() {
         with(binding) {
             txtDress.setOnClickListener {
-                changeTextDisplay(it as TextView)
+                //format name category unselected and selected
+                formatListNameCategory(listNameCategory, txtDress)
+                //set adapter when click name category
                 doActionClick(AppConstants.ActionClick.SELECT_DRESS)
             }
             txtShirt.setOnClickListener {
-                changeTextDisplay(it as TextView)
+                formatListNameCategory(listNameCategory, txtShirt)
                 doActionClick(AppConstants.ActionClick.SELECT_SHIRT)
             }
             txtTrouser.setOnClickListener {
-                changeTextDisplay(it as TextView)
+                formatListNameCategory(listNameCategory, txtTrouser)
                 doActionClick(AppConstants.ActionClick.SELECT_TROUSER)
             }
             txtHomeWear.setOnClickListener {
-                changeTextDisplay(it as TextView)
+                formatListNameCategory(listNameCategory, txtHomeWear)
                 doActionClick(AppConstants.ActionClick.SELECT_HOME_WEAR)
             }
             txtCoat.setOnClickListener {
-                changeTextDisplay(it as TextView)
+                formatListNameCategory(listNameCategory, txtCoat)
                 doActionClick(AppConstants.ActionClick.SELECT_COAT)
             }
             txtSportWear.setOnClickListener {
-                changeTextDisplay(it as TextView)
+                formatListNameCategory(listNameCategory, txtSportWear)
                 doActionClick(AppConstants.ActionClick.SELECT_SPORT_WEAR)
             }
         }
     }
 
-    private fun changeTextDisplay(textView: TextView) {
-        textView.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.textTitleColorGeneric
-            )
-        )
-        textView.setTypeface(null, Typeface.BOLD_ITALIC)
-    }
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
 
@@ -104,7 +107,6 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
             }
             AppConstants.ActionClick.SELECT_SPORT_WEAR -> {
                 adapter.setCategoryList(CategoryListFactory.getInstance().womanSportWear())
-
             }
         }
     }

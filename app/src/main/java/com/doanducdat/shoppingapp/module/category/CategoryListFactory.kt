@@ -131,4 +131,83 @@ class CategoryListFactory {
             ),
         )
     }
+
+    fun manShirt(): MutableList<Category> {
+        return mutableListOf(
+            Category(
+                R.drawable.nam_ao_thun_tay_ngan,
+                c.NAM,
+                t.AO_THUN_TAY_NGAN,
+                "Áo thun tay ngắn"
+            ),
+            Category(
+                R.drawable.nam_ao_thun_tay_dai,
+                c.NAM,
+                t.AO_THUN_TAY_DAI,
+                "Áo thun tay dài"
+            ),
+            Category(
+                R.drawable.nam_ao_so_mi_tay_ngan,
+                c.NAM,
+                t.AO_SO_MI_TAY_NGAN,
+                "Áo sơ mi tay ngắn "
+            ),
+            Category(
+                R.drawable.nam_ao_so_mi_tay_dai,
+                c.NAM,
+                t.AO_SO_MI_TAY_DAI,
+                "Áo sơ mi tay dài"
+            ),
+        )
+    }
+
+    fun manTrouser(): MutableList<Category> {
+        return mutableListOf(
+            Category(
+                R.drawable.nam_quan_thun_dai,
+                c.NAM,
+                t.QUAN_THUN_DAI,
+                "Quần thun dài nam"
+            ),
+            Category(
+                R.drawable.nam_quan_thun_ngan,
+                c.NAM,
+                t.QUAN_THUN_NGAN,
+                "Quần thun ngắn nam"
+            )
+        )
+    }
+
+    fun manHomeWear(): MutableList<Category> {
+        return mutableListOf(
+            Category(
+                R.drawable.nam_do_bo,
+                c.NAM,
+                t.DO_BO,
+                "Đồ bộ nam"
+            ),
+        )
+    }
+
+    fun manCoat(): MutableList<Category> {
+        return mutableListOf(
+            Category(
+                R.drawable.nam_ao_khoac,
+                c.NAM,
+                t.AO_KHOAC,
+                "Áo khoác nam"
+            ),
+        )
+    }
+
+    fun manSportWear(): MutableList<Category> {
+        return mutableListOf(
+            Category(
+                R.drawable.nam_do_the_thao,
+                c.NAM,
+                t.DO_THE_THAO,
+                "Đồ thể thao nam"
+            ),
+        )
+    }
 }

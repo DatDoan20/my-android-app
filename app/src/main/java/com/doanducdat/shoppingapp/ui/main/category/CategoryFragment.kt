@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCategoryBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -11,6 +14,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 
 class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
+
+    private val controller by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
+    }
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -20,11 +28,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Viewpager
+        hideSearchPlate(binding.myAppBarLayout.searchView)
+        //set up adapter Viewpager have to be in advance TabLayout
         setUpViewpagerCategory()
         //Tab Layout
         setUpTabLayoutWithViewPager()
-
+        //
+        setUpActionClick()
 
     }
 
@@ -42,4 +52,13 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
             }
         }.attach()
     }
+
+    private fun setUpActionClick() {
+        // event click search
+        val callbackOnSearch: () -> Unit = {
+            controller.navigate(R.id.searchFragment)
+        }
+        setOnSearchView(binding.myAppBarLayout.searchView, callbackOnSearch)
+    }
+
 }

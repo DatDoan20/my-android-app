@@ -208,15 +208,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun setUpActionClick() {
+        //open all category
         binding.txtSeeAllHotCategory.setOnClickListener {
             doActionClick(AppConstants.ActionClick.NAV_CATEGORY)
         }
+        //click searchView
+        val callbackOnSearch: () -> Unit = {
+            controller.navigate(R.id.searchFragment)
+        }
+        setOnSearchView(binding.myAppBarLayout.searchView, callbackOnSearch)
     }
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.NAV_CATEGORY -> {
-                controller.navigate(HomeFragmentDirections.actionHomeFragmentToCategoryFragment())
+                controller.navigate(R.id.categoryFragment)
             }
         }
     }

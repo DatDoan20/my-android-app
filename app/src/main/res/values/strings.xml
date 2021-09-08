@@ -34,4 +34,12 @@
     <string name="homeWear">Đồ bộ</string>
     <string name="coat">Áo khoác</string>
     <string name="sportsWear">Đồ thể thao</string>
+    <string name="searchHistory">Lịch Sử Tìm Kiếm</string>
+    <string name="delete">Xóa</string>
+    <string name="verifyEmail"> <u>Xác nhận email</u></string>
+    <string name="titleEditProfile">Chỉnh sửa hồ sơ</string>
+    <string name="desEditProfile">Chỉnh sửa thông tin cá nhân: tên, giới tính, ngày sinh, ảnh đại diện</string>
+    <string name="titleSignOut">Đăng xuất</string>
+    <string name="desSignOut">Thoát tài khoản đăng nhập, bạn có thể đăng nhập tài khoản khác</string>
+
 </resources>

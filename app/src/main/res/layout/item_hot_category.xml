@@ -15,9 +15,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/bg_item_product_two_style"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/_10sdp">
+            android:layout_margin="@dimen/_10sdp"
+            android:focusable="true">
 
             <ImageView
                 android:id="@+id/img_hot_category"

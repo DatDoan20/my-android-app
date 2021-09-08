@@ -41,5 +41,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         }
+        controller.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.searchFragment){
+                binding.bubbleBtmNvgMain.setCurrentActiveItem(2)
+            }
+        }
     }
 }
