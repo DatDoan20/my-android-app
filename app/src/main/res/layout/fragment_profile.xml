@@ -10,19 +10,19 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bgSplash"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bgSplash"
             tools:context=".ui.main.profile.ProfileFragment">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_40sdp"
                 app:cardCornerRadius="@dimen/_21sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
                 android:id="@+id/txt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:gravity="center"
                 android:text="doan duc dat"
                 android:textColor="@color/textTitleColorGeneric"
@@ -78,11 +78,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/bg_item_profile_two_style"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:clickable="true"
                 android:focusable="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/bg_item_profile_two_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_verify_email">
@@ -132,9 +132,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
-                android:background="@drawable/bg_item_profile_two_style"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="@drawable/bg_item_profile_two_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_edit_profile_item">

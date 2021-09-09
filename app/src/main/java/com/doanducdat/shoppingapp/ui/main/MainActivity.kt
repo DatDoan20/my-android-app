@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.ui.main
 
+import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
@@ -42,8 +43,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         controller.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.searchFragment){
-                binding.bubbleBtmNvgMain.setCurrentActiveItem(2)
+            when (destination.id) {
+                R.id.searchFragment -> {
+                    binding.bubbleBtmNvgMain.setCurrentActiveItem(2)
+                    binding.bubbleBtmNvgMain.visibility = View.VISIBLE
+                }
+                R.id.productListFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
+                else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE
+
             }
         }
     }

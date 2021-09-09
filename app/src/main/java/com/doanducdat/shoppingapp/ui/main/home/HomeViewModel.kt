@@ -45,7 +45,4 @@ class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getProductPaging(): Flow<PagingData<Product>> {
-        return productRepository.getProductPaging().cachedIn(viewModelScope)
-    }
 }

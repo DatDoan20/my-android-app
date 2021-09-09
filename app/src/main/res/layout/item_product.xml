@@ -15,7 +15,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_item_product_two_style">
+            android:background="@drawable/bg_item_product_two_style"
+            android:clickable="true"
+            android:focusable="true">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/container_img_product_cover"

@@ -50,9 +50,9 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    fun getProductPaging(): Flow<PagingData<Product>> = Pager(
-        PagingConfig(pageSize = 10, enablePlaceholders = false),
+    fun getProductPaging(category:String?, type:String?): Flow<PagingData<Product>> = Pager(
+        PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_12, enablePlaceholders = false),
     ) {
-        ProductPagingSource(productAPI)
+        ProductPagingSource(productAPI, category, type)
     }.flow
 }

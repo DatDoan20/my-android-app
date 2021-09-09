@@ -36,6 +36,7 @@ object AppConstants {
     annotation class QueryRequest {
         companion object {
             const val LIMIT_10 = 10
+            const val LIMIT_12 = 8
             const val PAGE_1 = 1
             const val DISCOUNTING = 0
         }
@@ -111,6 +112,9 @@ object AppConstants {
         }
     }
 
+    /**
+     * this Type value string is "Type" field stored in DATABASE
+     */
     annotation class Type {
         companion object {
             const val VAY_SUONG = "vay-suong"
@@ -128,6 +132,9 @@ object AppConstants {
         }
     }
 
+    /**
+     * this Category value string is "Type" field stored in DATABASE
+     */
     annotation class Category {
         companion object {
             const val NamAndNu = "nam-nu"

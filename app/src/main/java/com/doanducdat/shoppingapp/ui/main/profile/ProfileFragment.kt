@@ -17,8 +17,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.layoutSignOutItem.setOnClickListener {
-            showToast("ai")
-        }
     }
 }

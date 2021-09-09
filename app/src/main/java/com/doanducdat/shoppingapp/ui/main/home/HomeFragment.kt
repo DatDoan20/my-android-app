@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -37,7 +38,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private val newProductAdapter by lazy { ProductBasicAdapter() }
     private val saleProductAdapter by lazy { ProductBasicAdapter() }
-    private val hotCategoryAdapter by lazy { CategoryBasicAdapter() }
+
+    private val callbackClickCategory: (category: Category) -> Unit = {
+        val bundleCategory = bundleOf("CATEGORY" to it)
+        controller.navigate(R.id.productListFragment, bundleCategory)
+    }
+    private val hotCategoryAdapter by lazy { CategoryBasicAdapter(callbackClickCategory) }
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -105,14 +111,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     //region New Product
     private fun setUpRecycleViewNewProduct() {
-//        binding.rcvNewProduct.layoutManager =
-//            GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
-//
-//        binding.rcvNewProduct.setHasFixedSize(false)
-//        binding.rcvNewProduct.adapter = newProductAdapter.withLoadStateHeaderAndFooter(
-//            header = LoadStatePagingAdapter { newProductAdapter::retry },
-//            footer = LoadStatePagingAdapter { newProductAdapter::retry }
-//        )
+
         binding.rcvNewProduct.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcvNewProduct.setHasFixedSize(true)
@@ -120,16 +119,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         binding.rcvNewProduct.adapter = newProductAdapter
     }
 
-    //    private var jobGetNewProducts: Job? = null
     private fun subscribeLoadNewProduct() {
-//        binding.swipeRefreshLayout.isRefreshing = true
-//        jobGetNewProducts?.cancel()
-//        jobGetNewProducts = lifecycleScope.launch {
-//            viewModel.getNewProducts().collectLatest {
-//                newProductAdapter.submitData(it)
-//                binding.swipeRefreshLayout.isRefreshing = false
-//            }
-//        }
         viewModel.dataStateNewProducts.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {

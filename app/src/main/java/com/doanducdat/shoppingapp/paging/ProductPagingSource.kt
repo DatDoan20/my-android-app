@@ -11,21 +11,33 @@ import retrofit2.HttpException
 import java.io.IOException
 
 
-class ProductPagingSource(private val productAPI: ProductAPI) : PagingSource<Int, Product>() {
+class ProductPagingSource(
+    private val productAPI: ProductAPI,
+    private val category: String?,
+    private val type: String?
+) : PagingSource<Int, Product>() {
 
     override fun getRefreshKey(state: PagingState<Int, Product>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-        }
+        return null
+//        return state.anchorPosition?.let { anchorPosition ->
+//            val anchorPage = state.closestPageToPosition(anchorPosition)
+//            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+//        }
 
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
-        val page = params.key ?: 1
+        val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
             val response: ResponseProduct =
-                productAPI.getProducts(InfoUser.token.toString(), params.loadSize, page)
+                productAPI.getProducts(
+                    InfoUser.token.toString(),
+                    params.loadSize,
+                    page,
+                    null,
+                    category,
+                    type
+                )
             val products = response.data
             LoadResult.Page(
                 data = products,

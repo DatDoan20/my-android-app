@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentWomanCategoryBinding
+import com.doanducdat.shoppingapp.module.category.Category
 import com.doanducdat.shoppingapp.module.category.CategoryListFactory
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -16,7 +21,15 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 
 
 class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyActionApp {
-    val adapter = CategoryBasicAdapter()
+    private val controller by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
+    }
+    private val callbackClickCategory: (category: Category) -> Unit = {
+        val bundleCategory = bundleOf("CATEGORY" to it)
+        controller.navigate(R.id.productListFragment, bundleCategory)
+    }
+    val adapter by lazy { CategoryBasicAdapter(callbackClickCategory) }
     lateinit var listNameCategory: MutableList<TextView>
 
     override fun getFragmentBinding(

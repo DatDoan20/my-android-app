@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -22,6 +25,9 @@
         <action
             android:id="@+id/action_searchFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -44,5 +50,12 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.product.ProductListFragment"
+        android:label="ProductListFragment" />
 </navigation>
