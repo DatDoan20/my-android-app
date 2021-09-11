@@ -25,11 +25,8 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
-    private val callbackClickCategory: (category: Category) -> Unit = {
-        val bundleCategory = bundleOf("CATEGORY" to it)
-        controller.navigate(R.id.productListFragment, bundleCategory)
-    }
-    val adapter by lazy { CategoryBasicAdapter(callbackClickCategory) }
+
+    val womanCategoryAdapter by lazy { CategoryBasicAdapter() }
     lateinit var listNameCategory: MutableList<TextView>
 
     override fun getFragmentBinding(
@@ -61,7 +58,11 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
             requireContext(), 2,
             RecyclerView.VERTICAL, false
         )
-        binding.rcvWomanCategory.adapter = adapter
+        binding.rcvWomanCategory.adapter = womanCategoryAdapter
+        womanCategoryAdapter.mySetOnClickCategoryAdapter {
+            val bundleCategory = bundleOf("CATEGORY" to it)
+            controller.navigate(R.id.productListFragment, bundleCategory)
+        }
     }
 
     private fun setUpActionClick() {
@@ -100,26 +101,28 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
 
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.SELECT_DRESS -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().womanDress())
+                womanCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().womanDress())
             }
             AppConstants.ActionClick.SELECT_SHIRT -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().womanShirt())
-
+                womanCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().womanShirt())
             }
             AppConstants.ActionClick.SELECT_TROUSER -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().womanTrouser())
-
+                womanCategoryAdapter.setCategoryList(
+                    CategoryListFactory.getInstance().womanTrouser()
+                )
             }
             AppConstants.ActionClick.SELECT_HOME_WEAR -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().womanHomeWear())
-
+                womanCategoryAdapter.setCategoryList(
+                    CategoryListFactory.getInstance().womanHomeWear()
+                )
             }
             AppConstants.ActionClick.SELECT_COAT -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().womanCoat())
-
+                womanCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().womanCoat())
             }
             AppConstants.ActionClick.SELECT_SPORT_WEAR -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().womanSportWear())
+                womanCategoryAdapter.setCategoryList(
+                    CategoryListFactory.getInstance().womanSportWear()
+                )
             }
         }
     }

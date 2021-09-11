@@ -11,7 +11,7 @@ object ResponseValidation {
                 e.code().toString() + "\n" + e.response()?.errorBody()?.source()
             }
             is IOException -> {
-                AppConstants.MsgErr.GENERIC_ERR_RESPONSE
+                AppConstants.MsgErr.GENERIC_ERR_MSG
             }
             else -> e.message.toString()
         }

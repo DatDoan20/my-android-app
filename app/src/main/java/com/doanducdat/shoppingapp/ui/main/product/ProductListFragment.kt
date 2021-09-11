@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -33,7 +34,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
     private val productAdapter = ProductPagingAdapter()
     private var jobLoadProducts: Job? = null
-    private val viewModel: ProductListViewModel by viewModels()
+    private val viewModel: ProductViewModel by viewModels()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -42,6 +43,8 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpBackFragment()
+
         //get category form another fragment to search in here
         getDataFromAnotherFragment()
 
@@ -50,12 +53,17 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         setUpRcvListProduct()
         setUpRefreshLayout()
         listenStateLoadProduct()
-        loadProductSearched()
+        if (productAdapter.itemCount == 0) {
+            loadProductSearched()
+        }
+    }
 
-        binding.myAppBarLayout.imgAvatar.setOnClickListener {
+
+    private fun setUpBackFragment() {
+        binding.myAppBarLayout.imgBack.visibility = View.VISIBLE
+        binding.myAppBarLayout.imgBack.setOnClickListener {
             controller.popBackStack()
         }
-
     }
 
     private fun getDataFromAnotherFragment() {
@@ -80,6 +88,9 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
         binding.rcvListProductByCategory.setHasFixedSize(false)
         binding.rcvListProductByCategory.adapter = productAdapter
+        productAdapter.mySetOnClickProduct {
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+        }
     }
 
     private fun setUpRefreshLayout() {

@@ -12,6 +12,12 @@ import com.doanducdat.shoppingapp.module.product.Product
 class ProductPagingAdapter :
     PagingDataAdapter<Product, ProductPagingAdapter.ProductPagingViewHolder>(PRODUCT_COMPARATOR) {
 
+    var callbackClickProduct: (product: Product) -> Unit = {}
+
+    fun mySetOnClickProduct(callbackFun: (product: Product) -> Unit) {
+        callbackClickProduct = callbackFun
+    }
+
     inner class ProductPagingViewHolder(val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product?) {
@@ -21,6 +27,9 @@ class ProductPagingAdapter :
                 binding.ratingBar.rating = product.ratingsAverage
                 binding.txtPriceProduct.text = product.getPrice()
                 binding.txtDiscountProduct.text = product.getDiscount()
+                binding.layoutItemProduct.setOnClickListener {
+                    callbackClickProduct(product)
+                }
             }
         }
     }

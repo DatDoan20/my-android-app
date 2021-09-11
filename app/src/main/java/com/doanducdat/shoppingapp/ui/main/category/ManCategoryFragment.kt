@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentManCategoryBinding
-import com.doanducdat.shoppingapp.module.category.Category
 import com.doanducdat.shoppingapp.module.category.CategoryListFactory
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -26,12 +25,7 @@ class ManCategoryFragment : BaseFragment<FragmentManCategoryBinding>(), MyAction
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
 
-    private val callbackClickCategory: (category: Category) -> Unit = {
-        val bundleCategory = bundleOf("CATEGORY" to it)
-        controller.navigate(R.id.productListFragment, bundleCategory)
-    }
-
-    private val adapter by lazy { CategoryBasicAdapter(callbackClickCategory) }
+    private val manCategoryAdapter by lazy { CategoryBasicAdapter() }
 
     lateinit var listNameCategory: MutableList<TextView>
 
@@ -61,7 +55,12 @@ class ManCategoryFragment : BaseFragment<FragmentManCategoryBinding>(), MyAction
             requireContext(), 2,
             RecyclerView.VERTICAL, false
         )
-        binding.rcvManCategory.adapter = adapter
+        binding.rcvManCategory.adapter = manCategoryAdapter
+
+        manCategoryAdapter.mySetOnClickCategoryAdapter {
+            val bundleCategory = bundleOf("CATEGORY" to it)
+            controller.navigate(R.id.productListFragment, bundleCategory)
+        }
     }
 
     private fun setUpActionClick() {
@@ -95,23 +94,19 @@ class ManCategoryFragment : BaseFragment<FragmentManCategoryBinding>(), MyAction
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.SELECT_SHIRT -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().manShirt())
-
+                manCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().manShirt())
             }
             AppConstants.ActionClick.SELECT_TROUSER -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().manTrouser())
-
+                manCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().manTrouser())
             }
             AppConstants.ActionClick.SELECT_HOME_WEAR -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().manHomeWear())
-
+                manCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().manHomeWear())
             }
             AppConstants.ActionClick.SELECT_COAT -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().manCoat())
-
+                manCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().manCoat())
             }
             AppConstants.ActionClick.SELECT_SPORT_WEAR -> {
-                adapter.setCategoryList(CategoryListFactory.getInstance().manSportWear())
+                manCategoryAdapter.setCategoryList(CategoryListFactory.getInstance().manSportWear())
             }
         }
     }

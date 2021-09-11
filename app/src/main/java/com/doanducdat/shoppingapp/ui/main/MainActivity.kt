@@ -24,24 +24,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun setUpActionClick() {
         binding.bubbleBtmNvgMain.setNavigationChangeListener { _, position ->
+            //navigate fragment when click
             when (position) {
                 0 -> {
-                    controller.navigate(R.id.homeFragment)
+                    navigationToFragment(R.id.homeFragment)
                 }
                 1 -> {
-                    controller.navigate(R.id.categoryFragment)
+                    navigationToFragment(R.id.categoryFragment)
                 }
                 2 -> {
-                    controller.navigate(R.id.searchFragment)
+                    navigationToFragment(R.id.searchFragment)
                 }
                 3 -> {
-                    controller.navigate(R.id.cartFragment)
+                    navigationToFragment(R.id.cartFragment)
                 }
                 4 -> {
-                    controller.navigate(R.id.profileFragment)
+                    navigationToFragment(R.id.profileFragment)
                 }
             }
         }
+        //hide bottom navigation
         controller.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.searchFragment -> {
@@ -51,9 +53,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.productListFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
+                R.id.productFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
                 else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE
 
             }
+        }
+    }
+
+    fun navigationToFragment(idFragment: Int) {
+        if (fragmentIsInBackStack(idFragment)) {
+            //this fragment is in backstack
+            controller.popBackStack(idFragment, false)
+        } else {
+            controller.navigate(idFragment)
+        }
+    }
+
+    private fun fragmentIsInBackStack(idFragment: Int): Boolean {
+        return try {
+            controller.getBackStackEntry(idFragment)
+            true
+        } catch (e: Exception) {
+            false
         }
     }
 }

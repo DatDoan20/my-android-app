@@ -24,6 +24,7 @@
     <string name="profile">Cá nhân</string>
     <string name="avatar">Ảnh đại diện</string>
     <string name="imageCover">Ảnh đại diện sản phẩm</string>
+    <string name="imageProduct">Ảnh sản phẩm</string>
     <string name="seeAll">Xem tất cả</string>
     <string name="newProduct">Sản phẩm mới</string>
     <string name="saleProduct">Sản phẩm đang giảm giá</string>
@@ -41,5 +42,7 @@
     <string name="desEditProfile">Chỉnh sửa thông tin cá nhân: tên, giới tính, ngày sinh, ảnh đại diện</string>
     <string name="titleSignOut">Đăng xuất</string>
     <string name="desSignOut">Thoát tài khoản đăng nhập, bạn có thể đăng nhập tài khoản khác</string>
+    <string name="notify">Thông báo</string>
+    <string name="back">Trở về</string>
 
 </resources>

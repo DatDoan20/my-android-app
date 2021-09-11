@@ -39,11 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     private val newProductAdapter by lazy { ProductBasicAdapter() }
     private val saleProductAdapter by lazy { ProductBasicAdapter() }
 
-    private val callbackClickCategory: (category: Category) -> Unit = {
-        val bundleCategory = bundleOf("CATEGORY" to it)
-        controller.navigate(R.id.productListFragment, bundleCategory)
-    }
-    private val hotCategoryAdapter by lazy { CategoryBasicAdapter(callbackClickCategory) }
+    private val hotCategoryAdapter by lazy { CategoryBasicAdapter() }
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -64,17 +60,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         //New product
         setUpRecycleViewNewProduct()
         subscribeLoadNewProduct()
-        loadIntroNewProduct()
-
+        // ==0 is : fragment not in backstack, open fragment in backstack not load again data
+        if (newProductAdapter.itemCount == 0) {
+            loadIntroNewProduct()
+        }
         //Sale product
         setUpRecycleViewSaleProduct()
         subscribeLoadSaleProduct()
-        loadIntroSaleProducts()
-
+        if (saleProductAdapter.itemCount == 0) {
+            loadIntroSaleProducts()
+        }
         //Hot Category
         setUpRecyclerviewHotCategory()
-        loadHotCategory()
-
+        if (hotCategoryAdapter.itemCount == 0) {
+            loadHotCategory()
+        }
         //when refresh layout -> load all data relate
         setUpSwipeRefreshLayout()
 
@@ -188,12 +188,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         binding.rcvHotCategory.setHasFixedSize(true)
         binding.rcvHotCategory.isNestedScrollingEnabled = false
         binding.rcvHotCategory.adapter = hotCategoryAdapter
+
+        //set event click recyclerview
+        hotCategoryAdapter.mySetOnClickCategoryAdapter {
+            val bundleCategory = bundleOf("CATEGORY" to it)
+            controller.navigate(R.id.productListFragment, bundleCategory)
+        }
     }
     //endregion
 
     private fun setUpSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            subscribeLoadNewProduct()
+            loadIntroNewProduct()
+            loadIntroSaleProducts()
         }
     }
 

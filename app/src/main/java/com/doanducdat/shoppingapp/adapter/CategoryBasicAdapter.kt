@@ -7,14 +7,19 @@ import com.doanducdat.shoppingapp.databinding.ItemHotCategoryBinding
 import com.doanducdat.shoppingapp.module.category.Category
 
 class CategoryBasicAdapter(
-    val callbackClickCategory: (category: Category) -> Unit
 ) : RecyclerView.Adapter<CategoryBasicAdapter.CategoryViewHolder>() {
+
+    private var callbackClickCategory: (category: Category) -> Unit = {}
 
     private var categoryList: MutableList<Category> = mutableListOf()
 
     fun setCategoryList(categoryList: MutableList<Category>) {
         this.categoryList = categoryList
         notifyDataSetChanged()
+    }
+
+    fun mySetOnClickCategoryAdapter(function: (category: Category) -> Unit) {
+        callbackClickCategory = function
     }
 
     inner class CategoryViewHolder(val binding: ItemHotCategoryBinding) :
@@ -24,7 +29,7 @@ class CategoryBasicAdapter(
             binding.imgHotCategory.setImageResource(category.ImageResource)
             binding.txtNameHotCategory.text = category.name
             binding.layoutItemCategory.setOnClickListener {
-                callbackClickCategory(category)
+                callbackClickCategory.invoke(category)
             }
         }
     }

@@ -1,7 +1,9 @@
 package com.doanducdat.shoppingapp.module.product
 
+import com.doanducdat.shoppingapp.module.review.Review
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.text.DecimalFormat
 
 class Product(
@@ -23,8 +25,9 @@ class Product(
     val type: String,
     val category: String,
     val ratingsAverage: Float,
-    val ratingsQuantity: Int
-) {
+    val ratingsQuantity: Int,
+    val reviews: List<Review>
+) : Serializable{
     fun getPrice(): String? {
         val dec = DecimalFormat("#,###")
         return dec.format(this.price)
@@ -35,6 +38,20 @@ class Product(
     }
 
     fun getUrlImgCover(): String {
-        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.PRODUCT}${id}/${imageCover}"
+        return getUrlImg(imageCover)
+    }
+
+    fun getUrlImages(): MutableList<String> {
+        val urlImagesProduct: MutableList<String> = mutableListOf()
+        this.images.forEach {
+            urlImagesProduct.add(getUrlImg(it))
+        }
+        return urlImagesProduct
+    }
+
+    private fun getUrlImg(name: String): String {
+        //imageCover and images are name of image, not link
+        // thi fun return URL of image
+        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.PRODUCT}${id}/${name}"
     }
 }

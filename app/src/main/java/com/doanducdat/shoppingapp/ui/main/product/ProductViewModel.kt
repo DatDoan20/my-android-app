@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductListViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
 

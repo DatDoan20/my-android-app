@@ -8,70 +8,82 @@
     android:background="@color/textTitleColorGeneric"
     android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_tool_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:titleEnabled="false">
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/collapsing_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:fitsSystemWindows="true"
+        app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+        app:titleEnabled="false">
 
-            <SearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/bg_search_view"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/searchProduct"
+            android:theme="@style/MySearchView"
+            app:layout_collapseMode="pin" />
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:elevation="0dp"
+            app:layout_collapseMode="pin">
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:paddingTop="@dimen/_10sdp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingStart="@dimen/_1sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back_white" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_gravity="start"
+                android:layout_margin="@dimen/_10sdp"
+                android:src="@drawable/otter"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/_1sdp" />
+            <!--
+            <SearchView
+                android:id="@+id/search_view_top"
+                android:layout_width="@dimen/_210sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_50sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_6sdp"
-                android:animateLayoutChanges="true"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/bg_search_view"
                 android:iconifiedByDefault="false"
+                android:visibility="gone"
                 android:queryHint="@string/searchProduct"
                 android:theme="@style/MySearchView"
                 app:layout_collapseMode="pin" />
+            -->
+            <include
+                layout="@layout/layout_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/_10sdp" />
+        </com.google.android.material.appbar.MaterialToolbar>
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center_horizontal"
-                android:elevation="0dp"
-                app:layout_collapseMode="pin">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/img_avatar"
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_gravity="start"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:src="@drawable/otter"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="@dimen/_1sdp" />
-                <!--
-                <SearchView
-                    android:id="@+id/search_view_top"
-                    android:layout_width="@dimen/_210sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:background="@drawable/bg_search_view"
-                    android:iconifiedByDefault="false"
-                    android:visibility="gone"
-                    android:queryHint="@string/searchProduct"
-                    android:theme="@style/MySearchView"
-                    app:layout_collapseMode="pin" />
-                -->
-                <include
-                    layout="@layout/layout_notification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_margin="@dimen/_10sdp" />
-            </com.google.android.material.appbar.MaterialToolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 </com.google.android.material.appbar.AppBarLayout>
