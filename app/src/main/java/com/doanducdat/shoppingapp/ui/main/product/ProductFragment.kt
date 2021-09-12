@@ -57,17 +57,25 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun listenNestedScroll() {
         binding.nestedScrollViewProduct.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (scrollY in 0..300) {
-                val alpha = scrollY / 300F
+            if (scrollY in 0..500) {
+                val alpha = scrollY / 500F
                 val resultColor = ColorUtils.blendARGB(
                     ContextCompat.getColor(requireContext(), R.color.colorTransparent0),
                     ContextCompat.getColor(requireContext(), R.color.bgColorBtnGeneric), alpha
                 )
                 binding.layoutToolBarProduct.setBackgroundColor(resultColor)
                 binding.imgBack.background = null
+                binding.imgMyCart.background = null
+                binding.imgReview.background = null
                 binding.imgAddToCart.background = null
-            } else if (scrollY < 50 && oldScrollY > scrollY) {
+            }
+            if (scrollY < 50 && oldScrollY > scrollY) {
+                showToast("top")
                 binding.imgBack.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
+                binding.imgMyCart.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
+                binding.imgReview.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
                 binding.imgAddToCart.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)

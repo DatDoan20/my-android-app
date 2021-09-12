@@ -43,6 +43,8 @@
     <string name="titleSignOut">Đăng xuất</string>
     <string name="desSignOut">Thoát tài khoản đăng nhập, bạn có thể đăng nhập tài khoản khác</string>
     <string name="notify">Thông báo</string>
+    <string name="myCart">Giỏ hàng</string>
+    <string name="review">Đánh giá</string>
     <string name="back">Trở về</string>
     <string name="Color">Màu sắc:</string>
     <string name="price">Giá: </string>

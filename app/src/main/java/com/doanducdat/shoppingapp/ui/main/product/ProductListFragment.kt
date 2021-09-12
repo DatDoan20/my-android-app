@@ -44,7 +44,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpBackFragment()
-
+        setUpMyCart()
         //get category form another fragment to search in here
         getDataFromAnotherFragment()
 
@@ -58,12 +58,16 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         }
     }
 
-
     private fun setUpBackFragment() {
         binding.myAppBarLayout.imgBack.visibility = View.VISIBLE
         binding.myAppBarLayout.imgBack.setOnClickListener {
             controller.popBackStack()
         }
+    }
+
+    private fun setUpMyCart() {
+        binding.myAppBarLayout.imgMyCard.visibility = View.VISIBLE
+        //set click...
     }
 
     private fun getDataFromAnotherFragment() {
