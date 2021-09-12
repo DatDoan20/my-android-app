@@ -11,7 +11,7 @@ class Product(
     val id: String,
     val name: String,
     val description: String,
-    val images: List<String>,
+    private val images: List<String>,
     private val imageCover: String,
     val slug: String,
     private val price: Int,

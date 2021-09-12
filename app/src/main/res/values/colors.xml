@@ -35,4 +35,6 @@
     <color name="colorProductPicked">#5E5E5E</color>
     <color name="sizeProductUnPick">#505050</color>
     <color name="sizeProductPicked">#261c87</color>
+    <color name="colorTransparent50">#80000000</color>
+    <color name="colorTransparent0">#00000000</color>
 </resources>

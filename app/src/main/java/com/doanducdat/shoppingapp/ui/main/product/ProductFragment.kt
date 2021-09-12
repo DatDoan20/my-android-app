@@ -79,10 +79,16 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
 
     @SuppressLint("SetTextI18n")
     private fun setUpInfoProduct() {
-        binding.txtName.text = productSelected.name
-        binding.txtPrice.text = productSelected.getPrice()
-        binding.txtRating.text = "${productSelected.ratingsAverage}"
-        binding.txtRatingQuantity.text = productSelected.getRatingsQuantity()
+        with(binding) {
+            txtName.text = productSelected.name
+            txtPrice.text = productSelected.getPrice()
+            txtRating.text = "${productSelected.ratingsAverage}"
+            txtRatingQuantity.text = productSelected.getRatingsQuantity()
+            txtBrand.text = productSelected.brand
+            txtMaterial.text = productSelected.material
+            txtPattern.text = productSelected.pattern
+            txtDes.text = productSelected.description
+        }
 
         //rcv color + listen click
         binding.rcvColors.layoutManager =
