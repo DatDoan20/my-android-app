@@ -56,6 +56,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.productFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
+                R.id.productPhotoViewFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
                 else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE
 
             }

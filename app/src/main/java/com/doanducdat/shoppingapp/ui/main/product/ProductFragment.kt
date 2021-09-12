@@ -1,10 +1,16 @@
 package com.doanducdat.shoppingapp.ui.main.product
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +31,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
-    lateinit var productSelected: Product
+    private lateinit var productSelected: Product
     private val productColorAdapter = ProductColorAdapter()
     private val productSizeAdapter = ProductSizeAdapter()
 
@@ -35,6 +41,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
     ): FragmentProductBinding = FragmentProductBinding.inflate(inflater, container, false)
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpBackFragment()
@@ -43,7 +50,31 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
         getDataFromAnotherFragment()
         setUpSlideImageProduct()
         setUpInfoProduct()
+        //this fun require > android 6
+        listenNestedScroll()
     }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun listenNestedScroll() {
+        binding.nestedScrollViewProduct.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY in 0..300) {
+                val alpha = scrollY / 300F
+                val resultColor = ColorUtils.blendARGB(
+                    ContextCompat.getColor(requireContext(), R.color.colorTransparent0),
+                    ContextCompat.getColor(requireContext(), R.color.bgColorBtnGeneric), alpha
+                )
+                binding.layoutToolBarProduct.setBackgroundColor(resultColor)
+                binding.imgBack.background = null
+                binding.imgAddToCart.background = null
+            } else if (scrollY < 50 && oldScrollY > scrollY) {
+                binding.imgBack.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
+                binding.imgAddToCart.background =
+                    ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
+            }
+        }
+    }
+
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
@@ -67,6 +98,13 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
     private fun setUpViewPager() {
         val adapter: SlideImageProductAdapter = SlideImageProductAdapter()
         adapter.setUrlImagesProduct(productSelected.getUrlImages())
+        adapter.mySetOnclickImage {
+            //click any one img in viewpager -> navigate
+            controller.navigate(
+                R.id.productPhotoViewFragment,
+                bundleOf("URL_IMAGES" to productSelected.getUrlImages())
+            )
+        }
         binding.viewPagerImgsProduct.adapter = adapter
         binding.viewPagerImgsProduct.offscreenPageLimit = 5
     }
@@ -145,6 +183,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
             txtSize.background = bgItemSize
         }
     }
+
 
 }
 

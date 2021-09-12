@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemImgProductBinding
+import com.doanducdat.shoppingapp.databinding.ItemSmallImgProductBinding
 
-class SlideImageProductAdapter :
-    RecyclerView.Adapter<SlideImageProductAdapter.SlideImageProductViewHolder>() {
+class SlideImageSmallProductAdapter :
+    RecyclerView.Adapter<SlideImageSmallProductAdapter.SlideImageSmallProductViewHolder>() {
 
     private var urlImagesProduct: MutableList<String> = mutableListOf()
 
@@ -16,18 +17,18 @@ class SlideImageProductAdapter :
         this.urlImagesProduct = urlImages
     }
 
-    private var callbackClickImage: () -> Unit = {}
-    fun mySetOnclickImage(funClickImage: () -> Unit) {
+    private var callbackClickImage: (image: Drawable) -> Unit = {}
+    fun mySetOnclickImage(funClickImage: (image: Drawable) -> Unit) {
         callbackClickImage = funClickImage
     }
 
-    inner class SlideImageProductViewHolder(val binding: ItemImgProductBinding) :
+    inner class SlideImageSmallProductViewHolder(val binding: ItemSmallImgProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(urlImg: String) {
             binding.imgProduct.load(urlImg)
             binding.imgProduct.setOnClickListener {
-                callbackClickImage.invoke()
+                callbackClickImage(binding.imgProduct.drawable)
             }
         }
     }
@@ -35,14 +36,14 @@ class SlideImageProductAdapter :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SlideImageProductAdapter.SlideImageProductViewHolder {
+    ): SlideImageSmallProductAdapter.SlideImageSmallProductViewHolder {
         val binding =
-            ItemImgProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SlideImageProductViewHolder(binding)
+            ItemSmallImgProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SlideImageSmallProductViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SlideImageProductViewHolder, position: Int) {
-        holder.bind(urlImagesProduct[position])
+    override fun onBindViewHolder(holderSmall: SlideImageSmallProductViewHolder, position: Int) {
+        holderSmall.bind(urlImagesProduct[position])
     }
 
     override fun getItemCount(): Int {

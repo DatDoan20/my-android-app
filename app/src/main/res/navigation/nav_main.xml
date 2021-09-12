@@ -65,5 +65,13 @@
     <fragment
         android:id="@+id/productFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.product.ProductFragment"
-        android:label="ProductFragment" />
+        android:label="ProductFragment" >
+        <action
+            android:id="@+id/action_productFragment_to_productPhotoViewFragment"
+            app:destination="@id/productPhotoViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productPhotoViewFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.product.ProductPhotoViewFragment"
+        android:label="ProductPhotoViewFragment" />
 </navigation>

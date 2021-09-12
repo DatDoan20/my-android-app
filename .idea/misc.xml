@@ -29,6 +29,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/circle_proress_bar.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_back.xml" value="0.18703703703703703" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_back_blue.xml" value="0.2786458333333333" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_back_white.xml" value="0.2743589743589744" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_edit.xml" value="0.17222222222222222" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_email.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_notifications.xml" value="0.2743589743589744" />
@@ -37,6 +38,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_unvalid.xml" value="0.2743589743589744" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/my_app_bar_layout.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout-v24/fragment_home.xml" value="0.2625" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout-v24/item_small_img_product.xml" value="0.26263678999478896" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/activity_on_boarding_screen.xml" value="0.2625" />
@@ -51,6 +53,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_man_category.xml" value="0.259375" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product.xml" value="0.2" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product_list.xml" value="0.2625" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product_photo_view.xml" value="0.26263678999478896" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_profile.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_search.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_second.xml" value="0.2625" />
@@ -66,6 +69,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_color.xml" value="0.25" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_size.xml" value="0.6" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_small_img_product.xml" value="0.1" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_state_load.xml" value="0.19537037037037036" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/layout_notification.xml" value="0.24351851851851852" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/layout_show_product_home.xml" value="0.264" />
