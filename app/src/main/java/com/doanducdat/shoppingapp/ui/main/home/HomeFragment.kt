@@ -184,7 +184,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private fun setUpRecyclerviewHotCategory() {
         binding.rcvHotCategory.layoutManager =
-            GridLayoutManager(requireContext(), 2, RecyclerView.HORIZONTAL, false)
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
         binding.rcvHotCategory.setHasFixedSize(true)
         binding.rcvHotCategory.isNestedScrollingEnabled = false
         binding.rcvHotCategory.adapter = hotCategoryAdapter

@@ -32,4 +32,7 @@
 
     <!-- main -->
     <color name="colorIcon">#FFFFFFFF</color>
+    <color name="colorProductPicked">#5E5E5E</color>
+    <color name="sizeProductUnPick">#505050</color>
+    <color name="sizeProductPicked">#261c87</color>
 </resources>

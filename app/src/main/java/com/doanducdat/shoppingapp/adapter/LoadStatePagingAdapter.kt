@@ -8,37 +8,37 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.databinding.ItemStateLoadBinding
 
-class LoadStatePagingAdapter(
-    private val retry: () -> Unit
-) : LoadStateAdapter<LoadStatePagingAdapter.LoadStatePagingViewHolder>() {
-
-     class LoadStatePagingViewHolder(val binding: ItemStateLoadBinding, retry: () -> Unit) :
-        RecyclerView.ViewHolder(binding.root) {
-         init {
-             binding.btnTryAgain.setOnClickListener { retry.invoke() }
-         }
-        fun bind(loadState: LoadState) {
-            if (loadState is LoadState.Error) {
-                binding.txtErrMsg.text = loadState.error.localizedMessage
-            }
-            //loading -> show progressbar
-            binding.spinKitProgressBar.isVisible = loadState is LoadState.Loading
-            //loading is done -> show button + text
-            binding.txtErrMsg.isVisible = loadState is LoadState.Error
-            binding.btnTryAgain.isVisible = loadState is LoadState.Error
-        }
-    }
-
-    override fun onBindViewHolder(holder: LoadStatePagingViewHolder, loadState: LoadState) {
-        holder.bind(loadState)
-    }
-
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        loadState: LoadState
-    ): LoadStatePagingViewHolder {
-        val binding =
-            ItemStateLoadBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return LoadStatePagingViewHolder(binding, retry)
-    }
-}
+//class LoadStatePagingAdapter(
+//    private val retry: () -> Unit
+//) : LoadStateAdapter<LoadStatePagingAdapter.LoadStatePagingViewHolder>() {
+//
+//     class LoadStatePagingViewHolder(val binding: ItemStateLoadBinding, retry: () -> Unit) :
+//        RecyclerView.ViewHolder(binding.root) {
+//         init {
+//             binding.btnTryAgain.setOnClickListener { retry.invoke() }
+//         }
+//        fun bind(loadState: LoadState) {
+//            if (loadState is LoadState.Error) {
+//                binding.txtErrMsg.text = loadState.error.localizedMessage
+//            }
+//            //loading -> show progressbar
+//            binding.spinKitProgressBar.isVisible = loadState is LoadState.Loading
+//            //loading is done -> show button + text
+//            binding.txtErrMsg.isVisible = loadState is LoadState.Error
+//            binding.btnTryAgain.isVisible = loadState is LoadState.Error
+//        }
+//    }
+//
+//    override fun onBindViewHolder(holder: LoadStatePagingViewHolder, loadState: LoadState) {
+//        holder.bind(loadState)
+//    }
+//
+//    override fun onCreateViewHolder(
+//        parent: ViewGroup,
+//        loadState: LoadState
+//    ): LoadStatePagingViewHolder {
+//        val binding =
+//            ItemStateLoadBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//        return LoadStatePagingViewHolder(binding, retry)
+//    }
+//}
