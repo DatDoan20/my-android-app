@@ -351,21 +351,33 @@
                 app:layout_constraintEnd_toStartOf="@id/img_add_to_cart"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/img_my_cart"
+            <include
+                android:id="@+id/layout_my_cart"
+                layout="@layout/layout_my_cart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/bg_back"
-                android:contentDescription="@string/myCart"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ic_cart_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/img_review"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit_progress_bar"
+            style="@style/SpinKitView.Large.FadingCircle"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/bgColorBtnGeneric"
+            app:circularflow_defaultRadius="@dimen/_50sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

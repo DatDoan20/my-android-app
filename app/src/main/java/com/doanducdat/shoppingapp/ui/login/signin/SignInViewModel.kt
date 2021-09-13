@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.user.UserSignIn
 import com.doanducdat.shoppingapp.repository.SignInRepository
-import com.doanducdat.shoppingapp.utils.response.DataState
+import com.doanducdat.shoppingapp.module.response.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

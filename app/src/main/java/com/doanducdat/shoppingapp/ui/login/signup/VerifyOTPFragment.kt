@@ -5,7 +5,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -16,7 +15,7 @@ import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
-import com.doanducdat.shoppingapp.utils.response.Status
+import com.doanducdat.shoppingapp.module.response.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

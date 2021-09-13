@@ -3,6 +3,7 @@ package com.doanducdat.shoppingapp.retrofit
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.Query
 
 
@@ -23,6 +24,5 @@ interface ProductAPI {
         @Query("category") category: String? = null,
         @Query("type") type: String? = null,
     ): ResponseProduct
-
 
 }

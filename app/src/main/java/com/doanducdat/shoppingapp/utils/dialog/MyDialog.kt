@@ -36,6 +36,10 @@ class MyBasicDialog(context: Context) {
         }
     }
 
+    fun setTextButton(msgButton: String){
+        val btnTryAgain: Button = dialog.findViewById(R.id.btn_try_again)
+        btnTryAgain.text = msgButton
+    }
     fun setText(msgDialog: String) {
         val msgText: TextView = dialog.findViewById(R.id.txt_msg)
         msgText.text = msgDialog

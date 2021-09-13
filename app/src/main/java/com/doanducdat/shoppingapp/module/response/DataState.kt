@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.utils.response
+package com.doanducdat.shoppingapp.module.response
 
 data class DataState<out T>(val status: Status, val response: T?, val message: String?) {
     /***

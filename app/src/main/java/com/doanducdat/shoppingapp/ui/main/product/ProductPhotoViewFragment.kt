@@ -43,7 +43,6 @@ class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>()
         val bundle = arguments
         if (bundle != null) {
             urlImages = bundle.getStringArrayList("URL_IMAGES")!!
-            showToast(urlImages.size.toString())
         }
     }
 

@@ -6,7 +6,7 @@ import com.doanducdat.shoppingapp.module.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.PhoneAuthentication
-import com.doanducdat.shoppingapp.utils.response.DataState
+import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.coroutines.flow.flow

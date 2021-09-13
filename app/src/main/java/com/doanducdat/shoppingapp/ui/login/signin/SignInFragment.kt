@@ -2,7 +2,6 @@ package com.doanducdat.shoppingapp.ui.login.signin
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.MyDataStore
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
-import com.doanducdat.shoppingapp.utils.response.Status
+import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

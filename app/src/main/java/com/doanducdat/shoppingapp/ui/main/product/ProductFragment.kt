@@ -1,9 +1,10 @@
 package com.doanducdat.shoppingapp.ui.main.product
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,21 +21,33 @@ import com.doanducdat.shoppingapp.adapter.ProductColorAdapter
 import com.doanducdat.shoppingapp.adapter.ProductSizeAdapter
 import com.doanducdat.shoppingapp.adapter.SlideImageProductAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductBinding
+import com.doanducdat.shoppingapp.module.cart.Cart
+import com.doanducdat.shoppingapp.module.cart.Carts
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductColor
+import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.MyBgCustom
+import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
+import dagger.hilt.android.AndroidEntryPoint
 
-
-class ProductFragment : BaseFragment<FragmentProductBinding>() {
+@AndroidEntryPoint
+class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
 
     private val controller by lazy {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
     private lateinit var productSelected: Product
+
     private val productColorAdapter = ProductColorAdapter()
     private val productSizeAdapter = ProductSizeAdapter()
+
+    private val myBasicDialog by lazy { MyBasicDialog(requireContext()) }
+    private val viewModel: ProductViewModel by viewModels()
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -52,6 +66,12 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
         setUpInfoProduct()
         //this fun require > android 6
         listenNestedScroll()
+
+        //listen click
+        listenLoadingForm()
+
+        //click
+        setUpActionClick()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -65,15 +85,15 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
                 )
                 binding.layoutToolBarProduct.setBackgroundColor(resultColor)
                 binding.imgBack.background = null
-                binding.imgMyCart.background = null
+                binding.layoutMyCart.imgMyCart.background = null
                 binding.imgReview.background = null
                 binding.imgAddToCart.background = null
             }
+            //scroll up and < 50
             if (scrollY < 50 && oldScrollY > scrollY) {
-                showToast("top")
                 binding.imgBack.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
-                binding.imgMyCart.background =
+                binding.layoutMyCart.imgMyCart.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
                 binding.imgReview.background =
                     ContextCompat.getDrawable(requireContext(), R.drawable.bg_back)
@@ -123,6 +143,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
 
     //endregion
 
+    //region set info product
     @SuppressLint("SetTextI18n")
     private fun setUpInfoProduct() {
         with(binding) {
@@ -192,7 +213,117 @@ class ProductFragment : BaseFragment<FragmentProductBinding>() {
         }
     }
 
+    //endregion
 
+    //region listen
+    private fun listenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            if (it) {
+                with(binding) {
+                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                    setStateViews(
+                        false,
+                        imgBack,
+                        layoutMyCart.imgMyCart,
+                        imgReview,
+                        imgAddToCart,
+                        viewPagerImgsProduct
+                    )
+                }
+            } else {
+                with(binding) {
+                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                    setStateViews(
+                        true,
+                        imgBack,
+                        layoutMyCart.imgMyCart,
+                        imgReview,
+                        imgAddToCart,
+                        viewPagerImgsProduct
+                    )
+                }
+            }
+        })
+    }
+
+    private fun listenAddToCart() {
+        viewModel.dataStateAddToCart.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    myBasicDialog.setText(it.message!!)
+                    myBasicDialog.show()
+                    viewModel.isLoading.value = false
+                }
+                Status.SUCCESS -> {
+                    myBasicDialog.setText("${productSelected.name} Đã được thêm vào giỏ hàng")
+                    myBasicDialog.setTextButton("OK")
+                    myBasicDialog.show()
+                    InfoUser.currentUser = it.response!!.data
+                    binding.layoutMyCart.imgRedDot.text =
+                        InfoUser.currentUser!!.cart.size.toString()
+                    viewModel.isLoading.value = false
+                }
+            }
+        })
+    }
+    //endregion
+
+    private fun setUpActionClick() {
+        binding.imgAddToCart.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.ADD_TO_CART)
+        }
+    }
+
+    override fun doActionClick(CODE_ACTION_CLICK: Int) {
+        when (CODE_ACTION_CLICK) {
+            AppConstants.ActionClick.ADD_TO_CART -> {
+                checkPreAddToCart()
+            }
+        }
+    }
+
+    private fun checkPreAddToCart() {
+        var msgErr: String = ""
+        var isErr: Boolean = false
+        if (TextUtils.isEmpty(binding.txtColorName.text.toString().trim())) {
+            msgErr = AppConstants.MsgErr.COLOR_ERR_MSG + "\n"
+            isErr = true
+        }
+        if (TextUtils.isEmpty(binding.txtSize.text.toString().trim())) {
+            msgErr += AppConstants.MsgErr.SIZE_ERR_MSG
+            isErr = true
+        }
+        if (isErr) {
+            myBasicDialog.setText(msgErr)
+            myBasicDialog.show()
+            return
+        }
+        //check if product is exist in cart
+        InfoUser.currentUser?.cart?.forEach {
+            if (it.infoProduct == productSelected.id) {
+                myBasicDialog.setText(AppConstants.MsgErr.PRODUCT_IS_EXIST_IN_CART)
+                myBasicDialog.show()
+                return
+            }
+        }
+        addToCart()
+    }
+
+    private fun addToCart() {
+        listenAddToCart()
+        val cart: Cart =
+            Cart(
+                binding.txtColorName.text.toString(),
+                productSelected.getUnFormatPrice(),
+                productSelected.id,
+                1,
+                binding.txtSize.text.toString()
+            )
+        viewModel.addToCart(cart)
+    }
 }
 
 
