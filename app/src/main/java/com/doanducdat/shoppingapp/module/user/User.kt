@@ -1,6 +1,6 @@
 package com.doanducdat.shoppingapp.module.user
 
-import com.doanducdat.shoppingapp.module.cart.Cart
+import com.doanducdat.shoppingapp.module.cart.PopulatedCart
 import com.google.gson.annotations.SerializedName
 
 data class User(
@@ -8,7 +8,7 @@ data class User(
     val id: String,
     val avatar: String,
     val birthYear: String,
-    val cart: List<Cart>,
+    val cart: MutableList<PopulatedCart>,
     val createdAt: String,
     val email: String,
     val favProducts: List<Any>,

@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.module.product
 
+import android.util.Log
 import com.doanducdat.shoppingapp.module.review.Review
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName
@@ -37,8 +38,18 @@ class Product(
         return price
     }
 
+    fun getPriceUnDiscount(): String {
+        val priceUnDiscount: Double = (price / ((100 - discount).toDouble() / 100))
+        val dec = DecimalFormat("#,###")
+        return dec.format(priceUnDiscount) + " đ"
+    }
+
     fun getDiscount(): String {
         return "-$discount%"
+    }
+
+    fun getUnFormatDiscount(): Int {
+        return discount
     }
 
     fun getRatingsQuantity(): String {

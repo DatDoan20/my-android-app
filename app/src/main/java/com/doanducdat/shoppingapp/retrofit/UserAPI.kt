@@ -1,7 +1,6 @@
 package com.doanducdat.shoppingapp.retrofit
 
 import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.cart.Carts
 import com.doanducdat.shoppingapp.module.response.ResponseAddToCart
 import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.user.UserSignIn

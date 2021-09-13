@@ -1,10 +1,10 @@
 package com.doanducdat.shoppingapp.ui.main.product
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +22,6 @@ import com.doanducdat.shoppingapp.adapter.ProductSizeAdapter
 import com.doanducdat.shoppingapp.adapter.SlideImageProductAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductBinding
 import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.cart.Carts
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductColor
 import com.doanducdat.shoppingapp.module.response.Status
@@ -155,6 +154,14 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
             txtMaterial.text = productSelected.material
             txtPattern.text = productSelected.pattern
             txtDes.text = productSelected.description
+            if (productSelected.getUnFormatDiscount() != 0) {
+                txtDiscountProduct.text = productSelected.getDiscount()
+                txtPriceNotDiscount.text = productSelected.getPriceUnDiscount()
+                txtPriceNotDiscount.paintFlags =
+                    txtPriceNotDiscount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                txtDiscountProduct.visibility = View.VISIBLE
+                txtPriceNotDiscount.visibility = View.VISIBLE
+            }
         }
 
         //rcv color + listen click
@@ -303,7 +310,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         }
         //check if product is exist in cart
         InfoUser.currentUser?.cart?.forEach {
-            if (it.infoProduct == productSelected.id) {
+            if (it.infoProduct.id == productSelected.id) {
                 myBasicDialog.setText(AppConstants.MsgErr.PRODUCT_IS_EXIST_IN_CART)
                 myBasicDialog.show()
                 return

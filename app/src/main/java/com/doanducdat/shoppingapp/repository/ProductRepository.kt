@@ -4,7 +4,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.cart.Carts
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.paging.ProductPagingSource

@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.cart.Carts
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseAddToCart

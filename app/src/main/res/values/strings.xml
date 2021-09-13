@@ -48,11 +48,12 @@
     <string name="back">Trở về</string>
     <string name="Color">Màu sắc:</string>
     <string name="price">Giá: </string>
-    <string name="Size">Kích thước size:</string>
+    <string name="Size">Kích cỡ:</string>
     <string name="infoProduct">Thông tin sản phẩm</string>
     <string name="desProduct">Mô tả sản phẩm</string>
     <string name="pattern">Kiểu dáng:</string>
     <string name="brand">Thương hiệu:</string>
     <string name="material">Chất liệu:</string>
+    <string name="quantity">Số lượng</string>
 
 </resources>

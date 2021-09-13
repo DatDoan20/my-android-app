@@ -16,16 +16,17 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:id="@+id/txt_msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:gravity="center"
                 android:textColor="@color/textTitleColorGeneric"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_try_again"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

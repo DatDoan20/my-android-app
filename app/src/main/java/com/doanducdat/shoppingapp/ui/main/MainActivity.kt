@@ -65,7 +65,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    fun navigationToFragment(idFragment: Int) {
+    private fun navigationToFragment(idFragment: Int) {
         if (fragmentIsInBackStack(idFragment)) {
             //this fragment is in backstack
             controller.popBackStack(idFragment, false)
