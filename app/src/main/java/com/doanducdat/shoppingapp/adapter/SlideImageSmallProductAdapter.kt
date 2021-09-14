@@ -2,11 +2,13 @@ package com.doanducdat.shoppingapp.adapter
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.doanducdat.shoppingapp.databinding.ItemImgProductBinding
 import com.doanducdat.shoppingapp.databinding.ItemSmallImgProductBinding
+import com.google.android.material.card.MaterialCardView
 
 class SlideImageSmallProductAdapter :
     RecyclerView.Adapter<SlideImageSmallProductAdapter.SlideImageSmallProductViewHolder>() {
@@ -17,10 +19,14 @@ class SlideImageSmallProductAdapter :
         this.urlImagesProduct = urlImages
     }
 
-    private var callbackClickImage: (image: Drawable) -> Unit = {}
-    fun mySetOnclickImage(funClickImage: (image: Drawable) -> Unit) {
-        callbackClickImage = funClickImage
+    private var callbackClickLayoutImage: (layoutImage: MaterialCardView, clickedImage: Drawable) -> Unit =
+        { _: View, _: Drawable -> }
+
+    fun mySetOnclickImage(funClickImage: (layoutImage: MaterialCardView, clickedImage: Drawable) -> Unit) {
+        callbackClickLayoutImage = funClickImage
     }
+
+    private var preClickedLayoutImage: MaterialCardView? = null
 
     inner class SlideImageSmallProductViewHolder(val binding: ItemSmallImgProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -28,7 +34,11 @@ class SlideImageSmallProductAdapter :
         fun bind(urlImg: String) {
             binding.imgProduct.load(urlImg)
             binding.imgProduct.setOnClickListener {
-                callbackClickImage(binding.imgProduct.drawable)
+                if (preClickedLayoutImage != null) {
+                    preClickedLayoutImage!!.strokeWidth = 0
+                }
+                preClickedLayoutImage = binding.layoutImgProduct
+                callbackClickLayoutImage(binding.layoutImgProduct, binding.imgProduct.drawable)
             }
         }
     }

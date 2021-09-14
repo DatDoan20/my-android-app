@@ -11,6 +11,7 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.SlideImageSmallProductAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductPhotoViewBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.utils.MyBgCustom
 
 
 class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>() {
@@ -49,8 +50,9 @@ class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>()
     private fun setUpRcvImagesProduct() {
         val urlImagesAdapter: SlideImageSmallProductAdapter = SlideImageSmallProductAdapter()
         urlImagesAdapter.setUrlImagesProduct(urlImages)
-        urlImagesAdapter.mySetOnclickImage {
-            binding.productPhotoView.setImageDrawable(it)
+        urlImagesAdapter.mySetOnclickImage { layoutImage, image ->
+            layoutImage.strokeWidth = 8
+            binding.productPhotoView.setImageDrawable(image)
         }
 
         binding.rcvImgProductToPhotoView.layoutManager =

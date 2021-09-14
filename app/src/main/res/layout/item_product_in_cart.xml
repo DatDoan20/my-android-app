@@ -19,9 +19,10 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/layout_img_product_cover"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_120sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
                 android:layout_margin="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -30,13 +31,13 @@
                     android:id="@+id/img_product_cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="fitXY"
                     android:src="@color/black" />
             </androidx.cardview.widget.CardView>
 
-
             <TextView
                 android:id="@+id/txt_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
                 android:maxLines="2"
@@ -66,6 +67,7 @@
                 android:text="@string/Size"
                 android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_size"
                 app:layout_constraintTop_toBottomOf="@id/txt_name" />
 
@@ -88,6 +90,7 @@
                 android:maxLines="2"
                 android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_color"
                 app:layout_constraintTop_toBottomOf="@id/txt_size" />
 
@@ -109,6 +112,7 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_quantity"
                 app:layout_constraintTop_toBottomOf="@id/txt_color" />
 
@@ -116,7 +120,9 @@
                 android:id="@+id/txt_text_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_40sdp"
                 android:text="@string/price"
                 android:textColor="@color/textDesColorGeneric"
                 android:textSize="@dimen/_14sdp"
@@ -129,8 +135,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:text="11111"
                 android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_price"
                 app:layout_constraintTop_toBottomOf="@id/txt_quantity" />
 
@@ -146,6 +154,7 @@
                 android:maxLines="1"
                 android:paddingStart="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_2sdp"
+                android:text="2"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
@@ -156,13 +165,15 @@
                 android:id="@+id/txt_price_not_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:text="4324"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/txt_discount_product"
-                app:layout_constraintTop_toBottomOf="@id/txt_quantity" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txt_text_price"
+                app:layout_constraintTop_toBottomOf="@id/txt_text_quantity" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

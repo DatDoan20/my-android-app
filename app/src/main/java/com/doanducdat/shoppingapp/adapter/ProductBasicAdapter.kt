@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,9 +11,14 @@ import com.doanducdat.shoppingapp.module.product.Product
 class ProductBasicAdapter : RecyclerView.Adapter<ProductBasicAdapter.ProductViewHolder>() {
     private var productList: List<Product> = listOf()
 
+    private var callbackClick: (product:Product) -> Unit = {}
+    @SuppressLint("NotifyDataSetChanged")
     fun setProducts(products: List<Product>) {
         productList = products
         notifyDataSetChanged()
+    }
+    fun mySetOnClick(funClick:(product:Product)->Unit){
+        callbackClick = funClick
     }
 
     inner class ProductViewHolder(val binding: ItemProductBinding) :
@@ -23,7 +29,9 @@ class ProductBasicAdapter : RecyclerView.Adapter<ProductBasicAdapter.ProductView
             binding.ratingBar.rating = product.ratingsAverage
             binding.txtPriceProduct.text = product.getPrice()
             binding.txtDiscountProduct.text = product.getDiscount()
-
+            binding.layoutItemProduct.setOnClickListener {
+                callbackClick(product)
+            }
         }
     }
 

@@ -45,4 +45,14 @@ class MyBgCustom {
         bgItem.cornerRadius = 13F
         return bgItem
     }
+
+    fun bgRadiusStroke(context: Context, widthStroke: Int): GradientDrawable {
+        val bgItem = GradientDrawable()
+        bgItem.setStroke(
+            widthStroke,
+            ContextCompat.getColor(context, R.color.bgColorBtnGeneric)
+        )
+        bgItem.cornerRadius = 13F
+        return bgItem
+    }
 }

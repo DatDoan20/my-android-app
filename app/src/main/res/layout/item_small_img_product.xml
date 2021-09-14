@@ -6,19 +6,19 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <com.google.android.material.card.MaterialCardView
+        app:strokeColor="@color/bgColorBtnGeneric"
+        android:id="@+id/layout_img_product"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_8sdp">
 
         <ImageView
             android:id="@+id/img_product"
-            android:layout_width="@dimen/_65sdp"
-            android:layout_height="@dimen/_80sdp"
-            android:layout_margin="@dimen/_10sdp"
-            android:adjustViewBounds="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:contentDescription="@string/imageProduct"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:scaleType="fitXY" />
+    </com.google.android.material.card.MaterialCardView>
 </layout>

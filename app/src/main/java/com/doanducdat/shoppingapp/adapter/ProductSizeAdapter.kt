@@ -6,16 +6,16 @@ import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemProductSizeBinding
-import com.doanducdat.shoppingapp.utils.MyBgCustom
+import com.google.android.material.card.MaterialCardView
 
 class ProductSizeAdapter(
 ) : RecyclerView.Adapter<ProductSizeAdapter.ProductSizeViewHolder>() {
 
-    var preTxtClickedSize: TextView? = null
-    var preClickedSize: String? = null
+    var preLayoutTxtClickedSize: MaterialCardView? = null
 
     private var productSizes: MutableList<String> = mutableListOf()
 
@@ -25,10 +25,10 @@ class ProductSizeAdapter(
         notifyDataSetChanged()
     }
 
-    private var callbackClickSize: (clickedSize: String, txtSize: TextView) -> Unit =
-        { _: String, _: TextView -> }
+    private var callbackClickSize: (sizeItem: String, layoutTxtSize: MaterialCardView) -> Unit =
+        { _: String, _: MaterialCardView -> }
 
-    fun mySetOnClickSizeProduct(function: (clickedSize: String, txtSize: TextView) -> Unit) {
+    fun mySetOnClickSizeProduct(function: (sizeItem: String, layoutTxtSize: MaterialCardView) -> Unit) {
         callbackClickSize = function
     }
 
@@ -37,27 +37,24 @@ class ProductSizeAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(sizeItem: String) {
-            val bgItemSize =
-                MyBgCustom.getInstance().bgRadiusSize(context, R.color.sizeProductUnPick)
-            binding.txtSize.background = bgItemSize
             binding.txtSize.text = sizeItem
 
             binding.txtSize.setOnClickListener {
-                //make pre clicked get bg color is grey
-                formatUnClickSize(sizeItem, bgItemSize)
+                //make pre clicked layoutTextSize(CardView) get bg color is grey
+                formatUnClickSize()
 
-                //make clicked color get bg color is blue
-                callbackClickSize.invoke(sizeItem, binding.txtSize)
+                //make current clicked layoutTextSize(CardView) get bg color is blue
+                callbackClickSize.invoke(sizeItem, binding.layoutTxtSize)
             }
         }
 
-        private fun formatUnClickSize(sizeItem: String, bgItemSize: GradientDrawable) {
-            if (preClickedSize !== null) {
-                preTxtClickedSize!!.background = bgItemSize
+        private fun formatUnClickSize() {
+            if (preLayoutTxtClickedSize !== null) {
+                preLayoutTxtClickedSize!!.setCardBackgroundColor(
+                    ContextCompat.getColor(context, R.color.sizeProductUnPick)
+                )
             }
-            //assign current clicked productSizeItem is preClickedSize
-            preClickedSize = sizeItem
-            preTxtClickedSize = binding.txtSize
+            preLayoutTxtClickedSize = binding.layoutTxtSize
         }
     }
 

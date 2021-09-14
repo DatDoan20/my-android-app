@@ -110,12 +110,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     //region New Product
     private fun setUpRecycleViewNewProduct() {
-
         binding.rcvNewProduct.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcvNewProduct.setHasFixedSize(true)
         binding.rcvNewProduct.isNestedScrollingEnabled = false
         binding.rcvNewProduct.adapter = newProductAdapter
+        newProductAdapter.mySetOnClick {
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+        }
     }
 
     private fun subscribeLoadNewProduct() {
@@ -149,6 +151,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         binding.rcvSaleProduct.setHasFixedSize(true)
         binding.rcvSaleProduct.isNestedScrollingEnabled = false
         binding.rcvSaleProduct.adapter = saleProductAdapter
+        saleProductAdapter.mySetOnClick {
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+        }
     }
 
     private fun subscribeLoadSaleProduct() {

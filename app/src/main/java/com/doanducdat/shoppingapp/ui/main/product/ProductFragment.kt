@@ -212,11 +212,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
     }
 
     private fun listenClickSize() {
-        productSizeAdapter.mySetOnClickSizeProduct { clickedSize, txtSize ->
-            binding.txtSize.text = clickedSize
-            val bgItemSize =
-                MyBgCustom.getInstance().bgRadiusSize(requireContext(), R.color.sizeProductPicked)
-            txtSize.background = bgItemSize
+        productSizeAdapter.mySetOnClickSizeProduct { sizeItem, layoutTxtSize ->
+            layoutTxtSize.setCardBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.sizeProductPicked)
+            )
+            binding.txtSize.text = sizeItem
         }
     }
 
