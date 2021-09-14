@@ -17,6 +17,9 @@ import java.text.DecimalFormat
        val dec = DecimalFormat("#,###")
        return dec.format(this.finalPrice) + " đ"
     }
+    fun getUnFormatFinalPrice():Int{
+        return finalPrice
+    }
     fun getFinalPriceUnDiscount(discount:Int): String {
         val finalPriceUnDiscount: Double = (finalPrice / ((100 - discount).toDouble() / 100))
         val dec = DecimalFormat("#,###")

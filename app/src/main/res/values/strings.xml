@@ -55,5 +55,6 @@
     <string name="brand">Thương hiệu:</string>
     <string name="material">Chất liệu:</string>
     <string name="quantity">Số lượng</string>
+    <string name="unit">đ</string>
 
 </resources>

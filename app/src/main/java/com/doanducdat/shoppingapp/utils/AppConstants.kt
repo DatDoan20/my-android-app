@@ -19,6 +19,8 @@ object AppConstants {
             const val SELECT_SPORT_WEAR = 13
             const val SEARCH_VIEW = 14
             const val ADD_TO_CART= 15
+            const val PLUSH_PRODUCT_IN_CART = 16
+            const val MINUS_PRODUCT_IN_CART = 17
         }
     }
 

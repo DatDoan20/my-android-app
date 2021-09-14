@@ -105,6 +105,17 @@
                 app:layout_constraintStart_toEndOf="@+id/layout_img_product_cover"
                 app:layout_constraintTop_toBottomOf="@id/txt_color" />
 
+            <ImageView
+                android:id="@+id/img_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_minus"
+                app:layout_constraintStart_toEndOf="@+id/txt_text_quantity"
+                app:layout_constraintTop_toBottomOf="@id/txt_color" />
+
             <TextView
                 android:id="@+id/txt_quantity"
                 android:layout_width="wrap_content"
@@ -113,7 +124,18 @@
                 android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/txt_text_quantity"
+                app:layout_constraintStart_toEndOf="@+id/img_minus"
+                app:layout_constraintTop_toBottomOf="@id/txt_color" />
+
+            <ImageView
+                android:id="@+id/img_plush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_plush"
+                app:layout_constraintStart_toEndOf="@+id/txt_quantity"
                 app:layout_constraintTop_toBottomOf="@id/txt_color" />
 
             <TextView
@@ -143,6 +165,18 @@
                 app:layout_constraintTop_toBottomOf="@id/txt_quantity" />
 
             <TextView
+                android:id="@+id/txt_text_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/unit"
+                android:textColor="@color/textTitleColorGeneric"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/txt_price"
+                app:layout_constraintTop_toBottomOf="@id/txt_quantity" />
+
+            <TextView
                 android:id="@+id/txt_discount_product"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,7 +192,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/txt_price"
+                app:layout_constraintStart_toEndOf="@id/txt_text_unit"
                 app:layout_constraintTop_toBottomOf="@id/txt_quantity" />
 
             <TextView
@@ -167,7 +201,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:text="4324"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
