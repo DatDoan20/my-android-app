@@ -15,7 +15,7 @@ import java.text.DecimalFormat
 ){
     fun getFinalPrice():String{
        val dec = DecimalFormat("#,###")
-       return dec.format(this.finalPrice) + " đ"
+       return dec.format(this.finalPrice)
     }
     fun getUnFormatFinalPrice():Int{
         return finalPrice

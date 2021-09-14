@@ -56,5 +56,7 @@
     <string name="material">Chất liệu:</string>
     <string name="quantity">Số lượng</string>
     <string name="unit">đ</string>
+    <string name="yes">Đồng ý</string>
+    <string name="no">Hủy</string>
 
 </resources>

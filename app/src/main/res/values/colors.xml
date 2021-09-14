@@ -25,6 +25,8 @@
     <color name="textColorBtnGeneric">#FFFFFFFF</color>
     <color name="bgColorBtnGeneric">#261c87</color>
     <color name="bgColorBtnGenericClick">#5b52b6</color>
+    <color name="bgColorBtnCancelGenericClick">#EA5A5A</color>
+    <color name="bgColorBtnCancelGenericUnClick">#CF1E1E</color>
     <color name="bgCardView">#FFFFFFFF</color>
     <color name="bgIndicator">#261c87</color>
     <!-- SignIn -->

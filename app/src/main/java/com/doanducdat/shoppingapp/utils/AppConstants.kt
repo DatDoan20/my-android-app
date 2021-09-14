@@ -18,7 +18,7 @@ object AppConstants {
             const val SELECT_COAT = 12
             const val SELECT_SPORT_WEAR = 13
             const val SEARCH_VIEW = 14
-            const val ADD_TO_CART= 15
+            const val ADD_TO_CART = 15
             const val PLUSH_PRODUCT_IN_CART = 16
             const val MINUS_PRODUCT_IN_CART = 17
         }
@@ -97,9 +97,18 @@ object AppConstants {
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
             const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
             const val EXIT_APP = "Nhấn lần nữa để thoát"
+
+        }
+    }
+
+    annotation class MsgInfo {
+        companion object {
+            const val CONFIRM_DELETE_PRODUCT_IN_CART =
+                "Bạn có muốn xóa sản phẩm này trong giỏ hàng của bạn?"
+            const val PRODUCT_IS_EXIST_IN_CART = "Sản phẩm này đã có trong giỏ hàng!"
             const val COLOR_ERR_MSG = "Vui lòng chọn màu sản phẩm"
             const val SIZE_ERR_MSG = "Vui lòng chọn kích thước sản phẩm"
-            const val PRODUCT_IS_EXIST_IN_CART= "Sản phẩm này đã có trong giỏ hàng!"
+            const val MSG_INFO_DELETE_PRODUCT_IN_CART= "Xóa thành công sản phẩm khỏi giỏ hàng"
         }
     }
 

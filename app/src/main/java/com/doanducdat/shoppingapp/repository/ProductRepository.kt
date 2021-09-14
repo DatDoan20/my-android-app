@@ -5,13 +5,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.Product
+import com.doanducdat.shoppingapp.module.product.ProductId
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseAddToCart
+import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
 import kotlinx.coroutines.flow.Flow
@@ -63,12 +64,26 @@ class ProductRepository @Inject constructor(
     suspend fun addToCart(carts: Cart) = flow {
         emit(DataState.loading(null))
         try {
-            val resAddToCard: ResponseAddToCart =
+            val resHandleProductInCard: ResponseHandleProductInCart =
                 userAPI.addToCart(
                     InfoUser.token.toString(),
                     carts
                 )
-            emit(DataState.success(resAddToCard))
+            emit(DataState.success(resHandleProductInCard))
+        } catch (e: Throwable) {
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+        }
+    }
+
+    suspend fun deleteProductInCart(idProduct: String) = flow {
+        emit(DataState.loading(null))
+        try {
+            val resHandleProductInCard: ResponseHandleProductInCart =
+                userAPI.deleteProductInCart(
+                    InfoUser.token.toString(),
+                    ProductId(idProduct)
+                )
+            emit(DataState.success(resHandleProductInCard))
         } catch (e: Throwable) {
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }

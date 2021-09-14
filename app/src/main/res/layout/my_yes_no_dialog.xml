@@ -25,28 +25,44 @@
                 android:gravity="center"
                 android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_16sdp"
-                app:layout_constraintBottom_toTopOf="@+id/btn_try_again"
+                app:layout_constraintBottom_toTopOf="@+id/btn_yes"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_try_again"
+                android:id="@+id/btn_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_13sdp"
                 android:background="@drawable/bg_btn_generic_two_style"
                 android:paddingLeft="@dimen/_15sdp"
                 android:paddingRight="@dimen/_15sdp"
-                android:text="@string/tryAgain"
+                android:text="@string/yes"
                 android:textAllCaps="false"
-                android:layout_marginBottom="@dimen/_13sdp"
                 android:textColor="@color/textColorBtnGeneric"
                 android:textSize="@dimen/_14sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_13sdp"
+                android:background="@drawable/bg_btn_cancel_generic_two_style"
+                android:paddingLeft="@dimen/_15sdp"
+                android:paddingRight="@dimen/_15sdp"
+                android:text="@string/no"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorBtnGeneric"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

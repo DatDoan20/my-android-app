@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_13sdp">
+        app:cardCornerRadius="@dimen/_8sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,7 +23,6 @@
                 android:layout_height="@dimen/_150sdp"
                 android:layout_margin="@dimen/_10sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -144,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_25sdp"
                 android:text="@string/price"
                 android:textColor="@color/textDesColorGeneric"
                 android:textSize="@dimen/_14sdp"
@@ -204,7 +203,6 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14sdp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txt_text_price"
                 app:layout_constraintTop_toBottomOf="@id/txt_text_quantity" />
 

@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseAddToCart
+import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
 import com.doanducdat.shoppingapp.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -24,10 +24,10 @@ class ProductViewModel @Inject constructor(
 ) : ViewModel() {
     var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    private val _dataStateAddToCart: MutableLiveData<DataState<ResponseAddToCart>> =
+    private val _dataStateHandleProductInCart: MutableLiveData<DataState<ResponseHandleProductInCart>> =
         MutableLiveData()
-    val dataStateAddToCart: LiveData<DataState<ResponseAddToCart>>
-        get() = _dataStateAddToCart
+    val dataStateHandleProductInCart: LiveData<DataState<ResponseHandleProductInCart>>
+        get() = _dataStateHandleProductInCart
 
 
     fun getProductPaging(category: String?, type: String?): Flow<PagingData<Product>> {
@@ -36,7 +36,7 @@ class ProductViewModel @Inject constructor(
 
     fun addToCart(carts: Cart)= viewModelScope.launch {
         productRepository.addToCart(carts).onEach {
-            _dataStateAddToCart.value = it
+            _dataStateHandleProductInCart.value = it
         }.launchIn(viewModelScope)
     }
 }

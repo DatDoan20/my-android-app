@@ -19,12 +19,10 @@ class CartAdapter(
         CODE_ACTION_CLICK: Int,
         txtQuantity: TextView,
         txtPrice: TextView,
-        finalPrice: Int,
-        quantity: Int,
         idProduct: String
-    ) -> Unit =
-        { _: Int, _: TextView, _: TextView, _: Int, _: Int, _: String -> }
+    ) -> Unit = { _: Int, _: TextView, _: TextView, _: String -> }
 
+    var isClickAble:Boolean = true
     private var cartList: MutableList<PopulatedCart> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -39,8 +37,6 @@ class CartAdapter(
             CODE_ACTION_CLICK: Int,
             txtQuantity: TextView,
             txtPrice: TextView,
-            finalPrice: Int,
-            quantity: Int,
             idProduct: String
         ) -> Unit
     ) {
@@ -55,7 +51,7 @@ class CartAdapter(
                 txtName.text = populatedCart.infoProduct.name
                 txtSize.text = populatedCart.size
                 txtColor.text = populatedCart.color
-                txtPrice.text = populatedCart.getUnFormatFinalPrice().toString()
+                txtPrice.text = populatedCart.getFinalPrice()
                 txtQuantity.text = populatedCart.quantity.toString()
                 imgProductCover.load(populatedCart.infoProduct.getUrlImgCover())
                 //show discount when discount != 0
@@ -69,37 +65,30 @@ class CartAdapter(
                     txtPriceNotDiscount.visibility = View.VISIBLE
                 }
             }
-
-            binding.imgPlush.setOnClickListener {
-                minusOrPlushProduct(
-                    AppConstants.ActionClick.PLUSH_PRODUCT_IN_CART,
-                    populatedCart.getUnFormatFinalPrice(),
-                    populatedCart.quantity,
-                    populatedCart.infoProduct.id
-                )
-            }
-            binding.imgMinus.setOnClickListener {
-                minusOrPlushProduct(
-                    AppConstants.ActionClick.MINUS_PRODUCT_IN_CART,
-                    populatedCart.getUnFormatFinalPrice(),
-                    populatedCart.quantity,
-                    populatedCart.infoProduct.id
-                )
+            if(isClickAble) {
+                binding.imgPlush.setOnClickListener {
+                    minusOrPlushProduct(
+                        AppConstants.ActionClick.PLUSH_PRODUCT_IN_CART,
+                        populatedCart.infoProduct.id
+                    )
+                }
+                binding.imgMinus.setOnClickListener {
+                    minusOrPlushProduct(
+                        AppConstants.ActionClick.MINUS_PRODUCT_IN_CART,
+                        populatedCart.infoProduct.id
+                    )
+                }
             }
         }
 
         private fun minusOrPlushProduct(
             CODE_ACTION_CLICK: Int,
-            finalPrice: Int,
-            quantity: Int,
             idProduct: String
         ) {
             callbackClickMinusOrPlush(
                 CODE_ACTION_CLICK,
                 binding.txtQuantity,
                 binding.txtPrice,
-                finalPrice,
-                quantity,
                 idProduct
             )
         }

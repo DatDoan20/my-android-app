@@ -162,6 +162,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                 txtDiscountProduct.visibility = View.VISIBLE
                 txtPriceNotDiscount.visibility = View.VISIBLE
             }
+            if (InfoUser.currentUser?.cart != null) {
+                binding.layoutMyCart.imgRedDot.text = InfoUser.currentUser!!.cart.size.toString()
+            }
         }
 
         //rcv color + listen click
@@ -254,7 +257,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
     }
 
     private fun listenAddToCart() {
-        viewModel.dataStateAddToCart.observe(viewLifecycleOwner, {
+        viewModel.dataStateHandleProductInCart.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
                     viewModel.isLoading.value = true
@@ -296,11 +299,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         var msgErr: String = ""
         var isErr: Boolean = false
         if (TextUtils.isEmpty(binding.txtColorName.text.toString().trim())) {
-            msgErr = AppConstants.MsgErr.COLOR_ERR_MSG + "\n"
+            msgErr = AppConstants.MsgInfo.COLOR_ERR_MSG + "\n"
             isErr = true
         }
         if (TextUtils.isEmpty(binding.txtSize.text.toString().trim())) {
-            msgErr += AppConstants.MsgErr.SIZE_ERR_MSG
+            msgErr += AppConstants.MsgInfo.SIZE_ERR_MSG
             isErr = true
         }
         if (isErr) {
@@ -311,7 +314,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         //check if product is exist in cart
         InfoUser.currentUser?.cart?.forEach {
             if (it.infoProduct.id == productSelected.id) {
-                myBasicDialog.setText(AppConstants.MsgErr.PRODUCT_IS_EXIST_IN_CART)
+                myBasicDialog.setText(AppConstants.MsgInfo.PRODUCT_IS_EXIST_IN_CART)
                 myBasicDialog.show()
                 return
             }
