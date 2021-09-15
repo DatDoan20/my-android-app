@@ -18,7 +18,7 @@ class CartViewModel @Inject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
     var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-
+    var sumMoneyCart: MutableLiveData<Int> = MutableLiveData(0)
     private val _dataStateDeleteProductInCart: MutableLiveData<DataState<ResponseHandleProductInCart>> =
         MutableLiveData()
     val dataStateDeleteProductInCart: LiveData<DataState<ResponseHandleProductInCart>>

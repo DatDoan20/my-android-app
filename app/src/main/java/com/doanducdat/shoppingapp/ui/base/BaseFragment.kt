@@ -41,7 +41,10 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 
-    fun showToast(msg: String) {
+    fun showLongToast(msg: String) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+    }
+    fun showShortToast(msg: String){
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 

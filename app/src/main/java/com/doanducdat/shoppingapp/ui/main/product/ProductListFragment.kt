@@ -112,7 +112,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
                     }
                     is LoadState.Error -> {
                         binding.swipeRefreshLayout.isRefreshing = false
-                        showToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                        showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     }
                     else -> binding.swipeRefreshLayout.isRefreshing = false
                 }

@@ -128,7 +128,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
                 }
                 Status.ERROR -> {
                     binding.swipeRefreshLayout.isRefreshing = false
-                    showToast(it.message!!)
+                    showLongToast(it.message!!)
                     Log.e("TAG", "subscribeLoadNewProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {
@@ -164,7 +164,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
                 }
                 Status.ERROR -> {
                     binding.swipeRefreshLayout.isRefreshing = false
-                    showToast(it.message!!)
+                    showLongToast(it.message!!)
                     Log.e("TAG", "subscribeLoadSaleProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {

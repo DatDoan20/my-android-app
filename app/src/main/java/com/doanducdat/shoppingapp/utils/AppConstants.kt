@@ -21,6 +21,7 @@ object AppConstants {
             const val ADD_TO_CART = 15
             const val PLUSH_PRODUCT_IN_CART = 16
             const val MINUS_PRODUCT_IN_CART = 17
+            const val ORDER = 18
         }
     }
 
@@ -104,11 +105,12 @@ object AppConstants {
     annotation class MsgInfo {
         companion object {
             const val CONFIRM_DELETE_PRODUCT_IN_CART =
-                "Bạn có muốn xóa sản phẩm này trong giỏ hàng của bạn?"
+                "Bạn có muốn xóa sản phẩm này khỏi giỏ hàng của bạn?"
             const val PRODUCT_IS_EXIST_IN_CART = "Sản phẩm này đã có trong giỏ hàng!"
             const val COLOR_ERR_MSG = "Vui lòng chọn màu sản phẩm"
             const val SIZE_ERR_MSG = "Vui lòng chọn kích thước sản phẩm"
             const val MSG_INFO_DELETE_PRODUCT_IN_CART= "Xóa thành công sản phẩm khỏi giỏ hàng"
+            const val MSG_NOT_VERIFY_EMAIl= "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
         }
     }
 

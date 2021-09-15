@@ -4,25 +4,24 @@ import com.doanducdat.shoppingapp.module.product.Product
 import java.text.DecimalFormat
 
 /**
- * infoProduct is IdProduct
+ * infoProduct is IdProduct and it was populated
  */
- class PopulatedCart(
+class PopulatedCart(
     val color: String,
-    private val finalPrice: Int,
+    var finalPrice: Int,
     val infoProduct: Product,
-    val quantity: Int,
+    var quantity: Int,
     val size: String
-){
-    fun getFinalPrice():String{
-       val dec = DecimalFormat("#,###")
-       return dec.format(this.finalPrice)
+) {
+
+    fun getFormatFinalPrice(): String {
+        val dec = DecimalFormat("#,###")
+        return dec.format(this.finalPrice)
     }
-    fun getUnFormatFinalPrice():Int{
-        return finalPrice
-    }
-    fun getFinalPriceUnDiscount(discount:Int): String {
+
+    fun getFinalPriceUnDiscount(discount: Int): String {
         val finalPriceUnDiscount: Double = (finalPrice / ((100 - discount).toDouble() / 100))
         val dec = DecimalFormat("#,###")
         return dec.format(finalPriceUnDiscount) + " đ"
     }
- }
+}

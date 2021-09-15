@@ -14,15 +14,16 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CartAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCartBinding
 import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.dialog.MyYesNoDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DecimalFormat
 
 @AndroidEntryPoint
-class CartFragment : BaseFragment<FragmentCartBinding>() {
+class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -33,63 +34,19 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
-    private val dialog by lazy { MyYesNoDialog(requireContext()) }
+    private val dialogYesNo by lazy { MyYesNoDialog(requireContext()) }
+    private val dialogBasic by lazy { MyBasicDialog(requireContext()) }
     private val cartAdapter: CartAdapter = CartAdapter()
     private val viewModel: CartViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpRcvCart()
         listenLoadingForm()
+        listenSumMoneyCart()
+        setUpRcvCart()
+        setUpActionClick()
+
     }
-
-    private fun setUpRcvCart() {
-        InfoUser.currentUser?.let { cartAdapter.setCartList(it.cart) }
-        binding.rcvCart.adapter = cartAdapter
-        binding.rcvCart.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-        //event click adapter
-        cartAdapter.mySetOnClickMinusOrPlush { CODE_ACTION_CLICK, txtQuantity, txtPrice, idProduct ->
-            val price = txtPrice.text.toString().replace(",","").toInt()
-            val quantity = txtQuantity.text.toString().toInt()
-            val priceOneItem = price / quantity
-
-            var newQuantity = 0
-            var newPrice = 0
-
-            if (CODE_ACTION_CLICK == AppConstants.ActionClick.PLUSH_PRODUCT_IN_CART) {
-                newQuantity = quantity + 1
-                newPrice = price + priceOneItem
-            } else {
-                if (quantity == 1) {
-                    newQuantity = quantity
-                    newPrice = price
-                    showDialogConfirmDeleteProductInCart(idProduct)
-                } else {
-                    newQuantity = quantity - 1
-                    newPrice = price - priceOneItem
-                }
-            }
-            txtPrice.text = DecimalFormat("#,###").format(newPrice)
-            txtQuantity.text = newQuantity.toString()
-        }
-    }
-
-    private fun showDialogConfirmDeleteProductInCart(idProduct: String) {
-        dialog.setText(AppConstants.MsgInfo.CONFIRM_DELETE_PRODUCT_IN_CART)
-        dialog.mySetOnClickYes {
-            deleteProductInCart(idProduct)
-        }
-        dialog.show()
-    }
-
-    private fun deleteProductInCart(idProduct: String) {
-        listenDeleteProductInCart()
-        Log.e("TAG", "deleteProductInCart: $idProduct")
-        viewModel.deleteProductInCart(idProduct)
-    }
-
     private fun listenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             cartAdapter.isClickAble = !it
@@ -101,20 +58,90 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
         })
     }
 
+    private fun listenSumMoneyCart() {
+        viewModel.sumMoneyCart.observe(viewLifecycleOwner, {
+            binding.btnExtendedFab.text = it.toString()
+            Log.e("TAG", "listenSumMoneyCart: $it")
+        })
+    }
+
+    private fun calculatingSumCart() {
+        var sumMoneyCart: Int = 0
+        InfoUser.currentUser?.cart?.forEach {
+            sumMoneyCart += it.finalPrice
+        }
+        viewModel.sumMoneyCart.value = sumMoneyCart
+    }
+
+    private fun setUpRcvCart() {
+        InfoUser.currentUser?.cart?.let {
+            cartAdapter.setCartList(it)
+            calculatingSumCart()
+        }
+        binding.rcvCart.adapter = cartAdapter
+        binding.rcvCart.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        //event click adapter
+        cartAdapter.mySetOnClickMinusOrPlush { CODE_ACTION_CLICK, populatedCart, txtQuantity, txtPrice ->
+            if (cartAdapter.isClickAble) {
+                val priceOneItem = populatedCart.finalPrice / populatedCart.quantity
+
+                if (CODE_ACTION_CLICK == AppConstants.ActionClick.PLUSH_PRODUCT_IN_CART) {
+                    populatedCart.quantity += 1
+                    populatedCart.finalPrice += priceOneItem
+                    viewModel.sumMoneyCart.value = viewModel.sumMoneyCart.value?.plus(priceOneItem)
+                } else {
+                    if (populatedCart.quantity == 1) {
+                        showDialogConfirmDeleteProductInCart(populatedCart.infoProduct.id)
+                    } else {
+                        populatedCart.quantity -= 1
+                        populatedCart.finalPrice -= priceOneItem
+                        viewModel.sumMoneyCart.value = viewModel.sumMoneyCart.value?.minus(
+                            priceOneItem
+                        )
+                    }
+                }
+                txtPrice.text = populatedCart.getFormatFinalPrice()
+                txtQuantity.text = populatedCart.quantity.toString()
+            }
+        }
+        cartAdapter.mySetOnClickDelete {
+            if (cartAdapter.isClickAble) {
+                showDialogConfirmDeleteProductInCart(it)
+            }
+        }
+    }
+
+    private fun showDialogConfirmDeleteProductInCart(idProduct: String) {
+        dialogYesNo.setText(AppConstants.MsgInfo.CONFIRM_DELETE_PRODUCT_IN_CART)
+        dialogYesNo.mySetOnClickYes {
+            deleteProductInCart(idProduct)
+        }
+        dialogYesNo.show()
+    }
+
+    private fun deleteProductInCart(idProduct: String) {
+        listenDeleteProductInCart()
+        viewModel.deleteProductInCart(idProduct)
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     fun listenDeleteProductInCart() {
         viewModel.dataStateDeleteProductInCart.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
                     viewModel.isLoading.value = true
+                    dialogYesNo.dismiss()
                 }
                 Status.ERROR -> {
                     Log.e("TAG", "listenDeleteProductInCart: ${it.message}")
+                    showLongToast(it.message.toString())
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
                     Log.e("TAG", "listenDeleteProductInCart: ${it.response!!.message}")
-                    showToast(AppConstants.MsgInfo.MSG_INFO_DELETE_PRODUCT_IN_CART)
+                    showShortToast(AppConstants.MsgInfo.MSG_INFO_DELETE_PRODUCT_IN_CART)
 
                     //update currentUser variable in Ram
                     InfoUser.currentUser = it.response.data
@@ -122,11 +149,33 @@ class CartFragment : BaseFragment<FragmentCartBinding>() {
                     //update adapter rcv
                     cartAdapter.setCartList(InfoUser.currentUser!!.cart)
                     cartAdapter.notifyDataSetChanged()
-
+                    calculatingSumCart()
                     viewModel.isLoading.value = false
-                    dialog.dismiss()
                 }
             }
         })
+    }
+
+    private fun setUpActionClick() {
+        binding.btnExtendedFab.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.ORDER)
+        }
+    }
+
+
+    override fun doActionClick(CODE_ACTION_CLICK: Int) {
+        when(CODE_ACTION_CLICK){
+            AppConstants.ActionClick.ORDER -> {
+                checkPreOrder()
+            }
+        }
+    }
+
+    private fun checkPreOrder() {
+        //check verify email?
+        if(InfoUser.currentUser?.stateVerifyEmail == false){
+            dialogBasic.setTextButton("Đã hiểu")
+            dialogBasic.setText(AppConstants.MsgInfo.MSG_NOT_VERIFY_EMAIl)
+        }
     }
 }
