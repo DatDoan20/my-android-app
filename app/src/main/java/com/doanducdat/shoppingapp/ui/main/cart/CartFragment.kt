@@ -174,8 +174,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     private fun checkPreOrder() {
         //check verify email?
         if(InfoUser.currentUser?.stateVerifyEmail == false){
+//            Log.e("TAG", "checkPreOrder: ${InfoUser.currentUser?.stateVerifyEmail}")
             dialogBasic.setTextButton("Đã hiểu")
             dialogBasic.setText(AppConstants.MsgInfo.MSG_NOT_VERIFY_EMAIl)
+            dialogBasic.show()
         }
     }
 }

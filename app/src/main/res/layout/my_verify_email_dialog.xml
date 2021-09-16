@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_13sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txt_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_10sdp"
+                android:gravity="center"
+                android:text="@string/verifyEmailForAccount"
+                android:textColor="@color/textTitleColorGeneric"
+                android:textSize="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txt_input_layout_email_dialog"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:hint="@string/email"
+                android:padding="5dp"
+                android:textColorHint="@color/textDesColorGeneric"
+                app:boxStrokeColor="@color/boxStrokeTextInputGeneric"
+                app:endIconMode="clear_text"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorTextColor="@color/red"
+                app:helperText="@string/require"
+                app:helperTextTextColor="@color/textTitleColorGeneric"
+                app:hintTextColor="@color/boxStrokeTextInputGeneric"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_msg"
+                app:startIconDrawable="@drawable/ic_email">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_input_edt_email_dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/textTitleColorGeneric"
+                    android:textSize="@dimen/_14sdp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="@string/send"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorBtnGeneric"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_email_dialog" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_update_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:text="@string/updateEmail"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorBtnGeneric"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_email_dialog" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

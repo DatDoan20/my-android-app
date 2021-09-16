@@ -22,6 +22,7 @@ object AppConstants {
             const val PLUSH_PRODUCT_IN_CART = 16
             const val MINUS_PRODUCT_IN_CART = 17
             const val ORDER = 18
+            const val VERIFY_EMAIL = 19
         }
     }
 
@@ -72,6 +73,12 @@ object AppConstants {
         }
     }
 
+    annotation class TAG() {
+        companion object {
+            const val VERIFY_EMAIL = "VERIFY_EMAIL"
+        }
+    }
+
     annotation class PhoneAuth {
         companion object {
             const val LANGUAGE_CODE_VN = "vi"
@@ -82,6 +89,16 @@ object AppConstants {
             const val OTP_ERR_MSG_EMPTY = "Vui lòng nhập mã OTP để xác nhận số điện thoại!"
             const val OTP_ERR_MSG_UN_VALID = "Mã OTP không hợp lệ!"
             const val OTP_ERR_MSG_NOT_ENOUGH = "Mã OTP phải đủ 6 số"
+        }
+    }
+
+    annotation class EmailAuth() {
+        companion object {
+            const val PASS_DEFAULT = "Test#123456789"
+            const val SEND_SUCCESS = "Gửi thành công, Kiểm tra email để xác nhận"
+            const val NOT_VERIFY = "Bạn chưa xác nhận, vui lòng xác nhận trong hộp thư của Email"
+            const val NOT_SEND =
+                "Bạn cần nhấn gửi xác nhận, và xác nhận thư trong email,sau đó vui lòng chọn cập nhật"
         }
     }
 
@@ -109,8 +126,9 @@ object AppConstants {
             const val PRODUCT_IS_EXIST_IN_CART = "Sản phẩm này đã có trong giỏ hàng!"
             const val COLOR_ERR_MSG = "Vui lòng chọn màu sản phẩm"
             const val SIZE_ERR_MSG = "Vui lòng chọn kích thước sản phẩm"
-            const val MSG_INFO_DELETE_PRODUCT_IN_CART= "Xóa thành công sản phẩm khỏi giỏ hàng"
-            const val MSG_NOT_VERIFY_EMAIl= "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
+            const val MSG_INFO_DELETE_PRODUCT_IN_CART = "Xóa thành công sản phẩm khỏi giỏ hàng"
+            const val MSG_NOT_VERIFY_EMAIl =
+                "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
         }
     }
 

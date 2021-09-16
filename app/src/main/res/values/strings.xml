@@ -17,6 +17,9 @@
     <string name="signUp">Đăng ký</string>
     <string name="verify">Xác nhận</string>
     <string name="tryAgain">Thử lại</string>
+    <string name="send">Gửi xác nhận</string>
+    <string name="verifyEmailForAccount">Xác nhận email này cho tài khoản của bạn</string>
+    <string name="updateEmail">Cập nhật</string>
     <string name="forgotPassword"><u>Quên mật khẩu?</u></string>
     <string name="home">Trang chủ</string>
     <string name="category">Danh mục</string>
