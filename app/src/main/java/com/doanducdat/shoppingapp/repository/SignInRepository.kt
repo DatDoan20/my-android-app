@@ -3,6 +3,7 @@ package com.doanducdat.shoppingapp.repository
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.response.ResponseUpdateEmail
+import com.doanducdat.shoppingapp.module.response.ResponseUser
 import com.doanducdat.shoppingapp.module.user.Email
 import com.doanducdat.shoppingapp.module.user.UserSignIn
 import com.doanducdat.shoppingapp.retrofit.UserAPI
@@ -31,6 +32,16 @@ class SignInRepository @Inject constructor(
             val responseUpdateEmail: ResponseUpdateEmail =
                 userAPI.updateEmail(InfoUser.token.toString(), email)
             emit(DataState.success(responseUpdateEmail))
+        } catch (e: Throwable) {
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+        }
+    }
+
+    suspend fun loadMe() = flow {
+        emit(DataState.loading(null))
+        try {
+            val myInfo: ResponseUser = userAPI.loadMe(InfoUser.token.toString())
+            emit(DataState.success(myInfo))
         } catch (e: Throwable) {
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }

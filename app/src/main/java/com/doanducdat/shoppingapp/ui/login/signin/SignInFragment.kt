@@ -2,6 +2,7 @@ package com.doanducdat.shoppingapp.ui.login.signin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,9 +78,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     viewModel.isLoading.value = true
                 }
                 Status.ERROR -> {
-                    dialog.setText(it.message!!)
+                    dialog.setText(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     dialog.show()
-//                    Log.e("TAG", "subscribeListenSignIn: ${it.message}")
+                    Log.e(AppConstants.TAG.SIGN_IN, "subscribeListenSignIn: ${it.message}")
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
@@ -87,8 +88,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     CoroutineScope(Dispatchers.Main).launch {
                         myDataStore.writeJwt(it.response!!.token)
                         InfoUser.token.append(it.response.token)
-//                        Log.e("TAG", "token: ${InfoUser.token}")
+
+                        Log.e(AppConstants.TAG.SIGN_IN, "token: ${InfoUser.token}")
                         viewModel.isLoading.value = false
+
                         startActivity(Intent(requireActivity(), MainActivity::class.java))
                         requireActivity().finish()
                     }

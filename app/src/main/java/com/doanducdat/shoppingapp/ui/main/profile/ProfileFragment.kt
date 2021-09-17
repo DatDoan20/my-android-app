@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import coil.load
 import com.doanducdat.shoppingapp.databinding.FragmentProfileBinding
 import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.module.user.Email
@@ -31,6 +32,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
         super.onViewCreated(view, savedInstanceState)
         setUpVerifyEmail()
         listenUpdateEmail()
+        binding.imgAvatar.load(InfoUser.currentUser?.getUrlAvatar())
     }
 
     private fun setUpVerifyEmail() {

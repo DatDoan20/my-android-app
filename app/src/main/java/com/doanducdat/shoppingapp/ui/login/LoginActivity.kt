@@ -31,6 +31,4 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             }
         }
     }
-
-
 }

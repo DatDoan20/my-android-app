@@ -2,6 +2,7 @@ package com.doanducdat.shoppingapp.ui.login.signup
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentVerifyOTPBinding
+import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
-import com.doanducdat.shoppingapp.module.response.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -77,7 +78,8 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
                     viewModel.isLoading.value = true
                 }
                 Status.ERROR -> {
-                    dialog.setText(it.message!!)
+                    Log.e(AppConstants.TAG.SIGN_UP, "subscribeListenSignUp: ${it.message!!}")
+                    dialog.setText(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     dialog.show()
                     viewModel.isLoading.value = false
                 }
@@ -94,12 +96,18 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
         binding.btnVerifyOtp.setOnClickListener {
             doActionClick(AppConstants.ActionClick.VERIFY_OTP)
         }
+        binding.btnBack.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.NAV_SIGN_UP)
+        }
     }
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.VERIFY_OTP -> {
                 verifyOTP()
+            }
+            AppConstants.ActionClick.NAV_SIGN_UP -> {
+                controller.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignUpFragment())
             }
         }
     }

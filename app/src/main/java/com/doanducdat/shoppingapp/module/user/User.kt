@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.module.user
 
 import com.doanducdat.shoppingapp.module.cart.PopulatedCart
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName
 
 data class User(
@@ -18,4 +19,10 @@ data class User(
     val sex: String,
     var stateVerifyEmail: Boolean,
     val updatedAt: String
-)
+) {
+    fun getUrlAvatar(): String {
+        //avatar is name of image, not link
+        // thi fun return URL of avatar
+        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.USER}/${avatar}"
+    }
+}

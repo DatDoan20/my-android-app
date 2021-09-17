@@ -5,16 +5,16 @@ import com.doanducdat.shoppingapp.module.product.ProductId
 import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.response.ResponseUpdateEmail
 import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
+import com.doanducdat.shoppingapp.module.response.ResponseUser
 import com.doanducdat.shoppingapp.module.user.Email
 import com.doanducdat.shoppingapp.module.user.UserSignIn
 import com.doanducdat.shoppingapp.module.user.UserSignUp
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.PATCH
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface UserAPI {
+    @GET("/api/users/me")
+    suspend fun loadMe(@Header("Authorization") authorization: String): ResponseUser
 
     @POST("/api/users/sign-up")
     suspend fun signUpUser(@Body userSignUp: UserSignUp): ResponseAuth

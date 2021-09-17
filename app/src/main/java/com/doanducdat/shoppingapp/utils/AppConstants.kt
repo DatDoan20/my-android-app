@@ -75,7 +75,10 @@ object AppConstants {
 
     annotation class TAG() {
         companion object {
+            const val LOAD_ME = "LOAD_ME"
             const val VERIFY_EMAIL = "VERIFY_EMAIL"
+            const val SIGN_UP = "SIGN_UP"
+            const val SIGN_IN = "SIGN_IN"
         }
     }
 

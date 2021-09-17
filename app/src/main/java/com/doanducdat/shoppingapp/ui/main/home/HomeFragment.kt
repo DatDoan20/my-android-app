@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.adapter.ProductBasicAdapter
@@ -23,6 +24,7 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        loadMe()
         //hide underline of search view
         hideSearchPlate(binding.myAppBarLayout.searchView)
 
@@ -79,6 +81,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
         //Event click
         setUpActionClick()
+    }
+
+    private fun loadMe() {
+        if (InfoUser.currentUser == null) {
+            listenLoadMe()
+            viewModel.loadMe()
+        }
+    }
+
+    private fun listenLoadMe() {
+        viewModel.dataStateUser.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    binding.swipeRefreshLayout.isRefreshing = true
+                }
+                Status.ERROR -> {
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    Log.e(AppConstants.TAG.LOAD_ME, "subscribeLoadNewProduct: ${it.message}")
+                }
+                Status.SUCCESS -> {
+                    InfoUser.currentUser = it.response!!.data
+                    binding.myAppBarLayout.imgAvatar.load(InfoUser.currentUser!!.getUrlAvatar())
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }
+            }
+        })
     }
 
     private fun subsCribCollapsingListen() {

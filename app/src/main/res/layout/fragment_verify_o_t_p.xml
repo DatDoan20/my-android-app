@@ -67,6 +67,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pin_view_otp" />
 
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            android:background="@drawable/bg_back"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/ic_back_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_verify_otp" />
+
         <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/spin_kit_progress_bar"
             style="@style/SpinKitView.Large.FadingCircle"
@@ -80,5 +92,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
