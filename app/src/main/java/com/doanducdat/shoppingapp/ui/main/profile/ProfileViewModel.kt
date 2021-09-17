@@ -4,16 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
-import com.doanducdat.shoppingapp.repository.ProductRepository
-import com.google.firebase.auth.FirebaseUser
+import com.doanducdat.shoppingapp.module.response.ResponseUpdateEmail
+import com.doanducdat.shoppingapp.module.user.Email
+import com.doanducdat.shoppingapp.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -21,7 +16,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
+    private val signInRepository: SignInRepository
 ) : ViewModel() {
-    var isVerifyEmailUser: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _dataStateUpdateEmail: MutableLiveData<DataState<ResponseUpdateEmail>> =
+        MutableLiveData()
+    val dataStateUpdateEmail: LiveData<DataState<ResponseUpdateEmail>>
+        get() = _dataStateUpdateEmail
 
+    fun updateEmail(email: Email) = viewModelScope.launch {
+        signInRepository.updateEmail(email).onEach {
+            _dataStateUpdateEmail.value = it
+        }.launchIn(viewModelScope)
+    }
 }

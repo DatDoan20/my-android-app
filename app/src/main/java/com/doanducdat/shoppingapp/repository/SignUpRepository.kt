@@ -62,4 +62,5 @@ class SignUpRepository @Inject constructor(
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }
     }
+
 }

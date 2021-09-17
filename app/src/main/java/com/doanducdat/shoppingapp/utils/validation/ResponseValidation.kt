@@ -8,9 +8,10 @@ object ResponseValidation {
     fun msgErrResponse(e: Throwable): String {
         return when (e) {
             is HttpException -> {
+                // non-2xx
                 e.code().toString() + "\n" + e.response()?.errorBody()?.source()
             }
-            is IOException -> {
+            is IOException -> { //interrupted internet
                 AppConstants.MsgErr.GENERIC_ERR_MSG
             }
             else -> e.message.toString()

@@ -3,7 +3,9 @@ package com.doanducdat.shoppingapp.retrofit
 import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.ProductId
 import com.doanducdat.shoppingapp.module.response.ResponseAuth
+import com.doanducdat.shoppingapp.module.response.ResponseUpdateEmail
 import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
+import com.doanducdat.shoppingapp.module.user.Email
 import com.doanducdat.shoppingapp.module.user.UserSignIn
 import com.doanducdat.shoppingapp.module.user.UserSignUp
 import retrofit2.http.Body
@@ -33,6 +35,12 @@ interface UserAPI {
         @Body carts: Cart
     ): ResponseHandleProductInCart
 
+
+    @PATCH("api/users/update-email")
+    suspend fun updateEmail(
+        @Header("Authorization") authorization: String,
+        @Body email: Email
+    ): ResponseUpdateEmail
 
     @PATCH("api/users/delete-product-in-cart")
     suspend fun deleteProductInCart(

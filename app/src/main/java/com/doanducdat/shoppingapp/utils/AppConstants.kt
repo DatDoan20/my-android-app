@@ -95,10 +95,11 @@ object AppConstants {
     annotation class EmailAuth() {
         companion object {
             const val PASS_DEFAULT = "Test#123456789"
-            const val SEND_SUCCESS = "Gửi thành công, Kiểm tra email để xác nhận"
+            const val UPDATE_EMAIL_SUCCESS = "Xác minh và cập nhật email thành công!"
+            const val SEND_SUCCESS = "Gửi thành công, Kiểm tra các hộp thư email, thư rác để tìm và để xác nhận"
             const val NOT_VERIFY = "Bạn chưa xác nhận, vui lòng xác nhận trong hộp thư của Email"
             const val NOT_SEND =
-                "Bạn cần nhấn gửi xác nhận, và xác nhận thư trong email,sau đó vui lòng chọn cập nhật"
+                "Bạn cần nhấn gửi xác nhận, và xác nhận thư trong email, sau đó vui lòng chọn cập nhật"
         }
     }
 

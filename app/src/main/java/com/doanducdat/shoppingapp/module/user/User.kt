@@ -10,12 +10,12 @@ data class User(
     val birthYear: String,
     val cart: MutableList<PopulatedCart>,
     val createdAt: String,
-    val email: String,
+    var email: String,
     val favProducts: List<Any>,
     val name: String,
     val phone: String,
     val role: String,
     val sex: String,
-    val stateVerifyEmail: Boolean,
+    var stateVerifyEmail: Boolean,
     val updatedAt: String
 )
