@@ -2,6 +2,7 @@ package com.doanducdat.shoppingapp.ui.login.signin
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignInBinding
+import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.ui.main.MainActivity
@@ -19,11 +21,11 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.MyDataStore
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
-import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,8 +51,30 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         subscribeListenLoadingForm()
+
+        //if token still use ok
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel.isLoading.value = true
+            with(binding) {
+                setStateViews(false, btnSignIn, txtSignUp, txtForgotPassword)
+            }
+
+            val token = myDataStore.userJwtFlow.first().trim()
+            if (!TextUtils.isEmpty(token)) {
+                //token is exist, assign token before call loadMe()
+                InfoUser.token.append(token)
+                listenLoadMe()
+                viewModel.loadMe()
+            } else {
+                viewModel.isLoading.value = false
+                with(binding) {
+                    setStateViews(true, btnSignIn, txtSignUp, txtForgotPassword)
+                }
+            }
+        }
+
+        // if token = null or token expired
         subscribeListenSignIn()
 
         setUpCheckForm()
@@ -71,6 +95,31 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
         })
     }
 
+    private fun listenLoadMe() {
+        viewModel.dataStateUser.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    viewModel.isLoading.value = false
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    Log.e(AppConstants.TAG.LOAD_ME, "listenLoadMe: ${it.message}")
+                    with(binding) {
+                        setStateViews(true, btnSignIn, txtSignUp, txtForgotPassword)
+                    }
+                    //catch err token expired -> delete old token
+                }
+                Status.SUCCESS -> {
+                    InfoUser.currentUser = it.response!!.data
+                    viewModel.isLoading.value = false
+                    startMain()
+                }
+            }
+        })
+    }
+
+
     private fun subscribeListenSignIn() {
         viewModel.dataState.observe(viewLifecycleOwner, {
             when (it.status) {
@@ -80,6 +129,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                 Status.ERROR -> {
                     dialog.setText(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     dialog.show()
+
+                    with(binding) {
+                        setStateViews(true, btnSignIn, txtSignUp, txtForgotPassword)
+                    }
                     Log.e(AppConstants.TAG.SIGN_IN, "subscribeListenSignIn: ${it.message}")
                     viewModel.isLoading.value = false
                 }
@@ -90,14 +143,16 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                         InfoUser.token.append(it.response.token)
 
                         Log.e(AppConstants.TAG.SIGN_IN, "token: ${InfoUser.token}")
-                        viewModel.isLoading.value = false
-
-                        startActivity(Intent(requireActivity(), MainActivity::class.java))
-                        requireActivity().finish()
+                        viewModel.loadMe()
                     }
                 }
             }
         })
+    }
+
+    private fun startMain() {
+        startActivity(Intent(requireActivity(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun setUpCheckForm() {
@@ -176,6 +231,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
 
     private fun signIn() {
         viewModel.isLoading.value = true
+        with(binding) {
+            setStateViews(false, btnSignIn, txtSignUp, txtForgotPassword)
+        }
+
         viewModel.phone = binding.txtInputEdtPhone.text.toString()
         viewModel.password = binding.txtInputEdtPassword.text.toString()
         viewModel.signInUser()

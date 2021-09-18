@@ -49,7 +49,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadMe()
         //hide underline of search view
         hideSearchPlate(binding.myAppBarLayout.searchView)
 
@@ -83,32 +82,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         setUpActionClick()
     }
 
-    private fun loadMe() {
-        if (InfoUser.currentUser == null) {
-            listenLoadMe()
-            viewModel.loadMe()
-        }
-    }
-
-    private fun listenLoadMe() {
-        viewModel.dataStateUser.observe(viewLifecycleOwner, {
-            when (it.status) {
-                Status.LOADING -> {
-                    binding.swipeRefreshLayout.isRefreshing = true
-                }
-                Status.ERROR -> {
-                    binding.swipeRefreshLayout.isRefreshing = false
-                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
-                    Log.e(AppConstants.TAG.LOAD_ME, "subscribeLoadNewProduct: ${it.message}")
-                }
-                Status.SUCCESS -> {
-                    InfoUser.currentUser = it.response!!.data
-                    binding.myAppBarLayout.imgAvatar.load(InfoUser.currentUser!!.getUrlAvatar())
-                    binding.swipeRefreshLayout.isRefreshing = false
-                }
-            }
-        })
-    }
+//    private fun loadMe() {
+//        if (InfoUser.currentUser == null) {
+//            listenLoadMe()
+//            viewModel.loadMe()
+//        }
+//    }
+//
+//    private fun listenLoadMe() {
+//        viewModel.dataStateUser.observe(viewLifecycleOwner, {
+//            when (it.status) {
+//                Status.LOADING -> {
+//                    binding.swipeRefreshLayout.isRefreshing = true
+//                }
+//                Status.ERROR -> {
+//                    binding.swipeRefreshLayout.isRefreshing = false
+//                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+//                    Log.e(AppConstants.TAG.LOAD_ME, "subscribeLoadNewProduct: ${it.message}")
+//                }
+//                Status.SUCCESS -> {
+//                    InfoUser.currentUser = it.response!!.data
+//                    binding.myAppBarLayout.imgAvatar.load(InfoUser.currentUser!!.getUrlAvatar())
+//                    binding.swipeRefreshLayout.isRefreshing = false
+//                }
+//            }
+//        })
+//    }
 
     private fun subsCribCollapsingListen() {
         binding.myAppBarLayout.appBarLayout.addOnOffsetChangedListener(
