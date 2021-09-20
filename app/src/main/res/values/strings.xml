@@ -61,5 +61,14 @@
     <string name="unit">đ</string>
     <string name="yes">Đồng ý</string>
     <string name="no">Hủy</string>
+    <string name="verifyInfo">Xác nhận thông tin nhận hàng</string>
+    <string name="address">VD: Đ768, Thạnh Phú, Vĩnh Cửu, Đồng Nai</string>
+    <string name="note">Ghi chú thêm(VD: Giao giờ hành chính)</string>
+    <string name="paymentMode">Chọn hình thức thanh toán</string>
+    <string name="cod">Thanh toán khi nhận hàng (COD)</string>
+    <string name="momo">Ví MOMO</string>
+    <string name="costDelivery">Phí vận chuyển:</string>
+    <string name="totalPrice">Tổng giá:</string>
+    <string name="totalPayment">Tổng thanh toán:</string>
 
 </resources>

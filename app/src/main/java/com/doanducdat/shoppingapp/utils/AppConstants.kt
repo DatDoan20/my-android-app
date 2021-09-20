@@ -87,6 +87,7 @@ object AppConstants {
             const val VERIFY_EMAIL = "VERIFY_EMAIL"
             const val SIGN_UP = "SIGN_UP"
             const val SIGN_IN = "SIGN_IN"
+            const val CART = "CART"
         }
     }
 
@@ -127,6 +128,7 @@ object AppConstants {
             const val EMAIL_ERR_MSG = "Email không hợp lệ"
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
             const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
+            const val ADDRESS_ERR_MSG= "Địa chỉ không được để trống"
             const val EXIT_APP = "Nhấn lần nữa để thoát"
 
             const val MSG_ERR_JWT_EXPIRED =

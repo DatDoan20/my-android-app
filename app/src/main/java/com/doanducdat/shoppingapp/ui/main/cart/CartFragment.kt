@@ -68,7 +68,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     private fun listenSumMoneyCart() {
         viewModel.sumMoneyCart.observe(viewLifecycleOwner, {
             binding.btnExtendedFab.text = FormValidation.formatMoney(it)
-            Log.e("TAG", "listenSumMoneyCart: $it")
+            Log.e(AppConstants.TAG.CART, "listenSumMoneyCart: $it")
         })
     }
 
@@ -145,12 +145,15 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
                     dialogYesNo.dismiss()
                 }
                 Status.ERROR -> {
-                    Log.e("TAG", "listenDeleteProductInCart: ${it.message}")
+                    Log.e(AppConstants.TAG.CART, "listenDeleteProductInCart: ${it.message}")
                     showLongToast(it.message.toString())
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
-                    Log.e("TAG", "listenDeleteProductInCart: ${it.response!!.message}")
+                    Log.e(
+                        AppConstants.TAG.CART,
+                        "listenDeleteProductInCart: ${it.response!!.message}"
+                    )
                     showShortToast(AppConstants.MsgInfo.MSG_INFO_DELETE_PRODUCT_IN_CART)
 
                     //update currentUser variable in Ram
@@ -184,10 +187,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     private fun checkPreOrder() {
         //check verify email?
         if (InfoUser.currentUser?.stateVerifyEmail == false) {
-//            Log.e("TAG", "checkPreOrder: ${InfoUser.currentUser?.stateVerifyEmail}")
+            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoUser.currentUser?.stateVerifyEmail}")
             dialogBasic.setTextButton("Đã hiểu")
             dialogBasic.setText(AppConstants.MsgInfo.MSG_NOT_VERIFY_EMAIl)
             dialogBasic.show()
+            return
         }
+
     }
 }

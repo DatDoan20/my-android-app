@@ -19,6 +19,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_dialog.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_dialog_ccp_region_phone.xml" value="0.15925925925925927" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_discount_product.xml" value="0.2786458333333333" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_edt_generic.xml" value="0.18425925925925926" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_icon_btm_nvg_main.xml" value="0.18333333333333332" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_img_product.xml" value="0.23703703703703705" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_info_product.xml" value="0.2786458333333333" />
@@ -60,6 +61,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_login.xml" value="0.21574074074074073" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_man_category.xml" value="0.259375" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_order.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product_list.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product_photo_view.xml" value="0.26263678999478896" />
