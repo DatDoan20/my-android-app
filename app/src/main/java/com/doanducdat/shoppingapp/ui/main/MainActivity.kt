@@ -1,11 +1,13 @@
 package com.doanducdat.shoppingapp.ui.main
 
 import android.view.View
+import androidx.core.view.get
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityMainBinding
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
+import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,8 +22,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun setUpView() {
         setUpActionClick()
+        updateBadgeCountCart()
     }
-
+    fun updateBadgeCountCart(){
+        binding.bubbleBtmNvgMain.setBadgeValue(3, InfoUser.currentUser?.cart?.size.toString())
+    }
     private fun setUpActionClick() {
         binding.bubbleBtmNvgMain.setNavigationChangeListener { _, position ->
             //navigate fragment when click
@@ -42,6 +47,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     navigationToFragment(R.id.profileFragment)
                 }
             }
+            updateBadgeCountCart()
         }
         //hide bottom navigation
         controller.addOnDestinationChangedListener { _, destination, _ ->
@@ -60,8 +66,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
                 else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE
-
             }
+            updateBadgeCountCart()
         }
     }
 

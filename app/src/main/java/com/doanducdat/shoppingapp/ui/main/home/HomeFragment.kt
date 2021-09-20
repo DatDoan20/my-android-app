@@ -55,6 +55,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         // when collapsing -> disable refresh layout, expand fully -> enable refresh layout
         subsCribCollapsingListen()
 
+        setUpMyInfo()
+
         setUpSlideImageIntro()
 
         //New product
@@ -64,17 +66,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         if (newProductAdapter.itemCount == 0) {
             loadIntroNewProduct()
         }
+
         //Sale product
         setUpRecycleViewSaleProduct()
         subscribeLoadSaleProduct()
         if (saleProductAdapter.itemCount == 0) {
             loadIntroSaleProducts()
         }
+
         //Hot Category
         setUpRecyclerviewHotCategory()
         if (hotCategoryAdapter.itemCount == 0) {
             loadHotCategory()
         }
+
         //when refresh layout -> load all data relate
         setUpSwipeRefreshLayout()
 
@@ -82,37 +87,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         setUpActionClick()
     }
 
-//    private fun loadMe() {
-//        if (InfoUser.currentUser == null) {
-//            listenLoadMe()
-//            viewModel.loadMe()
-//        }
-//    }
-//
-//    private fun listenLoadMe() {
-//        viewModel.dataStateUser.observe(viewLifecycleOwner, {
-//            when (it.status) {
-//                Status.LOADING -> {
-//                    binding.swipeRefreshLayout.isRefreshing = true
-//                }
-//                Status.ERROR -> {
-//                    binding.swipeRefreshLayout.isRefreshing = false
-//                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
-//                    Log.e(AppConstants.TAG.LOAD_ME, "subscribeLoadNewProduct: ${it.message}")
-//                }
-//                Status.SUCCESS -> {
-//                    InfoUser.currentUser = it.response!!.data
-//                    binding.myAppBarLayout.imgAvatar.load(InfoUser.currentUser!!.getUrlAvatar())
-//                    binding.swipeRefreshLayout.isRefreshing = false
-//                }
-//            }
-//        })
-//    }
-
     private fun subsCribCollapsingListen() {
         binding.myAppBarLayout.appBarLayout.addOnOffsetChangedListener(
             collapsingListen(binding.myAppBarLayout.searchView, binding.swipeRefreshLayout)
         )
+    }
+
+    private fun setUpMyInfo() {
+        binding.myAppBarLayout.imgAvatar.load(InfoUser.currentUser?.getUrlAvatar())
     }
 
     //region Slide Image Intro

@@ -20,6 +20,7 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.dialog.MyYesNoDialog
+import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +48,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         setUpActionClick()
 
     }
+
     private fun listenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             cartAdapter.isClickAble = !it
@@ -58,13 +60,21 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         })
     }
 
+    /**
+     * when fun calculatingSumCart called , plush,
+     *
+     * minus -> update sumMoneyCart in viewModel
+     */
     private fun listenSumMoneyCart() {
         viewModel.sumMoneyCart.observe(viewLifecycleOwner, {
-            binding.btnExtendedFab.text = it.toString()
+            binding.btnExtendedFab.text = FormValidation.formatMoney(it)
             Log.e("TAG", "listenSumMoneyCart: $it")
         })
     }
 
+    /**
+     * when init load, after delete product, use this fun
+     */
     private fun calculatingSumCart() {
         var sumMoneyCart: Int = 0
         InfoUser.currentUser?.cart?.forEach {
@@ -164,7 +174,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
 
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
-        when(CODE_ACTION_CLICK){
+        when (CODE_ACTION_CLICK) {
             AppConstants.ActionClick.ORDER -> {
                 checkPreOrder()
             }
@@ -173,7 +183,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
 
     private fun checkPreOrder() {
         //check verify email?
-        if(InfoUser.currentUser?.stateVerifyEmail == false){
+        if (InfoUser.currentUser?.stateVerifyEmail == false) {
 //            Log.e("TAG", "checkPreOrder: ${InfoUser.currentUser?.stateVerifyEmail}")
             dialogBasic.setTextButton("Đã hiểu")
             dialogBasic.setText(AppConstants.MsgInfo.MSG_NOT_VERIFY_EMAIl)
