@@ -38,6 +38,14 @@ object AppConstants {
         }
     }
 
+    annotation class Response {
+        companion object {
+            const val ERR_JWT_EXPIRED = "TokenExpiredError"
+            const val ERR_DUPLICATE = "E11000"
+            const val ERR_INCORRECT_PHONE_OR_PASS = "Incorrect"
+        }
+    }
+
     annotation class QueryRequest {
         companion object {
             const val LIMIT_10 = 10
@@ -99,7 +107,8 @@ object AppConstants {
         companion object {
             const val PASS_DEFAULT = "Test#123456789"
             const val UPDATE_EMAIL_SUCCESS = "Xác minh và cập nhật email thành công!"
-            const val SEND_SUCCESS = "Gửi thành công, Kiểm tra các hộp thư email, thư rác để tìm và để xác nhận"
+            const val SEND_SUCCESS =
+                "Gửi thành công, Kiểm tra các hộp thư email, thư rác để tìm và để xác nhận"
             const val NOT_VERIFY = "Bạn chưa xác nhận, vui lòng xác nhận trong hộp thư của Email"
             const val NOT_SEND =
                 "Bạn cần nhấn gửi xác nhận, và xác nhận thư trong email, sau đó vui lòng chọn cập nhật"
@@ -119,6 +128,15 @@ object AppConstants {
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
             const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
             const val EXIT_APP = "Nhấn lần nữa để thoát"
+
+            const val MSG_ERR_JWT_EXPIRED =
+                "Phiên đăng nhập tự động đã hết, bạn vui lòng đăng nhập lại để sử dụng"
+            const val MSG_ERR_DUPLICATE_SIGN_IN =
+                "Số điện thoại hoặc email đã được đăng ký với tài khoản khác, vui lòng kiểm tra lại!"
+            const val MSG_ERR_AUTO_SIGN_IN =
+                "Đăng nhập thất bại! đã có lỗi xảy ra, thử lại sau"
+            const val MSG_ERR_INCORRECT_PHONE_OR_PASS =
+                "Số điện thoại hoặc mật khẩu không chính xác, vui lòng kiểm tra lại!"
 
         }
     }

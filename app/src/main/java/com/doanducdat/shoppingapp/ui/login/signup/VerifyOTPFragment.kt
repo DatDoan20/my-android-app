@@ -78,9 +78,28 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
                     viewModel.isLoading.value = true
                 }
                 Status.ERROR -> {
-                    Log.e(AppConstants.TAG.SIGN_UP, "subscribeListenSignUp: ${it.message!!}")
-                    dialog.setText(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    //default is err network
+                    var errMsg = AppConstants.MsgErr.GENERIC_ERR_MSG
+
+                    //if not err network?
+                    if (it.response != null) {
+                        //err duplicate? (message: E11000...)
+                        errMsg = if (it.response.message.startsWith(
+                                AppConstants.Response.ERR_DUPLICATE,
+                                true
+                            )
+                        ) {
+                            AppConstants.MsgErr.MSG_ERR_DUPLICATE_SIGN_IN
+                        } else {
+                            //another err, also err duplicate was processed by server
+                            // -> delegate message(production environment)
+                            it.response.message
+                        }
+                    }
+                    dialog.setText(errMsg)
                     dialog.show()
+
+                    Log.e(AppConstants.TAG.SIGN_UP, "subscribeListenSignUp: ${it.message!!}")
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {

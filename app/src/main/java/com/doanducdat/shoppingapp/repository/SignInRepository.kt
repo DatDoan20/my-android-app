@@ -22,7 +22,12 @@ class SignInRepository @Inject constructor(
             val responseAuthSignInUser: ResponseAuth = userAPI.signInUser(userSignIn)
             emit(DataState.success(responseAuthSignInUser))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(
+                DataState.error(
+                    ResponseValidation.errResponseSignIn(e),
+                    ResponseValidation.msgErrResponse(e)
+                )
+            )
         }
     }
 
@@ -40,10 +45,15 @@ class SignInRepository @Inject constructor(
     suspend fun loadMe() = flow {
         emit(DataState.loading(null))
         try {
-            val myInfo: ResponseUser = userAPI.loadMe(InfoUser.token.toString())
+            val myInfo = userAPI.loadMe(InfoUser.token.toString())
             emit(DataState.success(myInfo))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(
+                DataState.error(
+                    ResponseValidation.errResponseUser(e),
+                    ResponseValidation.msgErrResponse(e)
+                )
+            )
         }
     }
 }
