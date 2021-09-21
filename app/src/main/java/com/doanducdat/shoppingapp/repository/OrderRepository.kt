@@ -1,11 +1,17 @@
 package com.doanducdat.shoppingapp.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.module.order.Order
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseOrder
+import com.doanducdat.shoppingapp.paging.OrderPagingSource
 import com.doanducdat.shoppingapp.retrofit.OrderAPI
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -26,4 +32,10 @@ class OrderRepository @Inject constructor(
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }
     }
+
+    fun getOrderPaging(): Flow<PagingData<Order>> = Pager(
+        PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_5, enablePlaceholders = false),
+    ) {
+        OrderPagingSource(orderAPI)
+    }.flow
 }

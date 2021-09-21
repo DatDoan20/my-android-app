@@ -65,9 +65,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
      *
      * minus -> update sumMoneyCart in viewModel
      */
+    @SuppressLint("SetTextI18n")
     private fun listenSumMoneyCart() {
         viewModel.sumMoneyCart.observe(viewLifecycleOwner, {
-            binding.btnExtendedFab.text = FormValidation.formatMoney(it)
+            binding.btnExtendedFab.text = "${FormValidation.formatMoney(it)}/Tiến hành đặt hàng"
             Log.e(AppConstants.TAG.CART, "listenSumMoneyCart: $it")
         })
     }

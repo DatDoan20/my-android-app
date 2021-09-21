@@ -43,7 +43,9 @@
     <string name="delete">Xóa</string>
     <string name="verifyEmail"> <u>Xác nhận email</u></string>
     <string name="titleEditProfile">Chỉnh sửa hồ sơ</string>
+    <string name="titleManageOrder">Quản lý đơn hàng</string>
     <string name="desEditProfile">Chỉnh sửa thông tin cá nhân: tên, giới tính, ngày sinh, ảnh đại diện</string>
+    <string name="desManageOrder">Quản lý các đơn hàng, theo dõi trạng thái đơn hàng</string>
     <string name="titleSignOut">Đăng xuất</string>
     <string name="desSignOut">Thoát tài khoản đăng nhập, bạn có thể đăng nhập tài khoản khác</string>
     <string name="notify">Thông báo</string>
@@ -72,5 +74,8 @@
     <string name="totalPrice">Tổng giá:</string>
     <string name="totalPayment">Tổng thanh toán:</string>
     <string name="order">Đặt hàng </string>
+    <string name="numberProduct">Số mặt hàng:</string>
+    <string name="dateOrder">Ngày đặt:</string>
+    <string name="addressText">Địa chỉ</string>
 
 </resources>

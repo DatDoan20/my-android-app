@@ -1,10 +1,16 @@
 package com.doanducdat.shoppingapp.utils.validation
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.utils.AppConstants
 import java.text.DecimalFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Pattern
+
 /*** function check: error -> return "error message", not error -> return "null" */
 object FormValidation {
 
@@ -69,7 +75,18 @@ object FormValidation {
         return formattedName.trim().toString()
     }
 
-    fun formatMoney(number:Int): String {
+    fun formatMoney(number: Int): String {
         return DecimalFormat("#,###").format(number) + "đ"
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun formatDay(date: String): String? {
+        val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        return try {
+            format.parse(date).toString()
+        } catch (e: ParseException) {
+            Log.e(AppConstants.TAG.ORDER_MANAGEMENT, "formatDay: ")
+            null
+        }
     }
 }

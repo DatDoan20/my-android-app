@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.doanducdat.shoppingapp.module.order.Order
 import com.doanducdat.shoppingapp.module.order.PurchasedProduct
 import com.doanducdat.shoppingapp.module.response.DataState
@@ -11,6 +13,7 @@ import com.doanducdat.shoppingapp.module.response.ResponseOrder
 import com.doanducdat.shoppingapp.repository.OrderRepository
 import com.doanducdat.shoppingapp.utils.AppConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -41,11 +44,25 @@ class OrderViewModel @Inject constructor(
 
     fun order() = viewModelScope.launch {
         val order: Order = Order(
-            address, costDelivery, email, name, paymentMode, phone, state, totalPayment, totalPrice,
-            purchasedProducts
+            null,
+            address,
+            costDelivery,
+            email,
+            name,
+            paymentMode,
+            phone,
+            state,
+            totalPayment,
+            totalPrice,
+            purchasedProducts,
+            null
         )
         orderRepository.order(order).onEach {
             _dataStateOrder.value = it
         }.launchIn(viewModelScope)
+    }
+
+    fun getOrderPaging(): Flow<PagingData<Order>> {
+        return orderRepository.getOrderPaging().cachedIn(viewModelScope)
     }
 }

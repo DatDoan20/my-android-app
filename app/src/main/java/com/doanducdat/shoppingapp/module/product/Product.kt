@@ -1,6 +1,5 @@
 package com.doanducdat.shoppingapp.module.product
 
-import android.util.Log
 import com.doanducdat.shoppingapp.module.review.Review
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName

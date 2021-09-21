@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import coil.load
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentProfileBinding
 import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.module.user.Email
@@ -25,27 +28,41 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
         container: ViewGroup?
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, false)
 
+    private val controller by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
+    }
     private val verifyEmailDialog: MyVerifyEmailDialog by lazy { MyVerifyEmailDialog(requireActivity()) }
     val viewModel: ProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpVerifyEmail()
+        setUpInfo()
+        setUpActionClick()
         listenUpdateEmail()
+    }
+
+
+    private fun setUpInfo() {
         binding.imgAvatar.load(InfoUser.currentUser?.getUrlAvatar())
+        binding.txtEmail.text = InfoUser.currentUser?.email ?: ""
+    }
+
+    private fun setUpActionClick() {
+        setUpVerifyEmail()
+        binding.layoutManageOrderItem.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.NAV_MANAGE_ORDER)
+        }
     }
 
     private fun setUpVerifyEmail() {
-//        if (InfoUser.currentUser?.stateVerifyEmail == false) {
-//            binding.txtVerifyEmail.visibility = View.VISIBLE
-//            binding.txtVerifyEmail.setOnClickListener {
-//                doActionClick(AppConstants.ActionClick.VERIFY_EMAIL)
-//            }
-//        } else {
-//            binding.txtVerifyEmail.visibility = View.GONE
-//        }
-        binding.txtVerifyEmail.setOnClickListener {
-            doActionClick(AppConstants.ActionClick.VERIFY_EMAIL)
+        if (InfoUser.currentUser?.stateVerifyEmail == false) {
+            binding.txtVerifyEmail.visibility = View.VISIBLE
+            binding.txtVerifyEmail.setOnClickListener {
+                doActionClick(AppConstants.ActionClick.VERIFY_EMAIL)
+            }
+        } else {
+            binding.txtVerifyEmail.visibility = View.GONE
         }
     }
 
@@ -57,6 +74,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                     listenUpdateEmail()
                     viewModel.updateEmail(Email(email))
                 }
+            }
+            AppConstants.ActionClick.NAV_MANAGE_ORDER -> {
+                controller.navigate(R.id.orderManagementFragment)
             }
         }
     }

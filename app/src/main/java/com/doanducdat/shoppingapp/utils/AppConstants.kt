@@ -23,6 +23,7 @@ object AppConstants {
             const val MINUS_PRODUCT_IN_CART = 17
             const val ORDER = 18
             const val VERIFY_EMAIL = 19
+            const val NAV_MANAGE_ORDER = 20
         }
     }
 
@@ -49,7 +50,8 @@ object AppConstants {
     annotation class QueryRequest {
         companion object {
             const val LIMIT_10 = 10
-            const val LIMIT_12 = 8
+            const val LIMIT_5 = 5
+            const val LIMIT_8 = 8
             const val PAGE_1 = 1
             const val DISCOUNTING = 0
             const val WAITING = "waiting"
@@ -91,6 +93,7 @@ object AppConstants {
             const val SIGN_IN = "SIGN_IN"
             const val CART = "CART"
             const val ORDER = "ORDER"
+            const val ORDER_MANAGEMENT = "ORDER_MANAGEMENT"
         }
     }
 

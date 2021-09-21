@@ -170,6 +170,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
                     viewModel.isLoading.value = false
                     showLongToast(AppConstants.MsgInfo.MSG_ORDER_SUCCESS)
                     InfoUser.currentUser?.cart?.clear()
+                    controller.popBackStack()
                 }
             }
         })
