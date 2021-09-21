@@ -78,7 +78,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     private fun calculatingSumCart() {
         var sumMoneyCart: Int = 0
         InfoUser.currentUser?.cart?.forEach {
-            sumMoneyCart += it.finalPrice
+            sumMoneyCart += it.price
         }
         viewModel.sumMoneyCart.value = sumMoneyCart
     }
@@ -95,24 +95,24 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         //event click adapter
         cartAdapter.mySetOnClickMinusOrPlush { CODE_ACTION_CLICK, populatedCart, txtQuantity, txtPrice ->
             if (cartAdapter.isClickAble) {
-                val priceOneItem = populatedCart.finalPrice / populatedCart.quantity
+                val priceOneItem = populatedCart.price / populatedCart.quantity
 
                 if (CODE_ACTION_CLICK == AppConstants.ActionClick.PLUSH_PRODUCT_IN_CART) {
                     populatedCart.quantity += 1
-                    populatedCart.finalPrice += priceOneItem
+                    populatedCart.price += priceOneItem
                     viewModel.sumMoneyCart.value = viewModel.sumMoneyCart.value?.plus(priceOneItem)
                 } else {
                     if (populatedCart.quantity == 1) {
                         showDialogConfirmDeleteProductInCart(populatedCart.infoProduct.id)
                     } else {
                         populatedCart.quantity -= 1
-                        populatedCart.finalPrice -= priceOneItem
+                        populatedCart.price -= priceOneItem
                         viewModel.sumMoneyCart.value = viewModel.sumMoneyCart.value?.minus(
                             priceOneItem
                         )
                     }
                 }
-                txtPrice.text = populatedCart.getFormatFinalPrice()
+                txtPrice.text = populatedCart.getFormatPrice()
                 txtQuantity.text = populatedCart.quantity.toString()
             }
         }
@@ -193,6 +193,13 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
             dialogBasic.show()
             return
         }
-
+        if (InfoUser.currentUser?.cart?.size == 0) {
+            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoUser.currentUser?.cart!!.size}")
+            dialogBasic.setTextButton("Đã hiểu")
+            dialogBasic.setText(AppConstants.MsgInfo.MSG_INFO_EMPTY_CART)
+            dialogBasic.show()
+            return
+        }
+        controller.navigate(R.id.orderFragment)
     }
 }

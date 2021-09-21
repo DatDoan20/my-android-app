@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.repository
 
+import com.doanducdat.shoppingapp.module.order.Order
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseOrder
 import com.doanducdat.shoppingapp.retrofit.OrderAPI

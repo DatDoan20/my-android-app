@@ -52,6 +52,8 @@ object AppConstants {
             const val LIMIT_12 = 8
             const val PAGE_1 = 1
             const val DISCOUNTING = 0
+            const val WAITING = "waiting"
+            const val PAYMENT_MODE = "COD"
         }
     }
 
@@ -88,6 +90,7 @@ object AppConstants {
             const val SIGN_UP = "SIGN_UP"
             const val SIGN_IN = "SIGN_IN"
             const val CART = "CART"
+            const val ORDER = "ORDER"
         }
     }
 
@@ -128,7 +131,7 @@ object AppConstants {
             const val EMAIL_ERR_MSG = "Email không hợp lệ"
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
             const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
-            const val ADDRESS_ERR_MSG= "Địa chỉ không được để trống"
+            const val ADDRESS_ERR_MSG = "Địa chỉ không được để trống"
             const val EXIT_APP = "Nhấn lần nữa để thoát"
 
             const val MSG_ERR_JWT_EXPIRED =
@@ -151,8 +154,10 @@ object AppConstants {
             const val COLOR_ERR_MSG = "Vui lòng chọn màu sản phẩm"
             const val SIZE_ERR_MSG = "Vui lòng chọn kích thước sản phẩm"
             const val MSG_INFO_DELETE_PRODUCT_IN_CART = "Xóa thành công sản phẩm khỏi giỏ hàng"
+            const val MSG_INFO_EMPTY_CART = "Không có sản phẩm nào trong giỏ hàng!"
             const val MSG_NOT_VERIFY_EMAIl =
                 "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
+            const val MSG_ORDER_SUCCESS = "Đặt hàng thành công"
         }
     }
 

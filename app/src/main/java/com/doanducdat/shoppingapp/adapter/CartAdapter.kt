@@ -55,7 +55,7 @@ class CartAdapter(
                 txtName.text = populatedCart.infoProduct.name
                 txtSize.text = populatedCart.size
                 txtColor.text = populatedCart.color
-                txtPrice.text = populatedCart.getFormatFinalPrice()
+                txtPrice.text = populatedCart.getFormatPrice()
                 txtQuantity.text = populatedCart.quantity.toString()
                 imgProductCover.load(populatedCart.infoProduct.getUrlImgCover())
 
@@ -63,7 +63,7 @@ class CartAdapter(
                 if (populatedCart.infoProduct.getUnFormatDiscount() != 0) {
                     txtDiscountProduct.text = populatedCart.infoProduct.getDiscount()
                     txtPriceNotDiscount.text =
-                        populatedCart.getFinalPriceUnDiscount(populatedCart.infoProduct.getUnFormatDiscount())
+                        populatedCart.getPriceUnDiscount(populatedCart.infoProduct.getUnFormatDiscount())
                     txtPriceNotDiscount.paintFlags =
                         txtPriceNotDiscount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                     txtDiscountProduct.visibility = View.VISIBLE

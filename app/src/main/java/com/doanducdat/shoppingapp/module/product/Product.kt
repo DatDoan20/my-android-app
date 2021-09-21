@@ -56,6 +56,9 @@ class Product(
         return "/${ratingsQuantity}"
     }
 
+    fun getImageCover():String{
+        return imageCover
+    }
     fun getUrlImgCover(): String {
         return getUrlImg(imageCover)
     }
