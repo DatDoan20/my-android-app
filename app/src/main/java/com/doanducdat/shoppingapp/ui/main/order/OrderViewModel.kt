@@ -37,10 +37,13 @@ class OrderViewModel @Inject constructor(
     var totalPrice: Int = 0
     var totalPayment: Int = 0
 
-    private val _dataStateOrder: MutableLiveData<DataState<ResponseOrder>> =
-        MutableLiveData()
+    private val _dataStateOrder: MutableLiveData<DataState<ResponseOrder>> = MutableLiveData()
     val dataStateOrder: LiveData<DataState<ResponseOrder>>
         get() = _dataStateOrder
+
+    private val _dataStateCancel: MutableLiveData<DataState<ResponseOrder>> = MutableLiveData()
+    val dataStateCancel: LiveData<DataState<ResponseOrder>>
+        get() = _dataStateCancel
 
     fun order() = viewModelScope.launch {
         val order: Order = Order(
@@ -64,5 +67,11 @@ class OrderViewModel @Inject constructor(
 
     fun getOrderPaging(): Flow<PagingData<Order>> {
         return orderRepository.getOrderPaging().cachedIn(viewModelScope)
+    }
+
+    fun cancelOrder(idOrder: String) = viewModelScope.launch {
+        orderRepository.cancelOrder(idOrder).onEach {
+            _dataStateCancel.value = it
+        }.launchIn(viewModelScope)
     }
 }

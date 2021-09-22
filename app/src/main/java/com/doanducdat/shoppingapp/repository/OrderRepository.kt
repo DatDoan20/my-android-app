@@ -38,4 +38,18 @@ class OrderRepository @Inject constructor(
     ) {
         OrderPagingSource(orderAPI)
     }.flow
+
+    suspend fun cancelOrder(idOrder: String) = flow {
+        emit(DataState.loading(null))
+        try {
+            val responseOrder: ResponseOrder =
+                orderAPI.cancelOrder(
+                    InfoUser.token.toString(),
+                    idOrder
+                )
+            emit(DataState.success(responseOrder))
+        } catch (e: Throwable) {
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+        }
+    }
 }

@@ -1,32 +1,30 @@
 package com.doanducdat.shoppingapp.ui.main.order.management
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.OrderPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentOrdersBinding
-import com.doanducdat.shoppingapp.myinterface.MyActionApp
+import com.doanducdat.shoppingapp.module.order.Order
+import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.ui.main.order.OrderViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.dialog.MyYesNoDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>(), MyActionApp {
+class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -37,11 +35,26 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>(), MyActionApp {
     private val myYesNoDialog by lazy { MyYesNoDialog(requireContext()) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenLoadingForm()
         setUpRcvOrders()
         listenStateLoadProduct()
         loadOrders()
+
         setUpActionClick()
+
+        listenCancelOrder()
     }
+
+    private fun listenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            if (it) {
+                setStateProgressBar(View.VISIBLE, binding.spinKitProgressBar)
+            } else {
+                setStateProgressBar(View.GONE, binding.spinKitProgressBar)
+            }
+        })
+    }
+
 
     private fun setUpRcvOrders() {
         binding.rcvOrders.layoutManager =
@@ -55,12 +68,12 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>(), MyActionApp {
             orderAdapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
                     is LoadState.Loading -> {
-                        setStateProgressBar(View.VISIBLE, binding.spinKitProgressBar)
+                        viewModel.isLoading.value = true
                     }
                     is LoadState.Error -> {
-                        setStateProgressBar(View.GONE, binding.spinKitProgressBar)
+                        viewModel.isLoading.value = false
                     }
-                    else -> setStateProgressBar(View.GONE, binding.spinKitProgressBar)
+                    else -> viewModel.isLoading.value = false
                 }
             }
         }
@@ -76,22 +89,39 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>(), MyActionApp {
 
     private fun setUpActionClick() {
         orderAdapter.mySetOnClickCancelOrder {
-            doActionClick(AppConstants.ActionClick.CANCEL_ORDER)
+            cancelOrder(it)
         }
         orderAdapter.mySetOnClickViewDetail {
-            doActionClick(AppConstants.ActionClick.NAV_DETAIL_ORDER)
         }
     }
 
-    override fun doActionClick(CODE_ACTION_CLICK: Int) {
-        when (CODE_ACTION_CLICK) {
-            AppConstants.ActionClick.CANCEL_ORDER -> {
-                myYesNoDialog.setText(AppConstants.MsgInfo.CONFIRM_DELETE_ORDER)
-                myYesNoDialog.show()
-            }
-            AppConstants.ActionClick.NAV_DETAIL_ORDER -> {
-
-            }
+    private fun cancelOrder(order: Order) {
+        myYesNoDialog.setText(AppConstants.MsgInfo.CONFIRM_DELETE_ORDER)
+        myYesNoDialog.mySetOnClickYes {
+            order.id?.let { viewModel.cancelOrder(it) }
         }
+        myYesNoDialog.show()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun listenCancelOrder() {
+        viewModel.dataStateCancel.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    myYesNoDialog.setStateDialog(false)
+                    myYesNoDialog.setStateProgressBar(View.VISIBLE)
+                }
+                Status.ERROR -> {
+                    myYesNoDialog.dismiss()
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    Log.e(AppConstants.TAG.ORDER_MANAGEMENT, "listenCancelOrder: ${it.message}")
+                }
+                Status.SUCCESS -> {
+                    myYesNoDialog.dismiss()
+                    showLongToast(AppConstants.MsgInfo.DELETE_ORDER)
+                    orderAdapter.refresh()
+                }
+            }
+        })
     }
 }

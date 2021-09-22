@@ -6,8 +6,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.doanducdat.shoppingapp.R
+import com.github.ybq.android.spinkit.SpinKitView
+import com.google.android.material.textfield.TextInputEditText
 
 
 class MyYesNoDialog(context: Context) {
@@ -46,11 +49,26 @@ class MyYesNoDialog(context: Context) {
     fun show() {
         dialog.show()
     }
-    fun dismiss(){
+
+    fun dismiss() {
         dialog.dismiss()
     }
 
     fun mySetOnClickYes(funClickYes: () -> Unit) {
         callbackClickYes = funClickYes
     }
+
+    fun setStateDialog(state: Boolean) {
+        val btnCancel: Button = dialog.findViewById(R.id.btn_cancel)
+        val btnYes: Button = dialog.findViewById(R.id.btn_yes)
+        btnCancel.isEnabled = state
+        btnYes.isEnabled = state
+    }
+
+    fun setStateProgressBar(state: Int) {
+        val progressbar: SpinKitView =
+            dialog.findViewById(R.id.spin_kit_progress_bar_my_yes_no_dialog)
+        progressbar.visibility = state
+    }
+
 }

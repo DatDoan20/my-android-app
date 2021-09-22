@@ -10,7 +10,7 @@ interface OrderAPI {
     @POST("api/users/orders")
     suspend fun order(
         @Header("Authorization") authorization: String,
-        @Body order:Order
+        @Body order: Order
     ): ResponseOrder
 
     @GET("api/users/orders/me")
@@ -19,5 +19,12 @@ interface OrderAPI {
         @Query("limit") limit: Int,
         @Query("page") page: Int,
     ): ResponseOrder
+
+    @DELETE("api/users/orders/{id}/force")
+    suspend fun cancelOrder(
+        @Header("Authorization") authorization: String,
+        @Path("id") idOrder: String
+    ): ResponseOrder
+
 
 }

@@ -164,6 +164,7 @@ object AppConstants {
                 "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
             const val MSG_ORDER_SUCCESS = "Đặt hàng thành công"
             const val CONFIRM_DELETE_ORDER= "Bạn có chắc chắn muốn hủy đơn hàng này?"
+            const val DELETE_ORDER= "Hủy đơn hàng thành công?"
         }
     }
 
