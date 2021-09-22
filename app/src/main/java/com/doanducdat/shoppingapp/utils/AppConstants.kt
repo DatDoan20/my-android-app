@@ -24,6 +24,8 @@ object AppConstants {
             const val ORDER = 18
             const val VERIFY_EMAIL = 19
             const val NAV_MANAGE_ORDER = 20
+            const val CANCEL_ORDER = 21
+            const val NAV_DETAIL_ORDER = 22
         }
     }
 
@@ -161,6 +163,7 @@ object AppConstants {
             const val MSG_NOT_VERIFY_EMAIl =
                 "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
             const val MSG_ORDER_SUCCESS = "Đặt hàng thành công"
+            const val CONFIRM_DELETE_ORDER= "Bạn có chắc chắn muốn hủy đơn hàng này?"
         }
     }
 
@@ -174,6 +177,19 @@ object AppConstants {
             const val TITLE_THIRD_FRAGMENT = "Bảo mật thông tin"
             const val DES_THIRD_FRAGMENT =
                 "Thông tin của người dùng luôn được bảo mật, tránh rò rỉ thông tin"
+        }
+    }
+
+    annotation class Order {
+        companion object {
+            const val WAITING = "waiting"
+            const val ACCEPTED = "accepted"
+            const val CANCELED = "canceled"
+            const val RECEIVED = "received"
+            const val MSG_WAITING = "Đang chờ xử lý"
+            const val MSG_ACCEPTED = "Đặt hàng thành công"
+            const val MSG_CANCELED = "Đã hủy"
+            const val MSG_RECEIVED = "Đã nhận hàng"
         }
     }
 

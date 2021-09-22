@@ -9,11 +9,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/bgSplash"
         android:layout_height="match_parent"
-        tools:context=".ui.main.order.management.OrdersFragment">
+        tools:context=".ui.main.order.management.MyOrdersFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_orders"
+            android:background="@color/bgSplash"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"

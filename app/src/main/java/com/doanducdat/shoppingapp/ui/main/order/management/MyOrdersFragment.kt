@@ -16,15 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.OrderPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentOrdersBinding
+import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.ui.main.order.OrderViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.dialog.MyYesNoDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class OrdersFragment : BaseFragment<FragmentOrdersBinding>() {
+class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>(), MyActionApp {
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -32,22 +34,20 @@ class OrdersFragment : BaseFragment<FragmentOrdersBinding>() {
 
     val viewModel: OrderViewModel by viewModels()
     private val orderAdapter: OrderPagingAdapter = OrderPagingAdapter()
-
+    private val myYesNoDialog by lazy { MyYesNoDialog(requireContext()) }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRcvOrders()
         listenStateLoadProduct()
         loadOrders()
+        setUpActionClick()
     }
 
     private fun setUpRcvOrders() {
         binding.rcvOrders.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
         binding.rcvOrders.adapter = orderAdapter
-        orderAdapter.mySetOnClickOder {
-//            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
-        }
+
     }
 
     private fun listenStateLoadProduct() {
@@ -74,4 +74,24 @@ class OrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         }
     }
 
+    private fun setUpActionClick() {
+        orderAdapter.mySetOnClickCancelOrder {
+            doActionClick(AppConstants.ActionClick.CANCEL_ORDER)
+        }
+        orderAdapter.mySetOnClickViewDetail {
+            doActionClick(AppConstants.ActionClick.NAV_DETAIL_ORDER)
+        }
+    }
+
+    override fun doActionClick(CODE_ACTION_CLICK: Int) {
+        when (CODE_ACTION_CLICK) {
+            AppConstants.ActionClick.CANCEL_ORDER -> {
+                myYesNoDialog.setText(AppConstants.MsgInfo.CONFIRM_DELETE_ORDER)
+                myYesNoDialog.show()
+            }
+            AppConstants.ActionClick.NAV_DETAIL_ORDER -> {
+
+            }
+        }
+    }
 }

@@ -77,5 +77,7 @@
     <string name="numberProduct">Số mặt hàng:</string>
     <string name="dateOrder">Ngày đặt:</string>
     <string name="addressText">Địa chỉ</string>
+    <string name="detailOrder">Chi tiết đơn hàng</string>
+    <string name="cancel">Hủy đơn hàng</string>
 
 </resources>

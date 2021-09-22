@@ -17,6 +17,19 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/txt_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_3sdp"
+                android:text="@string/dateOrder"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/txt_name_product"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -26,7 +39,7 @@
                 android:textSize="@dimen/_14sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/txt_state" />
 
             <TextView
                 android:id="@+id/txt_text_date_order"
@@ -46,8 +59,9 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/dateOrder"
-                android:textColor="@color/textDesColorGeneric"
+                android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_date_order"
                 app:layout_constraintTop_toBottomOf="@id/txt_name_product" />
 
@@ -69,8 +83,9 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/dateOrder"
-                android:textColor="@color/textDesColorGeneric"
+                android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_name_receiver"
                 app:layout_constraintTop_toBottomOf="@id/txt_text_date_order" />
 
@@ -92,8 +107,9 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/dateOrder"
-                android:textColor="@color/textDesColorGeneric"
+                android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_address"
                 app:layout_constraintTop_toBottomOf="@id/txt_text_name_receiver" />
 
@@ -115,8 +131,9 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/dateOrder"
-                android:textColor="@color/textDesColorGeneric"
+                android:textColor="@color/textTitleColorGeneric"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_number_product"
                 app:layout_constraintTop_toBottomOf="@id/txt_text_address" />
 
@@ -128,7 +145,6 @@
                 android:text="@string/totalPayment"
                 android:textColor="@color/textDesColorGeneric"
                 android:textSize="@dimen/_14sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_text_number_product" />
 
@@ -137,13 +153,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/bg_discount_product"
+                android:padding="@dimen/_3sdp"
                 android:text="@string/dateOrder"
-                android:textColor="@color/textDesColorGeneric"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/txt_text_total_payment"
                 app:layout_constraintTop_toBottomOf="@id/txt_text_number_product" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_view_detail_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_13sdp"
+                android:layout_marginBottom="@dimen/_13sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="@string/detailOrder"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorBtnGeneric"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_cancel_order"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_text_total_payment" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_13sdp"
+                android:layout_marginEnd="@dimen/_13sdp"
+                android:layout_marginBottom="@dimen/_13sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:paddingLeft="@dimen/_18sdp"
+                android:paddingRight="@dimen/_18sdp"
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorBtnGeneric"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txt_text_total_payment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

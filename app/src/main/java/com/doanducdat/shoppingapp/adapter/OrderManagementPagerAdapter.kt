@@ -3,10 +3,8 @@ package com.doanducdat.shoppingapp.adapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.doanducdat.shoppingapp.ui.main.category.ManCategoryFragment
-import com.doanducdat.shoppingapp.ui.main.category.WomanCategoryFragment
 import com.doanducdat.shoppingapp.ui.main.order.management.OrderHandlingFragment
-import com.doanducdat.shoppingapp.ui.main.order.management.OrdersFragment
+import com.doanducdat.shoppingapp.ui.main.order.management.MyOrdersFragment
 
 class OrderManagementPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int {
@@ -15,12 +13,12 @@ class OrderManagementPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(f
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> return OrdersFragment()
+            0 -> return MyOrdersFragment()
             1 -> return OrderHandlingFragment()
             2 -> return OrderHandlingFragment()
             3 -> return OrderHandlingFragment()
             4 -> return OrderHandlingFragment()
         }
-        return OrdersFragment()
+        return MyOrdersFragment()
     }
 }

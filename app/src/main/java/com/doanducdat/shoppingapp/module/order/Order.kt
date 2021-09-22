@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.module.order
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /**
  * state, payment have value default, can null when post
@@ -18,5 +19,5 @@ class Order(
     val totalPayment: Int,
     val totalPrice: Int,
     val purchasedProducts: List<PurchasedProduct>,
-    val createdAt: String?
+    val createdAt: Date?
 )
