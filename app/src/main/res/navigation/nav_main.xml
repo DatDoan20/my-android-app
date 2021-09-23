@@ -95,5 +95,13 @@
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.review.ReviewFragment"
-        android:label="ReviewFragment" />
+        android:label="ReviewFragment" >
+        <action
+            android:id="@+id/action_reviewFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.review.CommentFragment"
+        android:label="CommentFragment" />
 </navigation>

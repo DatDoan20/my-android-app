@@ -175,6 +175,7 @@ object AppConstants {
             const val MSG_ORDER_SUCCESS = "Đặt hàng thành công"
             const val CONFIRM_DELETE_ORDER = "Bạn có chắc chắn muốn hủy đơn hàng này?"
             const val DELETE_ORDER = "Hủy đơn hàng thành công?"
+            const val COMMENTS_EMPTY = "Không có bình luận nào cho đánh giá này!"
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.doanducdat.shoppingapp.module.review.Comment
 import com.doanducdat.shoppingapp.module.review.Review
 import com.doanducdat.shoppingapp.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,5 +20,9 @@ class ReviewViewModel @Inject constructor(
 
     fun getReviewPaging(productId: String): Flow<PagingData<Review>> {
         return productRepository.getReviewPaging(productId).cachedIn(viewModelScope)
+    }
+
+    fun getCommentPaging(reviewId: String): Flow<PagingData<Comment>> {
+        return productRepository.getCommentPaging(reviewId).cachedIn(viewModelScope)
     }
 }

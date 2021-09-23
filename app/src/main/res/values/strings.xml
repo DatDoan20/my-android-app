@@ -80,5 +80,8 @@
     <string name="detailOrder">Chi tiết đơn hàng</string>
     <string name="cancel">Hủy đơn hàng</string>
     <string name="textPurchased">Đã mua hàng</string>
+    <string name="edited">Đã chỉnh sửa</string>
+    <string name="comment">bình luận...</string>
+    <string name="reply">Trả lời</string>
 
 </resources>

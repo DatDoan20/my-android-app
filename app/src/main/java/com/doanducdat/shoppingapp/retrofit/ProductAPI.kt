@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.retrofit
 
+import com.doanducdat.shoppingapp.module.response.ResponseComment
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.module.response.ResponseReview
 import retrofit2.http.GET
@@ -32,4 +33,12 @@ interface ProductAPI {
         @Query("page") page: Int,
         @Query("productId") productId: String
     ): ResponseReview
+
+    @GET("api/users/reviews/comments/search")
+    suspend fun getComment(
+        @Header("Authorization") authorization: String,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int,
+        @Query("reviewId") reviewId: String
+    ): ResponseComment
 }

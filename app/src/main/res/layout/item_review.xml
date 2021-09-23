@@ -39,7 +39,8 @@
             android:id="@+id/txt_time_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/textDesColorGeneric"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold"
@@ -51,7 +52,7 @@
             style="@android:style/Widget.DeviceDefault.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
+            android:layout_margin="@dimen/_8sdp"
             android:isIndicator="true"
             android:numStars="5"
             android:progressTint="@color/yellow"
@@ -104,6 +105,7 @@
             app:layout_constraintTop_toBottomOf="@id/txt_review" />
 
         <LinearLayout
+            android:id="@+id/layout_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
@@ -129,6 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:text="@string/cancel"
                 android:textColor="@color/textDesColorGeneric"
                 android:textSize="@dimen/_14sdp" />

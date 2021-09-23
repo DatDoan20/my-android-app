@@ -6,16 +6,18 @@ import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductId
-import com.doanducdat.shoppingapp.module.response.ResponseProduct
-import com.doanducdat.shoppingapp.paging.ProductPagingSource
-import com.doanducdat.shoppingapp.retrofit.ProductAPI
-import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
+import com.doanducdat.shoppingapp.module.response.ResponseProduct
+import com.doanducdat.shoppingapp.module.review.Comment
 import com.doanducdat.shoppingapp.module.review.Review
+import com.doanducdat.shoppingapp.paging.CommentPagingSource
+import com.doanducdat.shoppingapp.paging.ProductPagingSource
 import com.doanducdat.shoppingapp.paging.ReviewPagingSource
+import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
+import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -67,6 +69,12 @@ class ProductRepository @Inject constructor(
         PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_8, enablePlaceholders = false),
     ) {
         ReviewPagingSource(productAPI, productId)
+    }.flow
+
+    fun getCommentPaging(reviewId: String): Flow<PagingData<Comment>> = Pager(
+        PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_8, enablePlaceholders = false),
+    ) {
+        CommentPagingSource(productAPI, reviewId)
     }.flow
 
     suspend fun addToCart(carts: Cart) = flow {

@@ -1,7 +1,6 @@
 package com.doanducdat.shoppingapp.ui.main
 
 import android.view.View
-import androidx.core.view.get
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
@@ -71,6 +70,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
                 R.id.reviewFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
+                R.id.commentFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
                 else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE

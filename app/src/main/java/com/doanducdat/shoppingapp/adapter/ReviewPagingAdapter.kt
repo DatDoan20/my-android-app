@@ -10,6 +10,7 @@ import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemReviewBinding
 import com.doanducdat.shoppingapp.module.review.Review
 import com.doanducdat.shoppingapp.utils.HandleTime
+import dagger.hilt.android.AndroidEntryPoint
 
 class ReviewPagingAdapter :
     PagingDataAdapter<Review, ReviewPagingAdapter.ReviewPagingViewHolder>(PRODUCT_COMPARATOR) {
@@ -31,6 +32,9 @@ class ReviewPagingAdapter :
                 binding.txtReview.text = review.review
                 binding.txtComment.text = "${review.comments.size} Bình luận"
                 binding.txtTimeReview.text = HandleTime.getTimeAgo(review.updatedAt.time)
+                binding.layoutComment.setOnClickListener {
+                    callbackClickReview(review)
+                }
             }
         }
     }
