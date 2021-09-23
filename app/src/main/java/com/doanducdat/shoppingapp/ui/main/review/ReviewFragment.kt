@@ -43,7 +43,9 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
 
         setUpRcvReview()
         listenStateLoadReview()
-        loadReview()
+        if(reviewAdapter.itemCount < 0) {
+            loadReview()
+        }
     }
 
     private fun setUpBackFragment() {
