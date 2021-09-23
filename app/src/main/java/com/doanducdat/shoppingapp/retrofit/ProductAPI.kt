@@ -3,9 +3,8 @@ package com.doanducdat.shoppingapp.retrofit
 import com.doanducdat.shoppingapp.module.response.ResponseComment
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.module.response.ResponseReview
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Query
+import com.doanducdat.shoppingapp.module.review.CommentPost
+import retrofit2.http.*
 
 
 interface ProductAPI {
@@ -40,5 +39,12 @@ interface ProductAPI {
         @Query("limit") limit: Int,
         @Query("page") page: Int,
         @Query("reviewId") reviewId: String
+    ): ResponseComment
+
+    @POST("api/users/reviews/{reviewId}/comment") //reviewId
+    suspend fun createComment(
+        @Header("Authorization") authorization: String,
+        @Path("reviewId") reviewId: String,
+        @Body comment: CommentPost
     ): ResponseComment
 }

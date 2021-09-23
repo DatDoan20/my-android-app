@@ -4,6 +4,7 @@ import com.doanducdat.shoppingapp.module.user.User
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+
 /**
  * show comment latest -> use updatedAt
  */

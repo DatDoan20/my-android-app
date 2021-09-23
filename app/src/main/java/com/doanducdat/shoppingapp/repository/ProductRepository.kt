@@ -7,9 +7,11 @@ import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductId
 import com.doanducdat.shoppingapp.module.response.DataState
+import com.doanducdat.shoppingapp.module.response.ResponseComment
 import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.module.review.Comment
+import com.doanducdat.shoppingapp.module.review.CommentPost
 import com.doanducdat.shoppingapp.module.review.Review
 import com.doanducdat.shoppingapp.paging.CommentPagingSource
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
@@ -100,6 +102,21 @@ class ProductRepository @Inject constructor(
                     ProductId(idProduct)
                 )
             emit(DataState.success(resHandleProductInCard))
+        } catch (e: Throwable) {
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+        }
+    }
+
+    suspend fun createComment(reviewId: String, comment: CommentPost) = flow {
+        emit(DataState.loading(null))
+        try {
+            val responseComment: ResponseComment =
+                productAPI.createComment(
+                    InfoUser.token.toString(),
+                    reviewId,
+                    comment,
+                )
+            emit(DataState.success(responseComment))
         } catch (e: Throwable) {
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }

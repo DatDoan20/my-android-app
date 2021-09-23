@@ -2,8 +2,10 @@ package com.doanducdat.shoppingapp.ui.main.review
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -15,20 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CommentPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCommentBinding
+import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.module.review.CommentPost
+import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import android.view.MotionEvent
-
-import android.view.View.OnTouchListener
-
-
 
 
 @AndroidEntryPoint
-class CommentFragment : BaseFragment<FragmentCommentBinding>() {
+class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -39,12 +39,13 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>() {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
-    private var reviewId: String = ""
+    private var reviewId: String? = null
     private val viewModel: ReviewViewModel by viewModels()
     private val commentAdapter: CommentPagingAdapter by lazy { CommentPagingAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        subscribeListenLoadingForm()
         getDataFromAnotherFragment()
         setUpBackFragment()
 
@@ -52,7 +53,20 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>() {
         listenStateLoadReview()
         loadReview()
 
+        listenCreateComment()
         setUpEventSend()
+    }
+
+    private fun subscribeListenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            with(binding) {
+                if (it) {
+                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                } else {
+                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                }
+            }
+        })
     }
 
     private fun getDataFromAnotherFragment() {
@@ -87,13 +101,13 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>() {
             commentAdapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
                     is LoadState.Loading -> {
-                        binding.spinKitProgressBar.visibility = View.VISIBLE
+                        viewModel.isLoading.value = true
                     }
                     is LoadState.Error -> {
-                        binding.spinKitProgressBar.visibility = View.GONE
+                        viewModel.isLoading.value = false
                         showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     }
-                    else -> binding.spinKitProgressBar.visibility = View.GONE
+                    else -> viewModel.isLoading.value = false
 
                 }
             }
@@ -101,8 +115,9 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>() {
     }
 
     private fun loadReview() {
+        if (reviewId == null) return
         lifecycleScope.launch {
-            viewModel.getCommentPaging(reviewId).collectLatest {
+            viewModel.getCommentPaging(reviewId!!).collectLatest {
                 commentAdapter.submitData(it)
             }
         }
@@ -111,9 +126,52 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setUpEventSend() {
-        binding.imgSend.setOnTouchListener { v, event ->
-            v.isSelected = event.action == MotionEvent.ACTION_DOWN
-            true
+//        binding.imgSend.setOnTouchListener { v, event ->
+//            v.isSelected = event.action == MotionEvent.ACTION_DOWN
+//
+//            true
+//        }
+        binding.imgSend.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.CREATE_COMMENT)
         }
+    }
+
+    override fun doActionClick(CODE_ACTION_CLICK: Int) {
+        when (CODE_ACTION_CLICK) {
+            AppConstants.ActionClick.CREATE_COMMENT -> {
+                createComment()
+            }
+        }
+    }
+
+    private fun createComment() {
+        if (reviewId == null) return
+        val contentComment = binding.edtReply.text.toString().trim()
+        if (TextUtils.isEmpty(contentComment)) {
+            showLongToast(AppConstants.MsgInfo.CONTENT_REPLY_COMMENT_EMPTY)
+            return
+        }
+        viewModel.createComment(reviewId!!, CommentPost(contentComment))
+    }
+
+    private fun listenCreateComment() {
+        viewModel.dataStateCreateComment.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    viewModel.isLoading.value = false
+                    Log.e(AppConstants.TAG.COMMENT, "listenCreateComment: ${it.message}")
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                }
+                Status.SUCCESS -> {
+                    viewModel.isLoading.value = false
+                    binding.edtReply.setText("")
+                    binding.edtReply.clearFocus()
+                    commentAdapter.refresh()
+                }
+            }
+        })
     }
 }

@@ -26,6 +26,7 @@ object AppConstants {
             const val NAV_MANAGE_ORDER = 20
             const val CANCEL_ORDER = 21
             const val NAV_DETAIL_ORDER = 22
+            const val CREATE_COMMENT = 23
         }
     }
 
@@ -106,6 +107,7 @@ object AppConstants {
             const val ORDER = "ORDER"
             const val ORDER_MANAGEMENT = "ORDER_MANAGEMENT"
             const val REVIEW = "REVIEW"
+            const val COMMENT = "COMMENT"
         }
     }
 
@@ -176,6 +178,7 @@ object AppConstants {
             const val CONFIRM_DELETE_ORDER = "Bạn có chắc chắn muốn hủy đơn hàng này?"
             const val DELETE_ORDER = "Hủy đơn hàng thành công?"
             const val COMMENTS_EMPTY = "Không có bình luận nào cho đánh giá này!"
+            const val CONTENT_REPLY_COMMENT_EMPTY= "Nội dung bình luận của bạn đang trống!"
         }
     }
 
