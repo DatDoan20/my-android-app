@@ -4,6 +4,6 @@
         android:width="@dimen/_1sdp"
         android:color="@color/textDesColorGeneric" />
 
-    <solid android:color="@color/bgSplash" />
+    <solid android:color="@color/grey" />
     <corners android:radius="@dimen/_13sdp" />
 </shape>

@@ -13,6 +13,8 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
+import com.doanducdat.shoppingapp.module.review.Review
+import com.doanducdat.shoppingapp.paging.ReviewPagingSource
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
 import kotlinx.coroutines.flow.Flow
@@ -59,6 +61,12 @@ class ProductRepository @Inject constructor(
         PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_8, enablePlaceholders = false),
     ) {
         ProductPagingSource(productAPI, category, type)
+    }.flow
+
+    fun getReviewPaging(productId: String): Flow<PagingData<Review>> = Pager(
+        PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_8, enablePlaceholders = false),
+    ) {
+        ReviewPagingSource(productAPI, productId)
     }.flow
 
     suspend fun addToCart(carts: Cart) = flow {

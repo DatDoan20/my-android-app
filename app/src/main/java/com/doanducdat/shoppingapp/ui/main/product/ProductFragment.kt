@@ -181,7 +181,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         loadSizeProduct()
         listenClickSize()
     }
+    //endregion
 
+    // region color product
     private fun loadColorProduct() {
         //red - #242342, ...
         val productColors: MutableList<ProductColor> = mutableListOf()
@@ -204,7 +206,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
             txtColorHex.background = bgItemColor
         }
     }
+    //endregion
 
+    //region size product
     private fun loadSizeProduct() {
         //: ... , -> split(",")
         val productSizes: MutableList<String> = mutableListOf()
@@ -222,8 +226,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
             binding.txtSize.text = sizeItem
         }
     }
-
     //endregion
+
 
     //region listen
     private fun listenLoadingForm() {
@@ -284,6 +288,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
     private fun setUpActionClick() {
         binding.imgAddToCart.setOnClickListener {
             doActionClick(AppConstants.ActionClick.ADD_TO_CART)
+        }
+        binding.imgReview.setOnClickListener {
+            controller.navigate(R.id.reviewFragment, bundleOf("PRODUCT_ID" to productSelected.id))
         }
     }
 

@@ -48,6 +48,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_red_dot.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_sign_out.xml" value="0.17222222222222222" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_unvalid.xml" value="0.2743589743589744" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_valid.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/my_app_bar_layout.xml" value="0.2786458333333333" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout-v24/fragment_home.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout-v24/item_small_img_product.xml" value="0.26263678999478896" />
@@ -72,6 +73,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product_list.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_product_photo_view.xml" value="0.26263678999478896" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_profile.xml" value="0.2625" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_review.xml" value="0.259375" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_search.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_second.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_sign_in.xml" value="0.264" />
@@ -80,6 +82,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_third.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_verify_o_t_p.xml" value="0.2" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_woman_category.xml" value="0.259375" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_comment.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_hot_category.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_img_intro.xml" value="0.25" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_img_product.xml" value="0.2625" />
@@ -88,6 +91,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_color.xml" value="0.25" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_in_cart.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_size.xml" value="0.6" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_review.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_small_img_product.xml" value="0.1" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_state_load.xml" value="0.19537037037037036" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/layout_my_cart.xml" value="0.4" />

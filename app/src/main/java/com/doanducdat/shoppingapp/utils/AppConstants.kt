@@ -61,6 +61,15 @@ object AppConstants {
         }
     }
 
+    annotation class Time {
+        companion object {
+            const val SECOND_MILLIS: Int = 1000
+            const val MINUTE_MILLIS: Int = 60 * SECOND_MILLIS
+            const val HOUR_MILLIS: Int = 60 * MINUTE_MILLIS
+            const val DAY_MILLIS: Int = 24 * HOUR_MILLIS
+        }
+    }
+
     annotation class LinkImg {
         companion object {
             const val SALE =
@@ -96,6 +105,7 @@ object AppConstants {
             const val CART = "CART"
             const val ORDER = "ORDER"
             const val ORDER_MANAGEMENT = "ORDER_MANAGEMENT"
+            const val REVIEW = "REVIEW"
         }
     }
 
@@ -163,8 +173,8 @@ object AppConstants {
             const val MSG_NOT_VERIFY_EMAIl =
                 "Bạn cần xác nhận email trước khi đặt hàng, chọn Hồ sơ > xác nhận email"
             const val MSG_ORDER_SUCCESS = "Đặt hàng thành công"
-            const val CONFIRM_DELETE_ORDER= "Bạn có chắc chắn muốn hủy đơn hàng này?"
-            const val DELETE_ORDER= "Hủy đơn hàng thành công?"
+            const val CONFIRM_DELETE_ORDER = "Bạn có chắc chắn muốn hủy đơn hàng này?"
+            const val DELETE_ORDER = "Hủy đơn hàng thành công?"
         }
     }
 

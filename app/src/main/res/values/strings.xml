@@ -79,5 +79,6 @@
     <string name="addressText">Địa chỉ</string>
     <string name="detailOrder">Chi tiết đơn hàng</string>
     <string name="cancel">Hủy đơn hàng</string>
+    <string name="textPurchased">Đã mua hàng</string>
 
 </resources>

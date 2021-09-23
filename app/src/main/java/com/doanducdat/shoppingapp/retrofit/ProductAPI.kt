@@ -1,9 +1,9 @@
 package com.doanducdat.shoppingapp.retrofit
 
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
+import com.doanducdat.shoppingapp.module.response.ResponseReview
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.PATCH
 import retrofit2.http.Query
 
 
@@ -25,4 +25,11 @@ interface ProductAPI {
         @Query("type") type: String? = null,
     ): ResponseProduct
 
+    @GET("api/users/reviews/search")
+    suspend fun getReview(
+        @Header("Authorization") authorization: String,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int,
+        @Query("productId") productId: String
+    ): ResponseReview
 }

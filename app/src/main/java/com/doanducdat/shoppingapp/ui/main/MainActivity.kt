@@ -24,9 +24,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setUpActionClick()
         updateBadgeCountCart()
     }
-    fun updateBadgeCountCart(){
+
+    fun updateBadgeCountCart() {
         binding.bubbleBtmNvgMain.setBadgeValue(3, InfoUser.currentUser?.cart?.size.toString())
     }
+
     private fun setUpActionClick() {
         binding.bubbleBtmNvgMain.setNavigationChangeListener { _, position ->
             //navigate fragment when click
@@ -63,6 +65,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
                 R.id.productPhotoViewFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
+                R.id.orderFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
+                R.id.reviewFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
                 else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE

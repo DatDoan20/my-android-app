@@ -103,7 +103,6 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         myYesNoDialog.show()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun listenCancelOrder() {
         viewModel.dataStateCancel.observe(viewLifecycleOwner, {
             when (it.status) {

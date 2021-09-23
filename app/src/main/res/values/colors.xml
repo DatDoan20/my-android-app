@@ -8,8 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#CF1E1E</color>
-    <color name="yellow">#FDCC0D</color>
-    <color name="green">#45A312</color>
+    <color name="yellow">#FFCB00</color>
+    <color name="green">#2cca2d</color>
+    <color name="grey">#C1B9B9</color>
+
     <!-- custom color Light -->
     <!--
         Color button, title:261c87. Color background:f2f1f7. Conner button: 5sdp.
