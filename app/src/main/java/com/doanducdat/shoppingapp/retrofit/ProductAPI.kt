@@ -4,6 +4,7 @@ import com.doanducdat.shoppingapp.module.response.ResponseComment
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.module.response.ResponseReview
 import com.doanducdat.shoppingapp.module.review.CommentPost
+import com.doanducdat.shoppingapp.module.review.ReviewPost
 import retrofit2.http.*
 
 
@@ -47,4 +48,14 @@ interface ProductAPI {
         @Path("reviewId") reviewId: String,
         @Body comment: CommentPost
     ): ResponseComment
+
+    //orderId use update stateRating of product
+    @POST("api/users/reviews/{productId}/{orderId}")
+    suspend fun createReview(
+        @Header("Authorization") authorization: String,
+        @Path("productId") productId: String,
+        @Body reviewPost: ReviewPost,
+        @Path("orderId") orderId: String
+
+    ): ResponseReview
 }

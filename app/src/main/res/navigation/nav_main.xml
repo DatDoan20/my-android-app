@@ -91,7 +91,11 @@
     <fragment
         android:id="@+id/orderManagementFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.order.management.OrderManagementFragment"
-        android:label="OrderManagementFragment" />
+        android:label="OrderManagementFragment" >
+        <action
+            android:id="@+id/action_orderManagementFragment_to_showProductReviewFragment"
+            app:destination="@id/showProductReviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.review.ReviewFragment"
@@ -104,4 +108,8 @@
         android:id="@+id/commentFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.review.CommentFragment"
         android:label="CommentFragment" />
+    <fragment
+        android:id="@+id/showProductReviewFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.review.ShowProductReviewFragment"
+        android:label="ShowProductReviewFragment" />
 </navigation>

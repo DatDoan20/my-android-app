@@ -75,6 +75,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.commentFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.GONE
                 }
+                R.id.showProductReviewFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
                 else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE
             }
             updateBadgeCountCart()

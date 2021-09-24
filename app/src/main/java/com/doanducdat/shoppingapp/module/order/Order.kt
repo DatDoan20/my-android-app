@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.module.order
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -18,6 +19,7 @@ class Order(
     val state: String,
     val totalPayment: Int,
     val totalPrice: Int,
-    val purchasedProducts: List<PurchasedProduct>,
-    val createdAt: Date?
-)
+    val purchasedProducts: MutableList<PurchasedProduct>,
+    val createdAt: Date?,
+    val note:String
+) : Serializable

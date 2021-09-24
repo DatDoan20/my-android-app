@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="@dimen/_140sdp"
-        android:layout_height="@dimen/_220sdp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/_5sdp"
         app:cardCornerRadius="@dimen/_13sdp">
 
@@ -51,48 +51,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/container_img_product_cover" />
 
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="@android:style/Widget.Material.RatingBar.Small"
+            <LinearLayout
+                android:id="@+id/layout_write_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:progressTint="@color/yellow"
-                android:rating="2"
-                android:secondaryProgressTint="@color/white"
-                android:stepSize="0.1"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/bg_item_profile_two_style"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_name_product" />
+                app:layout_constraintTop_toBottomOf="@id/txt_name_product">
 
-            <TextView
-                android:id="@+id/txt_price_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="@dimen/_14sdp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+                <ImageView
+                    android:id="@+id/img_write_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_write_review" />
 
-            <TextView
-                android:id="@+id/txt_discount_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/bg_discount_product"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:paddingStart="@dimen/_2sdp"
-                android:paddingEnd="@dimen/_2sdp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_14sdp"
-                app:layout_constraintStart_toEndOf="@id/txt_price_product"
-                app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+                <TextView
+                    android:id="@+id/txt_text_write_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:text="@string/writeReview"
+                    android:textColor="@color/textDesColorGeneric"
+                    android:textSize="@dimen/_14sdp" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 </layout>

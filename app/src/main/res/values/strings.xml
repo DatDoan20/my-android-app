@@ -82,6 +82,9 @@
     <string name="textPurchased">Đã mua hàng</string>
     <string name="edited">Đã chỉnh sửa</string>
     <string name="comment">bình luận...</string>
+    <string name="writeYourReview">Viết đánh giá của bạn...</string>
     <string name="reply">Trả lời</string>
+    <string name="writeReview">Viết đánh giá</string>
+    <string name="myPurchasedProduct">Sản phẩm đã mua chưa đánh giá</string>
 
 </resources>

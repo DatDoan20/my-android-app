@@ -6,13 +6,11 @@ import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductId
-import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseComment
-import com.doanducdat.shoppingapp.module.response.ResponseHandleProductInCart
-import com.doanducdat.shoppingapp.module.response.ResponseProduct
+import com.doanducdat.shoppingapp.module.response.*
 import com.doanducdat.shoppingapp.module.review.Comment
 import com.doanducdat.shoppingapp.module.review.CommentPost
 import com.doanducdat.shoppingapp.module.review.Review
+import com.doanducdat.shoppingapp.module.review.ReviewPost
 import com.doanducdat.shoppingapp.paging.CommentPagingSource
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
 import com.doanducdat.shoppingapp.paging.ReviewPagingSource
@@ -117,6 +115,22 @@ class ProductRepository @Inject constructor(
                     comment,
                 )
             emit(DataState.success(responseComment))
+        } catch (e: Throwable) {
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+        }
+    }
+
+    suspend fun createReview(productId: String, reviewPost: ReviewPost, orderId:String) = flow {
+        emit(DataState.loading(null))
+        try {
+            val responseReview: ResponseReview =
+                productAPI.createReview(
+                    InfoUser.token.toString(),
+                    productId,
+                    reviewPost,
+                    orderId
+                )
+            emit(DataState.success(responseReview))
         } catch (e: Throwable) {
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }

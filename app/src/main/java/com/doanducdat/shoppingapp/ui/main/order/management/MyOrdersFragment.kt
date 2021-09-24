@@ -6,10 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.OrderPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentOrdersBinding
 import com.doanducdat.shoppingapp.module.order.Order
@@ -30,12 +34,18 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         container: ViewGroup?
     ): FragmentOrdersBinding = FragmentOrdersBinding.inflate(inflater, container, false)
 
+    private val controller by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
+    }
     val viewModel: OrderViewModel by viewModels()
     private val orderAdapter: OrderPagingAdapter = OrderPagingAdapter()
     private val myYesNoDialog by lazy { MyYesNoDialog(requireContext()) }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         listenLoadingForm()
+
         setUpRcvOrders()
         listenStateLoadProduct()
         loadOrders()
@@ -92,6 +102,9 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
             cancelOrder(it)
         }
         orderAdapter.mySetOnClickViewDetail {
+        }
+        orderAdapter.mySetOnClickNavWriteReview {
+            controller.navigate(R.id.showProductReviewFragment, bundleOf("ORDER" to it))
         }
     }
 

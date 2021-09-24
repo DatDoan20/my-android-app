@@ -19,6 +19,7 @@ class OrderPagingAdapter :
 
     private var callbackClickViewDetail: (order: Order) -> Unit = {}
     private var callbackClickCancel: (order: Order) -> Unit = {}
+    private var callbackClickNavWriteReview: (order: Order) -> Unit = {}
 
     fun mySetOnClickViewDetail(callbackFun: (order: Order) -> Unit) {
         callbackClickViewDetail = callbackFun
@@ -26,6 +27,10 @@ class OrderPagingAdapter :
 
     fun mySetOnClickCancelOrder(callbackFun: (order: Order) -> Unit) {
         callbackClickCancel = callbackFun
+    }
+
+    fun mySetOnClickNavWriteReview(callbackFun: (order: Order) -> Unit) {
+        callbackClickNavWriteReview = callbackFun
     }
 
     inner class OrderPagingViewHolder(val binding: ItemOrderBinding, val context: Context) :
@@ -75,6 +80,10 @@ class OrderPagingAdapter :
                     msgState = AppConstants.Order.MSG_CANCELED
                     nameDrawable = R.drawable.bg_state_order_canceled
                 }
+                AppConstants.Order.RECEIVED -> {
+                    msgState = AppConstants.Order.MSG_RECEIVED
+                    nameDrawable = R.drawable.bg_state_order_received
+                }
             }
             binding.txtState.background = ContextCompat.getDrawable(context, nameDrawable)
             binding.txtState.text = msgState
@@ -90,6 +99,13 @@ class OrderPagingAdapter :
             if (order.state == AppConstants.Order.WAITING) {
                 binding.btnCancelOrder.setOnClickListener {
                     callbackClickCancel(order)
+                }
+            }
+            if (order.state == AppConstants.Order.RECEIVED) {
+                binding.layoutWriteReview.visibility = View.VISIBLE
+                binding.btnCancelOrder.visibility = View.GONE
+                binding.layoutWriteReview.setOnClickListener {
+                    callbackClickNavWriteReview.invoke(order)
                 }
             }
         }

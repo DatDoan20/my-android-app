@@ -132,6 +132,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
         InfoUser.currentUser!!.cart.forEach {
             purchasedProductsInCart.add(
                 PurchasedProduct(
+                    false,
                     it.color,
                     it.infoProduct.getUnFormatDiscount(),
                     it.price,
@@ -150,6 +151,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
             email = InfoUser.currentUser!!.email
             phone = InfoUser.currentUser!!.phone
             purchasedProducts = purchasedProductsInCart
+            note = binding.edtNote.text.toString().trim()
         }
         listenOrder()
         viewModel.order()

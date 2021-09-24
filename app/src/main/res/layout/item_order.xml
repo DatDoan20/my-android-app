@@ -29,6 +29,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <LinearLayout
+                android:id="@+id/layout_write_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/bg_item_profile_two_style"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintStart_toEndOf="@+id/txt_state"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/img_rep_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_write_review" />
+
+                <TextView
+                    android:id="@+id/txt_text_rep_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:text="@string/writeReview"
+                    android:textColor="@color/textDesColorGeneric"
+                    android:textSize="@dimen/_14sdp" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/txt_name_product"
                 android:layout_width="0dp"

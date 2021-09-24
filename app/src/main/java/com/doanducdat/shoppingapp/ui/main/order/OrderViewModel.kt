@@ -28,6 +28,7 @@ class OrderViewModel @Inject constructor(
     var state = AppConstants.QueryRequest.WAITING
     var paymentMode = AppConstants.QueryRequest.PAYMENT_MODE
     var name = ""
+    var note = ""
     var email = ""
     var phone = ""
     var address = ""
@@ -58,7 +59,8 @@ class OrderViewModel @Inject constructor(
             totalPayment,
             totalPrice,
             purchasedProducts,
-            null
+            null,
+            note
         )
         orderRepository.order(order).onEach {
             _dataStateOrder.value = it

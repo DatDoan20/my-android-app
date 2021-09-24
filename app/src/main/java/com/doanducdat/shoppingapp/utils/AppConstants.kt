@@ -1,5 +1,7 @@
 package com.doanducdat.shoppingapp.utils
 
+import com.doanducdat.shoppingapp.module.order.PurchasedProduct
+
 object AppConstants {
 
     annotation class ActionClick {
@@ -108,6 +110,7 @@ object AppConstants {
             const val ORDER_MANAGEMENT = "ORDER_MANAGEMENT"
             const val REVIEW = "REVIEW"
             const val COMMENT = "COMMENT"
+            const val PURCHASED_PRODUCT = "PURCHASED_PRODUCT"
         }
     }
 
@@ -178,7 +181,9 @@ object AppConstants {
             const val CONFIRM_DELETE_ORDER = "Bạn có chắc chắn muốn hủy đơn hàng này?"
             const val DELETE_ORDER = "Hủy đơn hàng thành công?"
             const val COMMENTS_EMPTY = "Không có bình luận nào cho đánh giá này!"
-            const val CONTENT_REPLY_COMMENT_EMPTY= "Nội dung bình luận của bạn đang trống!"
+            const val CONTENT_REPLY_COMMENT_EMPTY = "Nội dung bình luận của bạn đang trống!"
+            const val CONTENT_REVIEW_EMPTY = "Nội dung đánh giá của bạn đang trống!"
+            const val RATING_EMPTY = "Vui lòng đánh giá với số ngôi sao bạn muốn!"
         }
     }
 
