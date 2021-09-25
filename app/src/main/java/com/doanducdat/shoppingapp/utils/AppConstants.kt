@@ -29,6 +29,7 @@ object AppConstants {
             const val CANCEL_ORDER = 21
             const val NAV_DETAIL_ORDER = 22
             const val CREATE_COMMENT = 23
+            const val REVIEW_PURCHASED_PRODUCT = 24
         }
     }
 

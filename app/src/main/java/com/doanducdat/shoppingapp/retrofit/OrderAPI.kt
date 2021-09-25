@@ -26,5 +26,9 @@ interface OrderAPI {
         @Path("id") idOrder: String
     ): ResponseOrder
 
-
+    @GET("api/users/orders/me/{state}")
+    suspend fun getMyReceivedOrder(
+        @Header("Authorization") authorization: String,
+        @Path("state") state: String
+    ): ResponseOrder
 }

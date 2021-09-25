@@ -141,7 +141,8 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
                     it.getOneItemPrice(),
                     it.infoProduct.id,
                     it.quantity,
-                    it.size
+                    it.size,
+                    null
                 )
             )
         }

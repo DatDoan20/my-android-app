@@ -46,6 +46,11 @@ class OrderViewModel @Inject constructor(
     val dataStateCancel: LiveData<DataState<ResponseOrder>>
         get() = _dataStateCancel
 
+    private val _dataStateReceivedOrder: MutableLiveData<DataState<ResponseOrder>> =
+        MutableLiveData()
+    val dataStateReceivedOrder: LiveData<DataState<ResponseOrder>>
+        get() = _dataStateReceivedOrder
+
     fun order() = viewModelScope.launch {
         val order: Order = Order(
             null,
@@ -74,6 +79,12 @@ class OrderViewModel @Inject constructor(
     fun cancelOrder(idOrder: String) = viewModelScope.launch {
         orderRepository.cancelOrder(idOrder).onEach {
             _dataStateCancel.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun getMyReceivedOrder() = viewModelScope.launch {
+        orderRepository.getMyReceivedOrder(AppConstants.Order.RECEIVED).onEach {
+            _dataStateReceivedOrder.value = it
         }.launchIn(viewModelScope)
     }
 }

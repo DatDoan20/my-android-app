@@ -85,6 +85,8 @@
     <string name="writeYourReview">Viết đánh giá của bạn...</string>
     <string name="reply">Trả lời</string>
     <string name="writeReview">Viết đánh giá</string>
+    <string name="desReviewPurchasedProduct">Những sản phẩm đã mua nhưng chưa được đánh giá sẽ hiện ở đây</string>
+    <string name="reviewPurchasedProduct">Đánh giá sản phẩm đã mua</string>
     <string name="myPurchasedProduct">Sản phẩm đã mua chưa đánh giá</string>
 
 </resources>

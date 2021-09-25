@@ -12,12 +12,12 @@ class PurchasedProductAdapter :
     RecyclerView.Adapter<PurchasedProductAdapter.ProductReviewHolder>() {
     private var purchasedProductList: MutableList<PurchasedProduct> = mutableListOf()
 
-    private var callbackClick: (purchasedProduct: PurchasedProduct, position:Int) -> Unit =
+    private var callbackClick: (purchasedProduct: PurchasedProduct, position: Int) -> Unit =
         { _: PurchasedProduct, _: Int -> }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setProductList(productList: MutableList<PurchasedProduct>) {
-        this.purchasedProductList = productList
+    fun setPurchasedProductList(purchasedProductList: MutableList<PurchasedProduct>) {
+        this.purchasedProductList = purchasedProductList
         notifyDataSetChanged()
     }
 
@@ -27,7 +27,7 @@ class PurchasedProductAdapter :
         notifyDataSetChanged()
     }
 
-    fun mySetOnClick(funClick: (purchasedProduct: PurchasedProduct, position:Int) -> Unit) {
+    fun mySetOnClick(funClick: (purchasedProduct: PurchasedProduct, position: Int) -> Unit) {
         callbackClick = funClick
     }
 

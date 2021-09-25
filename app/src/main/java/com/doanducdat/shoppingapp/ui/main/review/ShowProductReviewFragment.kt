@@ -17,6 +17,7 @@ import com.doanducdat.shoppingapp.module.order.Order
 import com.doanducdat.shoppingapp.module.order.PurchasedProduct
 import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.ui.main.order.OrderViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyRatingDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,21 +34,28 @@ class ShowProductReviewFragment : BaseFragment<FragmentShowProductReviewBinding>
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
-    private var order: Order? = null
     private val purchasedProductAdapter by lazy { PurchasedProductAdapter() }
     private val myRatingDialog by lazy { MyRatingDialog(requireContext()) }
-    private val viewModel: ReviewViewModel by viewModels()
+
+    private val reviewViewModel: ReviewViewModel by viewModels()
+    private val orderViewModel: OrderViewModel by viewModels()
+
     private var indexProductNeedRemove: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpBackFragment()
-        getDataFromAnotherFragment()
+
 
         setUpRcvPurchasedProduct()
-        setUpAdapter()
+
+        // (1) load my receiver Orders -> (2) get product has stateRating:false in each order
+        listenLoadMyReceiverOrder()
+        loadMyReceiverOrder()
+
         listenCreateReview()
     }
+
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
@@ -55,15 +63,6 @@ class ShowProductReviewFragment : BaseFragment<FragmentShowProductReviewBinding>
         }
     }
 
-    private fun getDataFromAnotherFragment() {
-        val bundle = arguments
-        if (bundle != null) {
-            order = bundle.getSerializable("ORDER") as Order
-        }
-        if (order != null) {
-            Log.d(AppConstants.TAG.PURCHASED_PRODUCT, "getDataFromAnotherFragment: ${order!!.id}")
-        }
-    }
 
     private fun setUpRcvPurchasedProduct() {
         binding.rcvPurchasedProduct.layoutManager =
@@ -71,21 +70,45 @@ class ShowProductReviewFragment : BaseFragment<FragmentShowProductReviewBinding>
         binding.rcvPurchasedProduct.adapter = purchasedProductAdapter
     }
 
-    private fun setUpAdapter() {
-        //set up adapter
-        if (order != null) {
-            val productList: MutableList<PurchasedProduct> = mutableListOf()
-            order!!.purchasedProducts.forEach {
-                if (!it.stateRating) {
-                    productList.add(it)
+    private fun listenLoadMyReceiverOrder() {
+        orderViewModel.dataStateReceivedOrder.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    binding.spinKitProgressBar.visibility = View.VISIBLE
+                }
+                Status.ERROR -> {
+                    binding.spinKitProgressBar.visibility = View.GONE
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    Log.e(AppConstants.TAG.REVIEW, "listenCreateReview: ${it.message}")
+                }
+                Status.SUCCESS -> {
+                    binding.spinKitProgressBar.visibility = View.GONE
+                    //(2) get product has stateRating:false in each order
+                    getPurchasedProduct(it.response!!.data)
                 }
             }
-            purchasedProductAdapter.setProductList(productList)
-            //click adapter
-            purchasedProductAdapter.mySetOnClick { purchasedProduct, position ->
-                indexProductNeedRemove = position
-                showDialogRating(purchasedProduct )
+        })
+    }
+
+    private fun loadMyReceiverOrder() {
+        orderViewModel.getMyReceivedOrder()
+    }
+
+    private fun getPurchasedProduct(orders: List<Order>) {
+        val purchasedProductList: MutableList<PurchasedProduct> = mutableListOf()
+        orders.forEach { order ->
+            order.purchasedProducts.forEach { purchasedProduct ->
+                if (!purchasedProduct.stateRating) {
+                    purchasedProduct.orderId = order.id!!
+                    purchasedProductList.add(purchasedProduct)
+                }
             }
+        }
+        purchasedProductAdapter.setPurchasedProductList(purchasedProductList)
+
+        purchasedProductAdapter.mySetOnClick { purchasedProduct, position ->
+            indexProductNeedRemove = position
+            showDialogRating(purchasedProduct)
         }
     }
 
@@ -103,11 +126,11 @@ class ShowProductReviewFragment : BaseFragment<FragmentShowProductReviewBinding>
                 else -> {
                     myRatingDialog.setStateDialog(false)
                     myRatingDialog.setStateProgressBar(View.VISIBLE)
-                    viewModel.createReview(
+                    reviewViewModel.createReview(
                         purchasedProduct.productId,
                         ratingValue,
                         contentReview,
-                        order!!.id!!
+                        purchasedProduct.orderId!!
                     )
                 }
             }
@@ -117,7 +140,7 @@ class ShowProductReviewFragment : BaseFragment<FragmentShowProductReviewBinding>
     }
 
     private fun listenCreateReview() {
-        viewModel.dataStateCreateReview.observe(viewLifecycleOwner, {
+        reviewViewModel.dataStateCreateReview.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
                     myRatingDialog.setStateDialog(false)
@@ -130,7 +153,7 @@ class ShowProductReviewFragment : BaseFragment<FragmentShowProductReviewBinding>
                     Log.e(AppConstants.TAG.REVIEW, "listenCreateReview: ${it.message}")
                 }
                 Status.SUCCESS -> {
-                    if(indexProductNeedRemove!= null) {
+                    if (indexProductNeedRemove != null) {
                         purchasedProductAdapter.deleteProductItem(indexProductNeedRemove!!)
                     }
                     myRatingDialog.setStateDialog(true)

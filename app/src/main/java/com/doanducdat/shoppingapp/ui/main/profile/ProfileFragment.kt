@@ -48,13 +48,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
         binding.txtEmail.text = InfoUser.currentUser?.email ?: ""
     }
 
-    private fun setUpActionClick() {
-        setUpVerifyEmail()
-        binding.layoutManageOrderItem.setOnClickListener {
-            doActionClick(AppConstants.ActionClick.NAV_MANAGE_ORDER)
-        }
-    }
-
     private fun setUpVerifyEmail() {
         if (InfoUser.currentUser?.stateVerifyEmail == false) {
             binding.txtVerifyEmail.visibility = View.VISIBLE
@@ -65,6 +58,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
             binding.txtVerifyEmail.visibility = View.GONE
         }
     }
+
+    private fun setUpActionClick() {
+        setUpVerifyEmail()
+        binding.layoutManageOrderItem.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.NAV_MANAGE_ORDER)
+        }
+        binding.layoutReviewPurchasedProduct.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT)
+        }
+    }
+
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
         when (CODE_ACTION_CLICK) {
@@ -78,6 +82,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
             AppConstants.ActionClick.NAV_MANAGE_ORDER -> {
                 controller.navigate(R.id.orderManagementFragment)
             }
+            AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT -> {
+                controller.navigate(R.id.showProductReviewFragment)
+            }
+
         }
     }
 

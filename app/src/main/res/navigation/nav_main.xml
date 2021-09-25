@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_profileFragment_to_orderManagementFragment"
             app:destination="@id/orderManagementFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_showProductReviewFragment"
+            app:destination="@id/showProductReviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -91,11 +94,7 @@
     <fragment
         android:id="@+id/orderManagementFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.order.management.OrderManagementFragment"
-        android:label="OrderManagementFragment" >
-        <action
-            android:id="@+id/action_orderManagementFragment_to_showProductReviewFragment"
-            app:destination="@id/showProductReviewFragment" />
-    </fragment>
+        android:label="OrderManagementFragment" />
     <fragment
         android:id="@+id/reviewFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.review.ReviewFragment"

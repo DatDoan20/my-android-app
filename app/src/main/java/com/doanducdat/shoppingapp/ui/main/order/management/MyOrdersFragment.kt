@@ -103,9 +103,6 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         }
         orderAdapter.mySetOnClickViewDetail {
         }
-        orderAdapter.mySetOnClickNavWriteReview {
-            controller.navigate(R.id.showProductReviewFragment, bundleOf("ORDER" to it))
-        }
     }
 
     private fun cancelOrder(order: Order) {

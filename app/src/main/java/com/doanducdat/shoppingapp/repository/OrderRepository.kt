@@ -52,4 +52,18 @@ class OrderRepository @Inject constructor(
             emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
         }
     }
+
+    suspend fun getMyReceivedOrder(state: String) = flow {
+        emit(DataState.loading(null))
+        try {
+            val responseOrder: ResponseOrder =
+                orderAPI.getMyReceivedOrder(
+                    InfoUser.token.toString(),
+                    state
+                )
+            emit(DataState.success(responseOrder))
+        } catch (e: Throwable) {
+            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+        }
+    }
 }
