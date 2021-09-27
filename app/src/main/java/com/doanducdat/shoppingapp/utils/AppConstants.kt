@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.utils
 
+import android.app.NotificationManager
 import com.doanducdat.shoppingapp.module.order.PurchasedProduct
 
 object AppConstants {
@@ -112,6 +113,16 @@ object AppConstants {
             const val REVIEW = "REVIEW"
             const val COMMENT = "COMMENT"
             const val PURCHASED_PRODUCT = "PURCHASED_PRODUCT"
+            const val SOCKET_IO = "SOCKET.IO"
+        }
+    }
+
+    annotation class NewNotifyComment() {
+        companion object {
+            const val NAME = "Thông báo"
+            const val CHANNEL = "Thông báo bình luận"
+            const val DES = ""
+            const val IMPORTANT = NotificationManager.IMPORTANCE_DEFAULT
         }
     }
 

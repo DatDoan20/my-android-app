@@ -1,6 +1,6 @@
 package com.doanducdat.shoppingapp.utils
 
-object HandleTime {
+object HandlerTime {
     fun getTimeAgo(timeInput: Long): String? {
         var time = timeInput
         if (time < 1000000000000L) {

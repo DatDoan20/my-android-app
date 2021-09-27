@@ -7,10 +7,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemCommentBinding
 import com.doanducdat.shoppingapp.module.review.Comment
-import com.doanducdat.shoppingapp.utils.HandleTime
+import com.doanducdat.shoppingapp.utils.HandlerTime
 
 class CommentPagingAdapter :
     PagingDataAdapter<Comment, CommentPagingAdapter.CommentPagingViewHolder>(PRODUCT_COMPARATOR) {
@@ -28,7 +27,7 @@ class CommentPagingAdapter :
                 binding.imgAvatar.load(comment.userId.getUrlAvatar())
                 binding.txtName.text = comment.userId.name
                 binding.txtContentComment.text = comment.comment
-                binding.txtTimeComment.text = HandleTime.getTimeAgo(comment.updatedAt.time)
+                binding.txtTimeComment.text = HandlerTime.getTimeAgo(comment.updatedAt.time)
                 if (comment.updatedAt.after(comment.createdAt)) {
                     binding.txtEdited.visibility = View.VISIBLE
                 }

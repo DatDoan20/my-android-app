@@ -1,10 +1,13 @@
 package com.doanducdat.shoppingapp.ui.main
 
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityMainBinding
+import com.doanducdat.shoppingapp.service.WebSocketIO
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
 import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,12 +22,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun getViewBinding(): Int = R.layout.activity_main
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun setUpView() {
         setUpActionClick()
         updateBadgeCountCart()
+
+        //socket connect
+        WebSocketIO.initSocket()
+        WebSocketIO.getSocket()?.connect()
+        WebSocketIO.emitSignIn()
+        WebSocketIO.listenNotifyComment(this)
     }
 
-    fun updateBadgeCountCart() {
+    private fun updateBadgeCountCart() {
         binding.bubbleBtmNvgMain.setBadgeValue(3, InfoUser.currentUser?.cart?.size.toString())
     }
 
