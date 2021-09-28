@@ -1,7 +1,8 @@
 package com.doanducdat.shoppingapp.utils
 
 import android.app.NotificationManager
-import com.doanducdat.shoppingapp.module.order.PurchasedProduct
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 object AppConstants {
 
@@ -104,6 +105,7 @@ object AppConstants {
     annotation class TAG() {
         companion object {
             const val LOAD_ME = "LOAD_ME"
+            const val BACK_FRAGMENT = "BACK_FRAGMENT"
             const val VERIFY_EMAIL = "VERIFY_EMAIL"
             const val SIGN_UP = "SIGN_UP"
             const val SIGN_IN = "SIGN_IN"
@@ -121,8 +123,35 @@ object AppConstants {
         companion object {
             const val NAME = "Thông báo"
             const val CHANNEL = "Thông báo bình luận"
-            const val DES = ""
+            const val DES = "Thông báo bình luận mới trong đánh giá mà bạn có tham gia bình luận"
+
+            @RequiresApi(Build.VERSION_CODES.N)
             const val IMPORTANT = NotificationManager.IMPORTANCE_DEFAULT
+        }
+    }
+
+    annotation class StateNotifyOrder() {
+        companion object {
+            const val NAME = "Thông báo"
+            const val CHANNEL = "Thông báo đơn hàng"
+            const val DES = "Thông báo trạng thái đơn hàng khi có sự cập nhật"
+            const val MSG_ACCEPTED = "Bạn đã đặt hàng thành công đơn hàng:"
+            const val MSG_CANCELED = "của bạn đã được hủy, xin lỗi vì sự đáng tiếc này"
+            const val MSG_RECEIVED = "Nhận hàng thành công đơn hàng:"
+            const val MSG_THANKS =
+                "Cảm ơn bạn đã ủng hộ shop. Chúc bạn một ngày tốt lành \uD83D\uDC96"
+            const val DETAIL_SUPPORT =
+                "Mọi chi tiết thắc mắc xin liên hệ để được hộ trợ. \nFacebook: https://facebook.com/clothesdshop"
+
+            @RequiresApi(Build.VERSION_CODES.N)
+            const val IMPORTANT = NotificationManager.IMPORTANCE_DEFAULT
+        }
+    }
+
+    annotation class SocketIO {
+        companion object {
+            const val NEW_COMMENT = "newComment"
+            const val STATE_ORDER = "stateOrder"
         }
     }
 

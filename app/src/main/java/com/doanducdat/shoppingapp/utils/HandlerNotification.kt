@@ -10,41 +10,95 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.module.order.NotifyOrder
 import com.doanducdat.shoppingapp.module.review.NotifyComment
+import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
-object HandlerNotification {
+class HandlerNotification(val context: Context) {
 
-    suspend fun sendNotification(context: Context, notifyComment: NotifyComment) {
-        val notification =
-            NotificationCompat.Builder(context, AppConstants.NewNotifyComment.CHANNEL)
-                .setSmallIcon(R.drawable.ic_notifications)
-                .setCustomContentView(initRemoteView(context, notifyComment))
-                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .build()
+    private val notifyManager = NotificationManagerCompat.from(context)
+    private val date: Date = Date()
 
-        val notifyManager = NotificationManagerCompat.from(context)
-        notifyManager.notify(notifyComment.createdAt.time.toInt(), notification)
+    suspend fun sendStateOrder(notifyOrder: NotifyOrder) {
+        val content: String = getContentStateOrder(notifyOrder) ?: return
+        val viewOderCollapse = getRemoteView(
+            notifyOrder.senderName,
+            content,
+            notifyOrder.getUrlReceiverAvatar(),
+            R.layout.layout_notify_msg_collap_generic
+        )
+        val viewOrderExpand = getRemoteView(
+            notifyOrder.senderName,
+            content,
+            notifyOrder.getUrlReceiverAvatar(),
+            R.layout.layout_notify_msg_expand_generic
+        )
+        buildNotification(
+            viewOderCollapse,
+            viewOrderExpand,
+            AppConstants.StateNotifyOrder.CHANNEL,
+            date.time.toInt()
+        )
     }
 
-    private suspend fun initRemoteView(
-        context: Context,
-        notifyComment: NotifyComment
-    ): RemoteViews {
-        val remoteViews = RemoteViews(context.packageName, R.layout.layout_notify_msg_generic)
-        with(remoteViews) {
-            setTextViewText(R.id.txt_name_notify, notifyComment.commentId.userId.name)
-            setTextViewText(R.id.txt_content_notify, notifyComment.commentId.comment)
+    private fun getContentStateOrder(notifyOrder: NotifyOrder): String? {
+        val totalPaymentOrder = FormValidation.formatMoney(notifyOrder.totalPayment)
+
+        with(AppConstants.StateNotifyOrder) {
+            return when (notifyOrder.state) {
+                AppConstants.Order.ACCEPTED -> {
+                    "$MSG_ACCEPTED $totalPaymentOrder. $DETAIL_SUPPORT"
+                }
+                AppConstants.Order.RECEIVED -> {
+                    "$MSG_RECEIVED $totalPaymentOrder. $MSG_THANKS \n$DETAIL_SUPPORT"
+                }
+                AppConstants.Order.CANCELED -> {
+                    "Đơn hàng: $totalPaymentOrder $MSG_CANCELED. $DETAIL_SUPPORT"
+                }
+                else -> null
+            }
         }
-        val bitmap = loadAvatarUserNotify(context, notifyComment.commentId.userId.getUrlAvatar())
+    }
+
+    suspend fun sendNewComment(notifyComment: NotifyComment) {
+        val viewCommentCollapse = getRemoteView(
+            notifyComment.commentId.userId.name, notifyComment.commentId.comment,
+            notifyComment.commentId.userId.getUrlAvatar(), R.layout.layout_notify_msg_collap_generic
+        )
+        val viewCommentExpand = getRemoteView(
+            notifyComment.commentId.userId.name, notifyComment.commentId.comment,
+            notifyComment.commentId.userId.getUrlAvatar(), R.layout.layout_notify_msg_expand_generic
+        )
+        buildNotification(
+            viewCommentCollapse,
+            viewCommentExpand,
+            AppConstants.NewNotifyComment.CHANNEL,
+            notifyComment.createdAt.time.toInt()
+        )
+    }
+
+    private suspend fun getRemoteView(
+        name: String,
+        content: String,
+        urlAvatar: String,
+        layoutId: Int
+    ): RemoteViews {
+        val remoteViews = RemoteViews(context.packageName, layoutId)
+        remoteViews.setTextViewText(R.id.txt_name_notify, name)
+        remoteViews.setTextViewText(R.id.txt_content_notify, content)
+
+        //load and make circle avatar
+        val bitmap = loadAvatarUserNotify(urlAvatar)
+
         remoteViews.setImageViewBitmap(R.id.img_avatar_notify, bitmap)
         return remoteViews
     }
 
-    private suspend fun loadAvatarUserNotify(context: Context, url: String): Bitmap? {
+    private suspend fun loadAvatarUserNotify(url: String): Bitmap? {
         var bitmap: Bitmap? = null
         val job = CoroutineScope(Dispatchers.IO).launch {
             val loader = ImageLoader(context)
@@ -57,5 +111,23 @@ object HandlerNotification {
         }
         job.join()
         return bitmap
+    }
+
+    private fun buildNotification(
+        remoteViewCollapse: RemoteViews,
+        remoteViewExpand: RemoteViews,
+        channel: String,
+        notifyId: Int
+    ) {
+        val notification =
+            NotificationCompat.Builder(context, channel)
+                .setSmallIcon(R.drawable.ic_notifications)
+                .setCustomContentView(remoteViewCollapse)
+                .setCustomBigContentView(remoteViewExpand)
+                .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
+
+        notifyManager.notify(notifyId, notification)
     }
 }

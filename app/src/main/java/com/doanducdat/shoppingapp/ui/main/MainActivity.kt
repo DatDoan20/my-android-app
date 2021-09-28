@@ -1,14 +1,14 @@
 package com.doanducdat.shoppingapp.ui.main
 
-import android.os.Build
+import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityMainBinding
 import com.doanducdat.shoppingapp.service.WebSocketIO
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,19 +19,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         (supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
+    private val webSocketIO by lazy { WebSocketIO() }
 
     override fun getViewBinding(): Int = R.layout.activity_main
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun setUpView() {
         setUpActionClick()
         updateBadgeCountCart()
 
         //socket connect
-        WebSocketIO.initSocket()
-        WebSocketIO.getSocket()?.connect()
-        WebSocketIO.emitSignIn()
-        WebSocketIO.listenNotifyComment(this)
+        with(webSocketIO) {
+            initSocket(this@MainActivity)
+            getSocket()?.connect()
+            emitSignIn()
+            listenNewNotifyComment()
+            listenStateNotifyOrder()
+        }
     }
 
     private fun updateBadgeCountCart() {
@@ -108,7 +111,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             controller.getBackStackEntry(idFragment)
             true
         } catch (e: Exception) {
+            Log.e(AppConstants.TAG.BACK_FRAGMENT, "fragmentIsInBackStack: ${e.message}")
+            Log.e(AppConstants.TAG.BACK_FRAGMENT, "fragmentIsInBackStack: ${e.printStackTrace()}")
             false
+        }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        with(webSocketIO) {
+            getSocket()?.disconnect()
+            offListenNewNotifyComment()
+            offListenStateNotifyOrder()
         }
     }
 }

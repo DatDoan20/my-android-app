@@ -14,13 +14,17 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MyApplication : Application() {
+    private val notificationManager: NotificationManager by lazy {
+        getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     override fun onCreate() {
         super.onCreate()
-        createNotificationChannel()
+        createNotificationChannelComment()
+        createNotificationChannelOrder()
     }
 
-    private fun createNotificationChannel() {
+    private fun createNotificationChannelComment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = AppConstants.NewNotifyComment.NAME
             val descriptionText = AppConstants.NewNotifyComment.DES
@@ -29,10 +33,21 @@ class MyApplication : Application() {
                 NotificationChannel(AppConstants.NewNotifyComment.CHANNEL, name, importance).apply {
                     description = descriptionText
                 }
+            // Register the channel comment with the system
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
 
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private fun createNotificationChannelOrder() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = AppConstants.StateNotifyOrder.NAME
+            val descriptionText = AppConstants.StateNotifyOrder.DES
+            val importance = AppConstants.StateNotifyOrder.IMPORTANT
+            val channel =
+                NotificationChannel(AppConstants.StateNotifyOrder.CHANNEL, name, importance).apply {
+                    description = descriptionText
+                }
+            // Register the channel order with the system
             notificationManager.createNotificationChannel(channel)
         }
     }

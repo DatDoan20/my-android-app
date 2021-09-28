@@ -69,7 +69,7 @@ class OrderPagingAdapter :
                     nameDrawable = R.drawable.bg_state_order_waiting
                 }
                 AppConstants.Order.ACCEPTED -> {
-                    msgState = AppConstants.Order.ACCEPTED
+                    msgState = AppConstants.Order.MSG_ACCEPTED
                     nameDrawable = R.drawable.bg_state_order_accepted
                 }
                 AppConstants.Order.CANCELED -> {
