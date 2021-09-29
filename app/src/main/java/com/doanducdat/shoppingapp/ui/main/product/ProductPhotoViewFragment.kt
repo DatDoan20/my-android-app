@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.SlideImageSmallProductAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductPhotoViewBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
-import com.doanducdat.shoppingapp.utils.MyBgCustom
 
 
 class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>() {
@@ -50,11 +50,16 @@ class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>()
     private fun setUpRcvImagesProduct() {
         val urlImagesAdapter: SlideImageSmallProductAdapter = SlideImageSmallProductAdapter()
         urlImagesAdapter.setUrlImagesProduct(urlImages)
+        //set default photoView is first item of rcv
+        binding.productPhotoView.load(urlImagesAdapter.getFirstUrlImage())
+
+        // event click -> show image to photoView
         urlImagesAdapter.mySetOnclickImage { layoutImage, image ->
             layoutImage.strokeWidth = 8
             binding.productPhotoView.setImageDrawable(image)
         }
 
+        // event click -> change border of item in rcv
         binding.rcvImgProductToPhotoView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rcvImgProductToPhotoView.adapter = urlImagesAdapter

@@ -18,7 +18,9 @@ class SlideImageSmallProductAdapter :
     fun setUrlImagesProduct(urlImages: MutableList<String>) {
         this.urlImagesProduct = urlImages
     }
-
+    fun getFirstUrlImage(): String {
+        return urlImagesProduct[0]
+    }
     private var callbackClickLayoutImage: (layoutImage: MaterialCardView, clickedImage: Drawable) -> Unit =
         { _: View, _: Drawable -> }
 

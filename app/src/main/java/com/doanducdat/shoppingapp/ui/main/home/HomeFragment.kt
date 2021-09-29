@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
@@ -20,12 +21,16 @@ import com.doanducdat.shoppingapp.databinding.FragmentHomeBinding
 import com.doanducdat.shoppingapp.module.SlideImage
 import com.doanducdat.shoppingapp.module.category.Category
 import com.doanducdat.shoppingapp.module.category.CategoryListFactory
+import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.module.response.Status
 import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
@@ -39,7 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private val newProductAdapter by lazy { ProductBasicAdapter() }
     private val saleProductAdapter by lazy { ProductBasicAdapter() }
-
+    val adapter: SlideImageIntroAdapter by lazy { SlideImageIntroAdapter() }
     private val hotCategoryAdapter by lazy { CategoryBasicAdapter() }
 
     override fun getFragmentBinding(
@@ -101,20 +106,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     private fun setUpSlideImageIntro() {
         setUpViewPager()
         setUpIndicator()
+        setUpAutoSwitchSlide()
     }
 
     private fun setUpViewPager() {
-        val adapter: SlideImageIntroAdapter = SlideImageIntroAdapter()
         adapter.addImage(SlideImage(AppConstants.LinkImg.SALE))
         adapter.addImage(SlideImage(AppConstants.LinkImg.SPRING))
         adapter.addImage(SlideImage(AppConstants.LinkImg.SUMMER))
         adapter.addImage(SlideImage(AppConstants.LinkImg.AUTUMN))
         binding.viewPagerIntroTop.adapter = adapter
         binding.viewPagerIntroTop.offscreenPageLimit = 5
+
     }
 
     private fun setUpIndicator() {
         binding.indicateIntroTop.setViewPager(binding.viewPagerIntroTop)
+    }
+
+    private fun setUpAutoSwitchSlide() {
+        val callback = object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                switchSlide(position)
+            }
+        }
+        binding.viewPagerIntroTop.registerOnPageChangeCallback(callback)
+    }
+
+    fun switchSlide(position: Int) {
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(3000)
+            with(binding.viewPagerIntroTop) {
+                if (position == adapter!!.itemCount - 1 ) {
+                    currentItem = 0
+                } else {
+                    currentItem++
+                }
+            }
+        }
     }
     //endregion
 
