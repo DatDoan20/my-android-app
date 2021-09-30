@@ -83,7 +83,7 @@ class OrderViewModel @Inject constructor(
     }
 
     fun getMyReceivedOrder() = viewModelScope.launch {
-        orderRepository.getMyReceivedOrder(AppConstants.Order.RECEIVED).onEach {
+        orderRepository.getMyOrderByState(AppConstants.Order.RECEIVED).onEach {
             _dataStateReceivedOrder.value = it
         }.launchIn(viewModelScope)
     }

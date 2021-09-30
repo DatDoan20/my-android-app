@@ -53,11 +53,11 @@ class OrderRepository @Inject constructor(
         }
     }
 
-    suspend fun getMyReceivedOrder(state: String) = flow {
+    suspend fun getMyOrderByState(state: String) = flow {
         emit(DataState.loading(null))
         try {
             val responseOrder: ResponseOrder =
-                orderAPI.getMyReceivedOrder(
+                orderAPI.getMyOrderByState(
                     InfoUser.token.toString(),
                     state
                 )

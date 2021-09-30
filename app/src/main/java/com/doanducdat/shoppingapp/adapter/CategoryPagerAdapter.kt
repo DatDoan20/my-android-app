@@ -8,7 +8,7 @@ import com.doanducdat.shoppingapp.ui.main.category.WomanCategoryFragment
 
 class CategoryPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int {
-        return 3
+        return 2
     }
 
     override fun createFragment(position: Int): Fragment {

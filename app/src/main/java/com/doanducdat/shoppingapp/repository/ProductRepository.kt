@@ -7,11 +7,9 @@ import com.doanducdat.shoppingapp.module.cart.Cart
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductId
 import com.doanducdat.shoppingapp.module.response.*
-import com.doanducdat.shoppingapp.module.review.Comment
-import com.doanducdat.shoppingapp.module.review.CommentPost
-import com.doanducdat.shoppingapp.module.review.Review
-import com.doanducdat.shoppingapp.module.review.ReviewPost
+import com.doanducdat.shoppingapp.module.review.*
 import com.doanducdat.shoppingapp.paging.CommentPagingSource
+import com.doanducdat.shoppingapp.paging.NotifyCommentPagingSource
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
 import com.doanducdat.shoppingapp.paging.ReviewPagingSource
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
@@ -77,6 +75,12 @@ class ProductRepository @Inject constructor(
         CommentPagingSource(productAPI, reviewId)
     }.flow
 
+    fun getNotifyCommentPaging(): Flow<PagingData<NotifyComment>> = Pager(
+        PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_8, enablePlaceholders = false),
+    ) {
+        NotifyCommentPagingSource(productAPI)
+    }.flow
+
     suspend fun addToCart(carts: Cart) = flow {
         emit(DataState.loading(null))
         try {
@@ -120,7 +124,7 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    suspend fun createReview(productId: String, reviewPost: ReviewPost, orderId:String) = flow {
+    suspend fun createReview(productId: String, reviewPost: ReviewPost, orderId: String) = flow {
         emit(DataState.loading(null))
         try {
             val responseReview: ResponseReview =

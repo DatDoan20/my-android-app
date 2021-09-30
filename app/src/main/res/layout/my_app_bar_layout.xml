@@ -62,6 +62,7 @@
                 app:civ_border_width="@dimen/_1sdp" />
 
             <include
+                android:id="@+id/layout_notification"
                 layout="@layout/layout_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

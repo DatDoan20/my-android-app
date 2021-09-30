@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentWomanCategoryBinding
-import com.doanducdat.shoppingapp.module.category.Category
 import com.doanducdat.shoppingapp.module.category.CategoryListFactory
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment

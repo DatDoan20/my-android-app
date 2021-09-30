@@ -2,8 +2,9 @@ package com.doanducdat.shoppingapp.ui.base
 
 import android.animation.AnimatorSet
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
+import android.graphics.*
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.doanducdat.shoppingapp.R
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.tabs.TabLayout
 
 
 abstract class BaseFragment<VB : ViewBinding> : Fragment() {
@@ -44,7 +46,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     fun showLongToast(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
     }
-    fun showShortToast(msg: String){
+
+    fun showShortToast(msg: String) {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 
@@ -142,6 +145,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
+
     private fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
@@ -162,22 +166,33 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     }
 
     private fun formatTextViewSelected(textView: TextView) {
-        textView.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.textTitleColorGeneric
-            )
-        )
+        textView.setTextColor(getMyColor(R.color.textTitleColorGeneric))
         textView.setTypeface(null, Typeface.BOLD_ITALIC)
     }
 
     private fun formatTextViewUnSelected(textView: TextView) {
-        textView.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.textDesColorGeneric
-            )
-        )
+        textView.setTextColor(getMyColor(R.color.textDesColorGeneric))
         textView.setTypeface(null, Typeface.NORMAL)
     }
+
+    fun getMyColor(idColor: Int): Int {
+        return ContextCompat.getColor(requireContext(), idColor)
+    }
+
+    fun getMyDrawable(idDrawable: Int): Drawable? {
+        return ContextCompat.getDrawable(requireContext(), idDrawable)
+    }
+
+    /**
+     * use when fragment need change color icon of tab layout
+     */
+    fun changeColorTabIcon(tab: TabLayout.Tab, idColor: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            tab.icon?.colorFilter =
+                BlendModeColorFilter(getMyColor(idColor), BlendMode.SRC_ATOP)
+        } else {
+            tab.icon?.setColorFilter(getMyColor(idColor), PorterDuff.Mode.SRC_ATOP)
+        }
+    }
+
 }

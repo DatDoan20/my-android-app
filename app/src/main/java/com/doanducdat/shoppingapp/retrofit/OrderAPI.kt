@@ -26,8 +26,9 @@ interface OrderAPI {
         @Path("id") idOrder: String
     ): ResponseOrder
 
+    //get my received order to show product in those to user can review it
     @GET("api/users/orders/me/{state}")
-    suspend fun getMyReceivedOrder(
+    suspend fun getMyOrderByState(
         @Header("Authorization") authorization: String,
         @Path("state") state: String
     ): ResponseOrder

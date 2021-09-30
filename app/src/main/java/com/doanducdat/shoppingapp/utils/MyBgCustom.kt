@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.core.content.ContextCompat
 import com.doanducdat.shoppingapp.R
-import com.doanducdat.shoppingapp.module.category.CategoryListFactory
 
 class MyBgCustom {
     companion object {

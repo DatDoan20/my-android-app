@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.retrofit
 
 import com.doanducdat.shoppingapp.module.response.ResponseComment
+import com.doanducdat.shoppingapp.module.response.ResponseNotifyComment
 import com.doanducdat.shoppingapp.module.response.ResponseProduct
 import com.doanducdat.shoppingapp.module.response.ResponseReview
 import com.doanducdat.shoppingapp.module.review.CommentPost
@@ -41,6 +42,14 @@ interface ProductAPI {
         @Query("page") page: Int,
         @Query("reviewId") reviewId: String
     ): ResponseComment
+
+    //get notify comment
+    @GET("api/users/notify-comments/me/limit/{limit}/page/{page}")
+    suspend fun getNotifyComment(
+        @Header("Authorization") authorization: String,
+        @Path("limit") limit: Int,
+        @Path("page") page:Int
+    ): ResponseNotifyComment
 
     @POST("api/users/reviews/{reviewId}/comment") //reviewId
     suspend fun createComment(

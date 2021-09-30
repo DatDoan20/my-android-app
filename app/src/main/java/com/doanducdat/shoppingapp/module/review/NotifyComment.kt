@@ -9,4 +9,5 @@ class NotifyComment(
     val commentId: Comment,
     val updatedAt: Date,
     val createdAt: Date,
+    val receiverIds: List<Receiver>
 ) {}

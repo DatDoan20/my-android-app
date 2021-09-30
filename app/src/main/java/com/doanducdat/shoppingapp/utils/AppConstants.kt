@@ -118,6 +118,11 @@ object AppConstants {
             const val SOCKET_IO = "SOCKET.IO"
         }
     }
+    annotation class ColorHex(){
+        companion object{
+            const val UN_READ_STATE_NOTIFY = "#261c87"
+        }
+    }
 
     annotation class NewNotifyComment() {
         companion object {

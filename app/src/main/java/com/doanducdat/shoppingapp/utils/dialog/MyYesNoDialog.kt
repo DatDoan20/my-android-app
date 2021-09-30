@@ -6,11 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import com.doanducdat.shoppingapp.R
 import com.github.ybq.android.spinkit.SpinKitView
-import com.google.android.material.textfield.TextInputEditText
 
 
 class MyYesNoDialog(context: Context) {

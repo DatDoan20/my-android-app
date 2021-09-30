@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_homeFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/productListFragment"
@@ -111,4 +114,8 @@
         android:id="@+id/showProductReviewFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.review.ShowProductReviewFragment"
         android:label="ShowProductReviewFragment" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.notification.NotificationFragment"
+        android:label="NotificationFragment" />
 </navigation>

@@ -3,14 +3,10 @@ package com.doanducdat.shoppingapp.utils.validation
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.format.DateFormat
-import android.util.Log
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.utils.AppConstants
 import java.text.DecimalFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
 

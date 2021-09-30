@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
-import android.widget.TextView
 import com.doanducdat.shoppingapp.R
 import com.github.ybq.android.spinkit.SpinKitView
 

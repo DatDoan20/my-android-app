@@ -3,9 +3,9 @@ package com.doanducdat.shoppingapp.utils.validation
 import com.doanducdat.shoppingapp.module.response.ResponseAuth
 import com.doanducdat.shoppingapp.module.response.ResponseUser
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.google.gson.GsonBuilder
 import retrofit2.HttpException
 import java.io.IOException
-import com.google.gson.GsonBuilder
 
 
 object ResponseValidation {

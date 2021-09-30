@@ -256,6 +256,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
             controller.navigate(R.id.searchFragment)
         }
         setOnSearchView(binding.myAppBarLayout.searchView, callbackOnSearch)
+        //
+        binding.myAppBarLayout.layoutNotification.imgNotification.setOnClickListener {
+            controller.navigate(R.id.notificationFragment)
+        }
     }
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
