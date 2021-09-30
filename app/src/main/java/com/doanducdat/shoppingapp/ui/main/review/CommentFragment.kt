@@ -123,14 +123,9 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setUpEventSend() {
-//        binding.imgSend.setOnTouchListener { v, event ->
-//            v.isSelected = event.action == MotionEvent.ACTION_DOWN
-//
-//            true
-//        }
         binding.imgSend.setOnClickListener {
+            val flag = AppConstants.ActionClick.CREATE_COMMENT
             doActionClick(AppConstants.ActionClick.CREATE_COMMENT)
         }
     }

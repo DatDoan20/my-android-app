@@ -92,6 +92,9 @@ class OrderPagingAdapter :
             if (order.state == AppConstants.Order.ACCEPTED) {
                 binding.btnCancelOrder.visibility = View.GONE
             }
+            if (order.state == AppConstants.Order.RECEIVED) {
+                binding.btnCancelOrder.visibility = View.GONE
+            }
             if (order.state == AppConstants.Order.WAITING) {
                 binding.btnCancelOrder.setOnClickListener {
                     callbackClickCancel(order)

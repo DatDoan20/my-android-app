@@ -5,6 +5,7 @@ import android.content.Context
 import android.text.format.DateFormat
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.module.order.NotifyOrder
 import com.doanducdat.shoppingapp.utils.AppConstants
 import java.text.DecimalFormat
 import java.util.*
@@ -82,5 +83,24 @@ object FormValidation {
     fun formatDay(date: Date, context: Context): String {
         val dateFormat = DateFormat.getMediumDateFormat(context)
         return dateFormat.format(date)
+    }
+
+    fun getContentStateOrder(notifyOrder: NotifyOrder): String? {
+        val totalPaymentOrder = formatMoney(notifyOrder.totalPayment)
+
+        with(AppConstants.StateNotifyOrder) {
+            return when (notifyOrder.state) {
+                AppConstants.Order.ACCEPTED -> {
+                    "$MSG_ACCEPTED $totalPaymentOrder. $DETAIL_SUPPORT"
+                }
+                AppConstants.Order.RECEIVED -> {
+                    "$MSG_RECEIVED $totalPaymentOrder. $MSG_THANKS \n$DETAIL_SUPPORT"
+                }
+                AppConstants.Order.CANCELED -> {
+                    "Đơn hàng: $totalPaymentOrder $MSG_CANCELED. $DETAIL_SUPPORT"
+                }
+                else -> null
+            }
+        }
     }
 }

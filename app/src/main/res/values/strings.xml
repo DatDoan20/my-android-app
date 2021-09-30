@@ -89,5 +89,6 @@
     <string name="reviewPurchasedProduct">Đánh giá sản phẩm đã mua</string>
     <string name="myPurchasedProduct">Sản phẩm đã mua chưa đánh giá</string>
     <string name="notification">Thông báo của tôi</string>
+    <string name="myOrder">Đơn hàng của tôi</string>
 
 </resources>

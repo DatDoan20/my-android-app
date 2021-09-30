@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -41,7 +42,7 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
         setListNameCategory()
         setUpRcvCategory()
         setUpActionClick()
-
+        setDefaultDataDisplay()
     }
 
     private fun setListNameCategory() {
@@ -124,5 +125,11 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
                 )
             }
         }
+    }
+    private fun setDefaultDataDisplay() {
+        //format name category unselected and selected
+        formatListNameCategory(listNameCategory, binding.txtDress)
+        //set adapter when click name category
+        doActionClick(AppConstants.ActionClick.SELECT_DRESS)
     }
 }

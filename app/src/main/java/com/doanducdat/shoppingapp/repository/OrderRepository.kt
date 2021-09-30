@@ -3,9 +3,11 @@ package com.doanducdat.shoppingapp.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.doanducdat.shoppingapp.module.order.NotifyOrder
 import com.doanducdat.shoppingapp.module.order.Order
 import com.doanducdat.shoppingapp.module.response.DataState
 import com.doanducdat.shoppingapp.module.response.ResponseOrder
+import com.doanducdat.shoppingapp.paging.NotifyOrderPagingSource
 import com.doanducdat.shoppingapp.paging.OrderPagingSource
 import com.doanducdat.shoppingapp.retrofit.OrderAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -37,6 +39,12 @@ class OrderRepository @Inject constructor(
         PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_5, enablePlaceholders = false),
     ) {
         OrderPagingSource(orderAPI)
+    }.flow
+
+    fun getNotifyOrderPaging(): Flow<PagingData<NotifyOrder>> = Pager(
+        PagingConfig(pageSize = AppConstants.QueryRequest.LIMIT_8, enablePlaceholders = false),
+    ) {
+        NotifyOrderPagingSource(orderAPI)
     }.flow
 
     suspend fun cancelOrder(idOrder: String) = flow {

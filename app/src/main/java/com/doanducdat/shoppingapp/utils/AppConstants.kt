@@ -30,8 +30,10 @@ object AppConstants {
             const val NAV_MANAGE_ORDER = 20
             const val CANCEL_ORDER = 21
             const val NAV_DETAIL_ORDER = 22
+            const val NAV_REVIEW_PRODUCT = 25
             const val CREATE_COMMENT = 23
             const val REVIEW_PURCHASED_PRODUCT = 24
+            const val NAV_ADD_TO_CARD = 26
         }
     }
 
@@ -120,7 +122,7 @@ object AppConstants {
     }
     annotation class ColorHex(){
         companion object{
-            const val UN_READ_STATE_NOTIFY = "#261c87"
+            const val UN_READ_STATE_NOTIFY = "#2cca2d"
         }
     }
 

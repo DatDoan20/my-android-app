@@ -287,9 +287,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
 
     private fun setUpActionClick() {
         binding.imgAddToCart.setOnClickListener {
+            val flag = AppConstants.ActionClick.NAV_ADD_TO_CARD
             doActionClick(AppConstants.ActionClick.ADD_TO_CART)
         }
         binding.imgReview.setOnClickListener {
+            val flag = AppConstants.ActionClick.NAV_REVIEW_PRODUCT
             controller.navigate(R.id.reviewFragment, bundleOf("PRODUCT_ID" to productSelected.id))
         }
     }

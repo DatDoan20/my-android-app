@@ -44,8 +44,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private val newProductAdapter by lazy { ProductBasicAdapter() }
     private val saleProductAdapter by lazy { ProductBasicAdapter() }
-    val adapter: SlideImageIntroAdapter by lazy { SlideImageIntroAdapter() }
+    private val slideImageIntroAdapter: SlideImageIntroAdapter by lazy { SlideImageIntroAdapter() }
     private val hotCategoryAdapter by lazy { CategoryBasicAdapter() }
+
+    private val callbackOnPageChange = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            switchSlide(position)
+        }
+    }
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -61,6 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         subsCribCollapsingListen()
 
         setUpMyInfo()
+
 
         setUpSlideImageIntro()
 
@@ -104,17 +111,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     //region Slide Image Intro
     private fun setUpSlideImageIntro() {
+        if (slideImageIntroAdapter.itemCount == 0) {
+            loadSlideImageIntro()
+        }
         setUpViewPager()
         setUpIndicator()
         setUpAutoSwitchSlide()
     }
 
+    private fun loadSlideImageIntro() {
+        slideImageIntroAdapter.addImage(SlideImage(AppConstants.LinkImg.SALE))
+        slideImageIntroAdapter.addImage(SlideImage(AppConstants.LinkImg.SPRING))
+        slideImageIntroAdapter.addImage(SlideImage(AppConstants.LinkImg.SUMMER))
+        slideImageIntroAdapter.addImage(SlideImage(AppConstants.LinkImg.AUTUMN))
+    }
+
     private fun setUpViewPager() {
-        adapter.addImage(SlideImage(AppConstants.LinkImg.SALE))
-        adapter.addImage(SlideImage(AppConstants.LinkImg.SPRING))
-        adapter.addImage(SlideImage(AppConstants.LinkImg.SUMMER))
-        adapter.addImage(SlideImage(AppConstants.LinkImg.AUTUMN))
-        binding.viewPagerIntroTop.adapter = adapter
+
+        binding.viewPagerIntroTop.adapter = slideImageIntroAdapter
         binding.viewPagerIntroTop.offscreenPageLimit = 5
 
     }
@@ -124,19 +138,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun setUpAutoSwitchSlide() {
-        val callback = object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                switchSlide(position)
-            }
-        }
-        binding.viewPagerIntroTop.registerOnPageChangeCallback(callback)
+        binding.viewPagerIntroTop.registerOnPageChangeCallback(callbackOnPageChange)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.viewPagerIntroTop.unregisterOnPageChangeCallback(callbackOnPageChange)
+
     }
 
     fun switchSlide(position: Int) {
         CoroutineScope(Dispatchers.Main).launch {
-            delay(3000)
+            delay(5000)
             with(binding.viewPagerIntroTop) {
-                if (position == adapter!!.itemCount - 1 ) {
+                if (position == adapter!!.itemCount - 1) {
                     currentItem = 0
                 } else {
                     currentItem++

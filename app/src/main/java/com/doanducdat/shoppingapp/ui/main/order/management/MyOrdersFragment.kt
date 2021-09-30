@@ -96,6 +96,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
 
     private fun setUpActionClick() {
         orderAdapter.mySetOnClickCancelOrder {
+            val flag = AppConstants.ActionClick.CANCEL_ORDER
             cancelOrder(it)
         }
         orderAdapter.mySetOnClickViewDetail {

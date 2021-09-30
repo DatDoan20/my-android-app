@@ -22,12 +22,14 @@
             android:text="@string/notification"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_notification"
+            app:tabTextAppearance="@style/MyCustomTabText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
@@ -37,26 +39,20 @@
             app:layout_constraintTop_toBottomOf="@id/txt_text_notification"
             app:tabIndicatorColor="@color/white"
             app:tabIndicatorFullWidth="false"
+            android:textSize="@dimen/_14sdp"
             app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/textDesColorGeneric"
-            />
-
-        <TextView
-            android:id="@+id/txt_line"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_10sdp"
-            android:background="@color/textTitleColorGeneric"
-            app:layout_constraintTop_toBottomOf="@id/tab_layout_notification" />
+            app:tabTextColor="@color/boxStrokeTextInputGeneric" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager_notification"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@color/bgSplash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_line" />
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout_notification" />
 
         <ImageView
             android:id="@+id/img_back"

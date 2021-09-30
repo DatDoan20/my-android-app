@@ -4,14 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.module.cart.Cart
+import com.doanducdat.shoppingapp.module.order.NotifyOrder
 import com.doanducdat.shoppingapp.module.product.Product
 import com.doanducdat.shoppingapp.module.product.ProductId
 import com.doanducdat.shoppingapp.module.response.*
 import com.doanducdat.shoppingapp.module.review.*
-import com.doanducdat.shoppingapp.paging.CommentPagingSource
-import com.doanducdat.shoppingapp.paging.NotifyCommentPagingSource
-import com.doanducdat.shoppingapp.paging.ProductPagingSource
-import com.doanducdat.shoppingapp.paging.ReviewPagingSource
+import com.doanducdat.shoppingapp.paging.*
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -80,6 +78,7 @@ class ProductRepository @Inject constructor(
     ) {
         NotifyCommentPagingSource(productAPI)
     }.flow
+
 
     suspend fun addToCart(carts: Cart) = flow {
         emit(DataState.loading(null))

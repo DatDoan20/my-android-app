@@ -54,12 +54,16 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
                 0 -> {
                     tab.text = "Bình luận"
                     tab.icon = getMyDrawable(R.drawable.ic_comment_notification)
-                    // set color because tab 0 is first selected when launch
+                    // set default when launch
                     changeColorTabIcon(tab, R.color.white)
+
+                    val badge = tab.orCreateBadge
+                    badge.number = 1
                 }
                 1 -> {
                     tab.text = "Đơn hàng"
                     tab.icon = getMyDrawable(R.drawable.ic_order_notification)
+                    changeColorTabIcon(tab, R.color.boxStrokeTextInputGeneric)
                 }
 
             }
@@ -76,7 +80,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 if (tab != null) {
-                    changeColorTabIcon(tab, R.color.textDesColorGeneric)
+                    changeColorTabIcon(tab, R.color.boxStrokeTextInputGeneric)
                 }
             }
 

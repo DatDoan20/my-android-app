@@ -70,31 +70,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     binding.bubbleBtmNvgMain.setCurrentActiveItem(2)
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                R.id.productListFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                R.id.homeFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                R.id.productFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                R.id.categoryFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                R.id.productPhotoViewFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                R.id.profileFragment -> {
+                    binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                R.id.orderFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                R.id.cartFragment-> {
+                    binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                R.id.reviewFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
-                }
-                R.id.commentFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
-                }
-                R.id.showProductReviewFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
-                }
-                R.id.notificationFragment -> {
-                    binding.bubbleBtmNvgMain.visibility = View.GONE
-                }
-                else -> binding.bubbleBtmNvgMain.visibility = View.VISIBLE
+                else -> binding.bubbleBtmNvgMain.visibility = View.GONE
             }
             updateBadgeCountCart()
         }

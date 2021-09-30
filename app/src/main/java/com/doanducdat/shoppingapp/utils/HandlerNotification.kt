@@ -24,7 +24,7 @@ class HandlerNotification(val context: Context) {
     private val date: Date = Date()
 
     suspend fun sendStateOrder(notifyOrder: NotifyOrder) {
-        val content: String = getContentStateOrder(notifyOrder) ?: return
+        val content: String = FormValidation.getContentStateOrder(notifyOrder) ?: return
         val viewOderCollapse = getRemoteView(
             notifyOrder.senderName,
             content,
@@ -43,25 +43,6 @@ class HandlerNotification(val context: Context) {
             AppConstants.StateNotifyOrder.CHANNEL,
             date.time.toInt()
         )
-    }
-
-    private fun getContentStateOrder(notifyOrder: NotifyOrder): String? {
-        val totalPaymentOrder = FormValidation.formatMoney(notifyOrder.totalPayment)
-
-        with(AppConstants.StateNotifyOrder) {
-            return when (notifyOrder.state) {
-                AppConstants.Order.ACCEPTED -> {
-                    "$MSG_ACCEPTED $totalPaymentOrder. $DETAIL_SUPPORT"
-                }
-                AppConstants.Order.RECEIVED -> {
-                    "$MSG_RECEIVED $totalPaymentOrder. $MSG_THANKS \n$DETAIL_SUPPORT"
-                }
-                AppConstants.Order.CANCELED -> {
-                    "Đơn hàng: $totalPaymentOrder $MSG_CANCELED. $DETAIL_SUPPORT"
-                }
-                else -> null
-            }
-        }
     }
 
     suspend fun sendNewComment(notifyComment: NotifyComment) {
