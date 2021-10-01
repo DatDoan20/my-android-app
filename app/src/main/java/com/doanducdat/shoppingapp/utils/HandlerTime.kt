@@ -24,7 +24,8 @@ object HandlerTime {
                 (diff / AppConstants.Time.MINUTE_MILLIS).toString() + " phút trước"
             }
             diff < 119 * AppConstants.Time.MINUTE_MILLIS -> {
-                "1h" + ((diff - 60) / AppConstants.Time.MINUTE_MILLIS) + " phút trước"
+                val timeLeft = diff - (60 * AppConstants.Time.MINUTE_MILLIS)
+                "1h" + (timeLeft / AppConstants.Time.MINUTE_MILLIS) + " phút trước"
             }
             diff < 24 * AppConstants.Time.HOUR_MILLIS -> {
                 (diff / AppConstants.Time.HOUR_MILLIS).toString() + " h trước"

@@ -10,6 +10,7 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.NotificationPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentNotificationBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -52,7 +53,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         ) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Bình luận"
+                    tab.text = AppConstants.TextTab.COMMENT
                     tab.icon = getMyDrawable(R.drawable.ic_comment_notification)
                     // set default when launch
                     changeColorTabIcon(tab, R.color.white)
@@ -61,8 +62,8 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
                     badge.number = 1
                 }
                 1 -> {
-                    tab.text = "Đơn hàng"
-                    tab.icon = getMyDrawable(R.drawable.ic_order_notification)
+                    tab.text = AppConstants.TextTab.ORDER
+                    tab.icon = getMyDrawable(R.drawable.ic_order_notification_blue)
                     changeColorTabIcon(tab, R.color.boxStrokeTextInputGeneric)
                 }
 

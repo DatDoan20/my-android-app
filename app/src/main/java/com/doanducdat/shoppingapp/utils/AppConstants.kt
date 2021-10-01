@@ -71,7 +71,7 @@ object AppConstants {
 
     annotation class Time {
         companion object {
-            const val SECOND_MILLIS: Int = 1000
+            private const val SECOND_MILLIS: Int = 1000
             const val MINUTE_MILLIS: Int = 60 * SECOND_MILLIS
             const val HOUR_MILLIS: Int = 60 * MINUTE_MILLIS
             const val DAY_MILLIS: Int = 24 * HOUR_MILLIS
@@ -120,9 +120,24 @@ object AppConstants {
             const val SOCKET_IO = "SOCKET.IO"
         }
     }
-    annotation class ColorHex(){
-        companion object{
+
+    annotation class ColorHex() {
+        companion object {
             const val UN_READ_STATE_NOTIFY = "#2cca2d"
+        }
+    }
+
+    annotation class TextTab() {
+        companion object {
+            const val MAN = "Nữ"
+            const val WOMAN = "Nam"
+            const val COMMENT = "Bình luận"
+            const val ORDER = "Đơn hàng"
+            const val ALL_ORDER = "Tất cả đơn hàng"
+            const val HANDING_ORDER = "Đang chờ xử lý"
+            const val ACCEPTED_ORDER = "Đặt hàng thành công"
+            const val RECEIVED_ORDER = "Giao hàng thành công"
+            const val CANCELED_ORDER = "Đơn hàng đã hủy"
         }
     }
 
@@ -152,6 +167,8 @@ object AppConstants {
 
             @RequiresApi(Build.VERSION_CODES.N)
             const val IMPORTANT = NotificationManager.IMPORTANCE_DEFAULT
+
+            const val RECEIVER_NAME = "Thông báo đơn hàng"
         }
     }
 

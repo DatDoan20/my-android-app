@@ -9,7 +9,7 @@
         android:id="@+id/img_avatar_notify"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_35sdp"
-        android:src="@drawable/otter" />
+        />
 
     <TextView
         android:id="@+id/txt_name_notify"

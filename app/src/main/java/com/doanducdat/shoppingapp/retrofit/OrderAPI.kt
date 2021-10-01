@@ -34,7 +34,7 @@ interface OrderAPI {
         @Path("state") state: String
     ): ResponseOrder
 
-    @GET("api/users/notify-orders/me/limit/:limit/page/:page")
+    @GET("api/users/notify-orders/me/limit/{limit}/page/{page}")
     suspend fun getNotifyOrder(
         @Header("Authorization") authorization: String,
         @Path("limit") limit: Int,

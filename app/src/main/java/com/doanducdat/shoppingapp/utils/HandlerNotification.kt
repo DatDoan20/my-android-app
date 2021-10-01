@@ -2,6 +2,7 @@ package com.doanducdat.shoppingapp.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -24,17 +25,21 @@ class HandlerNotification(val context: Context) {
     private val date: Date = Date()
 
     suspend fun sendStateOrder(notifyOrder: NotifyOrder) {
-        val content: String = FormValidation.getContentStateOrder(notifyOrder) ?: return
+        val content: String =
+            FormValidation.getContentStateOrder(notifyOrder.totalPayment, notifyOrder.state)
+                ?: return
+        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_order_notification_blue)
+
         val viewOderCollapse = getRemoteView(
-            notifyOrder.senderName,
+            AppConstants.StateNotifyOrder.RECEIVER_NAME,
             content,
-            notifyOrder.getUrlReceiverAvatar(),
+            bitmap,
             R.layout.layout_notify_msg_collap_generic
         )
         val viewOrderExpand = getRemoteView(
-            notifyOrder.senderName,
+            AppConstants.StateNotifyOrder.RECEIVER_NAME,
             content,
-            notifyOrder.getUrlReceiverAvatar(),
+            bitmap,
             R.layout.layout_notify_msg_expand_generic
         )
         buildNotification(
@@ -46,13 +51,19 @@ class HandlerNotification(val context: Context) {
     }
 
     suspend fun sendNewComment(notifyComment: NotifyComment) {
+        var bitmap = loadAvatarUserNotify(notifyComment.commentId.userId.getUrlAvatar())
+
+        if (bitmap == null) {
+            bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.err_image)
+        }
+        //default image
         val viewCommentCollapse = getRemoteView(
             notifyComment.commentId.userId.name, notifyComment.commentId.comment,
-            notifyComment.commentId.userId.getUrlAvatar(), R.layout.layout_notify_msg_collap_generic
+            bitmap!!, R.layout.layout_notify_msg_collap_generic
         )
         val viewCommentExpand = getRemoteView(
             notifyComment.commentId.userId.name, notifyComment.commentId.comment,
-            notifyComment.commentId.userId.getUrlAvatar(), R.layout.layout_notify_msg_expand_generic
+            bitmap, R.layout.layout_notify_msg_expand_generic
         )
         buildNotification(
             viewCommentCollapse,
@@ -65,15 +76,12 @@ class HandlerNotification(val context: Context) {
     private suspend fun getRemoteView(
         name: String,
         content: String,
-        urlAvatar: String,
+        bitmap: Bitmap,
         layoutId: Int
     ): RemoteViews {
         val remoteViews = RemoteViews(context.packageName, layoutId)
         remoteViews.setTextViewText(R.id.txt_name_notify, name)
         remoteViews.setTextViewText(R.id.txt_content_notify, content)
-
-        //load and make circle avatar
-        val bitmap = loadAvatarUserNotify(urlAvatar)
 
         remoteViews.setImageViewBitmap(R.id.img_avatar_notify, bitmap)
         return remoteViews

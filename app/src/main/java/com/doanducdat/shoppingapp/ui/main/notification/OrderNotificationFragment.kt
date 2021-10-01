@@ -31,7 +31,9 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
 
         setUpRcvNotifyOrder()
         listenLoadNotifyOrder()
-        loadNotifyOrder()
+        if(notifyOrderPagingAdapter.itemCount == 0) {
+            loadNotifyOrder()
+        }
     }
 
     private fun setUpRcvNotifyOrder() {

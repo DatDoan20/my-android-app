@@ -54,11 +54,11 @@ class OrderManagementFragment : BaseFragment<FragmentOrderManagementBinding>() {
             true
         ) { tab, position ->
             when (position) {
-                0 -> tab.text = "Tất cả"
-                1 -> tab.text = "Đang chờ xử lý"
-                2 -> tab.text = "Đặt hàng thành công"
-                3 -> tab.text = "Giao hàng thành công"
-                4 -> tab.text = "Đã hủy"
+                0 -> tab.text =AppConstants.TextTab.ALL_ORDER
+                1 -> tab.text =AppConstants.TextTab. HANDING_ORDER
+                2 -> tab.text = AppConstants.TextTab.ACCEPTED_ORDER
+                3 -> tab.text = AppConstants.TextTab.RECEIVED_ORDER
+                4 -> tab.text = AppConstants.TextTab.CANCELED_ORDER
             }
         }.attach()
     }

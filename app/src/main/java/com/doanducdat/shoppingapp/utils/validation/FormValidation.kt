@@ -85,11 +85,11 @@ object FormValidation {
         return dateFormat.format(date)
     }
 
-    fun getContentStateOrder(notifyOrder: NotifyOrder): String? {
-        val totalPaymentOrder = formatMoney(notifyOrder.totalPayment)
+    fun getContentStateOrder(totalPayment:Int, state:String): String? {
+        val totalPaymentOrder = formatMoney(totalPayment)
 
         with(AppConstants.StateNotifyOrder) {
-            return when (notifyOrder.state) {
+            return when (state) {
                 AppConstants.Order.ACCEPTED -> {
                     "$MSG_ACCEPTED $totalPaymentOrder. $DETAIL_SUPPORT"
                 }

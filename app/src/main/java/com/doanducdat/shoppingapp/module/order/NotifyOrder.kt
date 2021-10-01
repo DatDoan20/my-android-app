@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.module.order
 
+import com.doanducdat.shoppingapp.module.review.Receiver
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -10,15 +11,14 @@ import java.util.*
  * NotifyOrder here is simple notification to notify about state order when admin accept/cancel order
  */
 class NotifyOrder(
+    //here is notifyOrder in NotifyOder Database
     @SerializedName("_id")
     val id:String,
+    val updatedAt: Date,
+    val orderId:Order,
+    val receiverIds: List<Receiver>,
+    // here is simple property of emitted notification when admin update state order
     val state: String,
     val totalPayment: Int,
-    val senderName: String,
-    val createdAt: Date,
-    private val senderAvatar: String,
 ) {
-    fun getUrlReceiverAvatar(): String {
-        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.USER}${senderAvatar}"
-    }
 }

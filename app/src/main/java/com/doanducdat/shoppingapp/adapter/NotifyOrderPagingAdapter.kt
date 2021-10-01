@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.module.order.NotifyOrder
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -34,16 +34,20 @@ class NotifyOrderPagingAdapter :
         fun bind(notifyOrder: NotifyOrder?) {
             if (notifyOrder == null) return
             with(binding) {
-                imgAvatar.load(notifyOrder.getUrlReceiverAvatar())
-                txtName.text = notifyOrder.senderName
-                txtTimeComment.text = HandlerTime.getTimeAgo(notifyOrder.createdAt.time)
-                txtContentNotify.text = FormValidation.getContentStateOrder(notifyOrder)
+                txtName.text = AppConstants.StateNotifyOrder.RECEIVER_NAME
 
-//                if (!notifyOrder.receiverIds[0].readState) {
-//                    imgBlueDotReadState.visibility = View.VISIBLE
-//                    imgBlueDotReadState.background =
-//                        myBgCustom.bgOval(AppConstants.ColorHex.UN_READ_STATE_NOTIFY)
-//                }
+                imgAvatar.setImageResource(R.drawable.ic_order_notification_white)
+                txtTimeComment.text = HandlerTime.getTimeAgo(notifyOrder.updatedAt.time)
+                txtContentNotify.text = FormValidation.getContentStateOrder(
+                    notifyOrder.orderId.totalPayment,
+                    notifyOrder.orderId.state
+                )
+
+                if (!notifyOrder.receiverIds[0].readState) {
+                    imgBlueDotReadState.visibility = View.VISIBLE
+                    imgBlueDotReadState.background =
+                        myBgCustom.bgOval(AppConstants.ColorHex.UN_READ_STATE_NOTIFY)
+                }
             }
         }
     }

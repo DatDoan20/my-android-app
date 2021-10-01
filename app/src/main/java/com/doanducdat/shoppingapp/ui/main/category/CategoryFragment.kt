@@ -10,6 +10,7 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCategoryBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -46,9 +47,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
         TabLayoutMediator(binding.tabLayoutCategory, binding.viewPagerCategory) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Nữ"
+                    tab.text = AppConstants.TextTab.WOMAN
                 }
-                1 -> tab.text = "Nam"
+                1 -> tab.text = AppConstants.TextTab.MAN
             }
         }.attach()
     }
