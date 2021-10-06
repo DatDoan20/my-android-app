@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.OrderPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentOrdersBinding
-import com.doanducdat.shoppingapp.module.order.Order
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.order.Order
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.ui.main.order.OrderViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -44,7 +44,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         listenLoadingForm()
 
         setUpRcvOrders()
-        listenStateLoadProduct()
+        listenStateLoadOrder()
         loadOrders()
 
         setUpActionClick()
@@ -55,9 +55,9 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
     private fun listenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             if (it) {
-                setStateProgressBar(View.VISIBLE, binding.spinKitProgressBar)
+                setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
             } else {
-                setStateProgressBar(View.GONE, binding.spinKitProgressBar)
+                setStateVisibleView(View.GONE, binding.spinKitProgressBar)
             }
         })
     }
@@ -70,7 +70,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
 
     }
 
-    private fun listenStateLoadProduct() {
+    private fun listenStateLoadOrder() {
         lifecycleScope.launch {
             orderAdapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
@@ -79,8 +79,20 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
                     }
                     is LoadState.Error -> {
                         viewModel.isLoading.value = false
+                        setStateInfoToView(R.drawable.error, AppConstants.MsgErr.GENERIC_ERR_MSG)
                     }
-                    else -> viewModel.isLoading.value = false
+                    is LoadState.NotLoading -> {
+                        viewModel.isLoading.value = false
+//                        if (orderAdapter.itemCount == 0) {
+//                            setStateInfoToView(
+//                                R.drawable.empty_order,
+//                                AppConstants.MsgErr.EMPTY_ORDER
+//                            )
+//                        }
+                    }
+                    else -> {
+                        viewModel.isLoading.value = false
+                    }
                 }
             }
         }
@@ -92,6 +104,13 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
                 orderAdapter.submitData(it)
             }
         }
+    }
+
+    private fun setStateInfoToView(idIcon: Int, msg: String) {
+        binding.imgEmptyOrder.setImageResource(idIcon)
+        binding.txtEmptyOrder.text = msg
+        setStateVisibleView(View.VISIBLE, binding.imgEmptyOrder)
+        setStateVisibleView(View.VISIBLE, binding.txtEmptyOrder)
     }
 
     private fun setUpActionClick() {

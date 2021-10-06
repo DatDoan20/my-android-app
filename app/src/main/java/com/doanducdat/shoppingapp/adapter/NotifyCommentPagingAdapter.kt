@@ -8,13 +8,11 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
-import com.doanducdat.shoppingapp.module.review.NotifyComment
+import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.HandlerTime
 import com.doanducdat.shoppingapp.utils.MyBgCustom
-import com.doanducdat.shoppingapp.utils.validation.FormValidation
 
 class NotifyCommentPagingAdapter :
     PagingDataAdapter<NotifyComment, NotifyCommentPagingAdapter.NotifyCommentPagingViewHolder>(

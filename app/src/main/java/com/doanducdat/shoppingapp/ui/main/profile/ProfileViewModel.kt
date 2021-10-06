@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseUpdateEmail
-import com.doanducdat.shoppingapp.module.user.Email
+import com.doanducdat.shoppingapp.model.response.DataState
+import com.doanducdat.shoppingapp.model.response.ResponseUpdateEmail
+import com.doanducdat.shoppingapp.model.user.Email
 import com.doanducdat.shoppingapp.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

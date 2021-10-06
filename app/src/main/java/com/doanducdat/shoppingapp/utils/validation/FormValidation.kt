@@ -5,7 +5,6 @@ import android.content.Context
 import android.text.format.DateFormat
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
 import com.doanducdat.shoppingapp.utils.AppConstants
 import java.text.DecimalFormat
 import java.util.*

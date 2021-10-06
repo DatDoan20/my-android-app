@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemOrderBinding
-import com.doanducdat.shoppingapp.module.order.Order
+import com.doanducdat.shoppingapp.model.order.Order
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 

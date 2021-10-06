@@ -13,36 +13,24 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignInBinding
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.ui.main.MainActivity
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
-import com.doanducdat.shoppingapp.utils.MyDataStore
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
-
-    @Inject
-    lateinit var myDataStore: MyDataStore
-
     private val controller by lazy {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
     }
 
     private val viewModel: SignInViewModel by viewModels()
-
     private val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
 
     override fun getFragmentBinding(
@@ -52,89 +40,54 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeListenLoadingForm()
+        listenLoadingForm()
         listenLoadMe()
 
         //it work if token is exist and not expired
         autoSignInWithToken()
 
         // if token = null or token expired
-        subscribeListenSignIn()
+        listenSignIn()
 
         setUpCheckForm()
         setUpActionClick()
 
     }
 
-    private fun subscribeListenLoadingForm() {
+    private fun listenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             with(binding) {
-                setStateViews(!it, btnSignIn, txtInputEdtPhone, txtInputEdtPassword)
+                setStateEnableViews(
+                    !it, btnSignIn, txtInputEdtPhone, txtInputEdtPassword,
+                    txtSignUp, txtForgotPassword
+                )
                 if (it) {
-                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                    setStateVisibleView(View.VISIBLE, spinKitProgressBar)
                 } else {
-                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                    setStateVisibleView(View.GONE, spinKitProgressBar)
                 }
             }
         })
     }
 
-    private fun autoSignInWithToken() {
-        viewModel.isLoading.value = true
-        with(binding) {
-            setStateViews(false, btnSignIn, txtSignUp, txtForgotPassword)
-        }
-
-        //if token still use ok
-        CoroutineScope(Dispatchers.Main).launch {
-            val token = myDataStore.userJwtFlow.first().trim()
-            delay(1000)
-
-            //token is exist, assign token before call loadMe()
-            if (!TextUtils.isEmpty(token)) {
-                Log.d(AppConstants.TAG.LOAD_ME, "token in datastore is $token")
-
-                //assign token to call loadm=Me, if err -> clear token (token is expired or err network)
-                InfoUser.token.append(token)
-                viewModel.loadMe()
-            } else {
-                Log.d(AppConstants.TAG.LOAD_ME, "token is empty in datastore")
-                viewModel.isLoading.value = false
-                with(binding) {
-                    setStateViews(true, btnSignIn, txtSignUp, txtForgotPassword)
-                }
-            }
-        }
-    }
-
     private fun listenLoadMe() {
         viewModel.dataStateUser.observe(viewLifecycleOwner, {
             when (it.status) {
-                Status.LOADING -> {
-                    viewModel.isLoading.value = true
-                }
+                Status.LOADING -> viewModel.isLoading.value = true
                 Status.ERROR -> {
                     //default is err network, show generic msg
                     var errMsg = AppConstants.MsgErr.MSG_ERR_AUTO_SIGN_IN
 
                     // another err (network err can not response json)
-                    if (it.response != null) {
-                        if (it.response.error == AppConstants.Response.ERR_JWT_EXPIRED) {
-                            errMsg = AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
-                        }
+                    if (it.response != null && it.response.error == AppConstants.Response.ERR_JWT_EXPIRED) {
+                        errMsg = AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
                     }
-
                     //auto sign in fail -> clear token
-                    InfoUser.token =
-                        StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
+                    InfoUser.token = StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
 
                     showLongToast(errMsg)
                     Log.e(AppConstants.TAG.LOAD_ME, "listenLoadMe: ${it.message}")
-
                     viewModel.isLoading.value = false
-                    with(binding) {
-                        setStateViews(true, btnSignIn, txtSignUp, txtForgotPassword)
-                    }
                 }
                 Status.SUCCESS -> {
                     InfoUser.currentUser = it.response!!.data
@@ -145,17 +98,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
         })
     }
 
-
-    private fun subscribeListenSignIn() {
-        viewModel.dataState.observe(viewLifecycleOwner, {
+    private fun listenSignIn() {
+        viewModel.dataStateSignIn.observe(viewLifecycleOwner, {
             when (it.status) {
-                Status.LOADING -> {
-                    viewModel.isLoading.value = true
-                }
+                Status.LOADING -> viewModel.isLoading.value = true
                 Status.ERROR -> {
                     //err network
                     var msg = AppConstants.MsgErr.GENERIC_ERR_MSG
-
                     //err incorrect pass or phone
                     if (it.response != null) {
                         if (it.response.message.startsWith(AppConstants.Response.ERR_INCORRECT_PHONE_OR_PASS)) {
@@ -164,25 +113,35 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     }
                     dialog.setText(msg)
                     dialog.show()
-
-                    Log.e(AppConstants.TAG.SIGN_IN, "subscribeListenSignIn: ${it.message}")
+                    Log.e(AppConstants.TAG.SIGN_IN, "ListenSignIn Fail: ${it.message}")
                     viewModel.isLoading.value = false
-                    with(binding) {
-                        setStateViews(true, btnSignIn, txtSignUp, txtForgotPassword)
-                    }
                 }
                 Status.SUCCESS -> {
-                    //write token + navigate mainActivity
-                    CoroutineScope(Dispatchers.Main).launch {
-                        myDataStore.writeJwt(it.response!!.token)
-                        InfoUser.token.append(it.response.token)
-
-                        Log.e(AppConstants.TAG.SIGN_IN, "token: ${InfoUser.token}")
-                        viewModel.loadMe()
-                    }
+                    //write token + loadMe
+                    viewModel.writeTokenLocal(it.response!!.token)
                 }
             }
         })
+    }
+
+    private fun autoSignInWithToken() {
+        viewModel.isLoading.value = true
+        viewModel.token.observe(viewLifecycleOwner, { token ->
+            token?.let { checkTokenToLoadMe(token) }
+        })
+        viewModel.getTokenLocal()
+    }
+
+    private fun checkTokenToLoadMe(token: String) {
+        //token is exist, assign token before call loadMe()
+        if (!TextUtils.isEmpty(token)) {
+            Log.d(AppConstants.TAG.LOAD_ME, "token in datastore is $token")
+            InfoUser.token.append(token)
+            viewModel.loadMe()
+        } else {
+            Log.d(AppConstants.TAG.LOAD_ME, "token is empty in datastore, token is $token")
+            viewModel.isLoading.value = false
+        }
     }
 
     private fun startMain() {
@@ -267,7 +226,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
     private fun signIn() {
         viewModel.isLoading.value = true
         with(binding) {
-            setStateViews(false, btnSignIn, txtSignUp, txtForgotPassword)
+            setStateEnableViews(false, btnSignIn, txtSignUp, txtForgotPassword)
         }
 
         viewModel.phone = binding.txtInputEdtPhone.text.toString()

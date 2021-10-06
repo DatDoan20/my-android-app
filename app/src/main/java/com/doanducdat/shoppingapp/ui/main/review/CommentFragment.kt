@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CommentPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCommentBinding
-import com.doanducdat.shoppingapp.module.response.Status
-import com.doanducdat.shoppingapp.module.review.CommentPost
+import com.doanducdat.shoppingapp.model.response.Status
+import com.doanducdat.shoppingapp.model.review.CommentPost
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -60,9 +60,9 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             with(binding) {
                 if (it) {
-                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                    setStateVisibleView(View.VISIBLE, spinKitProgressBar)
                 } else {
-                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                    setStateVisibleView(View.GONE, spinKitProgressBar)
                 }
             }
         })

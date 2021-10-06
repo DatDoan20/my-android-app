@@ -50,8 +50,8 @@
             android:id="@+id/action_profileFragment_to_orderManagementFragment"
             app:destination="@id/orderManagementFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_showProductReviewFragment"
-            app:destination="@id/showProductReviewFragment" />
+            android:id="@+id/action_profileFragment_to_purchasedProductFragment"
+            app:destination="@id/purchasedProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -111,11 +111,11 @@
         android:name="com.doanducdat.shoppingapp.ui.main.review.CommentFragment"
         android:label="CommentFragment" />
     <fragment
-        android:id="@+id/showProductReviewFragment"
-        android:name="com.doanducdat.shoppingapp.ui.main.review.ShowProductReviewFragment"
-        android:label="ShowProductReviewFragment" />
-    <fragment
         android:id="@+id/notificationFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.notification.NotificationFragment"
         android:label="NotificationFragment" />
+    <fragment
+        android:id="@+id/purchasedProductFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.review.PurchasedProductFragment"
+        android:label="PurchasedProductFragment" />
 </navigation>

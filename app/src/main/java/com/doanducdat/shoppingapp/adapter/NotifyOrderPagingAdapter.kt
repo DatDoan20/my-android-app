@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
+import com.doanducdat.shoppingapp.model.order.NotifyOrder
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.HandlerTime
 import com.doanducdat.shoppingapp.utils.MyBgCustom

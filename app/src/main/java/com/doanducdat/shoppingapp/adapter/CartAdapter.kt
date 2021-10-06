@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemProductInCartBinding
-import com.doanducdat.shoppingapp.module.cart.PopulatedCart
+import com.doanducdat.shoppingapp.model.cart.PopulatedCart
 import com.doanducdat.shoppingapp.utils.AppConstants
 
 class CartAdapter(

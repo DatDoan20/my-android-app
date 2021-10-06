@@ -1,12 +1,12 @@
 package com.doanducdat.shoppingapp.repository
 
 import android.app.Activity
-import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.user.UserSignUp
+import com.doanducdat.shoppingapp.model.response.DataState
+import com.doanducdat.shoppingapp.model.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.PhoneAuthentication
-import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
+import com.doanducdat.shoppingapp.utils.validation.ResCatch
 import com.google.firebase.auth.PhoneAuthProvider
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -60,8 +60,8 @@ class SignUpRepository @Inject constructor(
         } catch (e: Throwable) {
             emit(
                 DataState.error(
-                    ResponseValidation.errResponseSignUp(e),
-                    ResponseValidation.msgErrResponse(e)
+                    ResCatch.errResponseSignUp(e),
+                    ResCatch.errMsg(e)
                 )
             )
         }

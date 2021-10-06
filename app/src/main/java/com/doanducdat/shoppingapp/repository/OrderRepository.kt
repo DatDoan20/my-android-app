@@ -3,16 +3,16 @@ package com.doanducdat.shoppingapp.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
-import com.doanducdat.shoppingapp.module.order.Order
-import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseOrder
+import com.doanducdat.shoppingapp.model.order.NotifyOrder
+import com.doanducdat.shoppingapp.model.order.Order
+import com.doanducdat.shoppingapp.model.response.DataState
+import com.doanducdat.shoppingapp.model.response.ResponseOrder
 import com.doanducdat.shoppingapp.paging.NotifyOrderPagingSource
 import com.doanducdat.shoppingapp.paging.OrderPagingSource
 import com.doanducdat.shoppingapp.retrofit.OrderAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
-import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
+import com.doanducdat.shoppingapp.utils.validation.ResCatch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class OrderRepository @Inject constructor(
                 )
             emit(DataState.success(responseOrder))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -57,7 +57,7 @@ class OrderRepository @Inject constructor(
                 )
             emit(DataState.success(responseOrder))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -71,7 +71,7 @@ class OrderRepository @Inject constructor(
                 )
             emit(DataState.success(responseOrder))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 }

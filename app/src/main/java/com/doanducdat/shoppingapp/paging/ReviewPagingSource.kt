@@ -2,7 +2,7 @@ package com.doanducdat.shoppingapp.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.doanducdat.shoppingapp.module.review.Review
+import com.doanducdat.shoppingapp.model.review.Review
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser

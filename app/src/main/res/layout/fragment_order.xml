@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.doanducdat.shoppingapp.module.user.User" />
+            type="com.doanducdat.shoppingapp.model.user.User" />
     </data>
 
     <androidx.core.widget.NestedScrollView

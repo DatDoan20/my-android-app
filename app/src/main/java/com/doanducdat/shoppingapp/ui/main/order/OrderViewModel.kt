@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.doanducdat.shoppingapp.module.order.Order
-import com.doanducdat.shoppingapp.module.order.PurchasedProduct
-import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseOrder
+import com.doanducdat.shoppingapp.model.order.Order
+import com.doanducdat.shoppingapp.model.order.PurchasedProduct
+import com.doanducdat.shoppingapp.model.response.DataState
+import com.doanducdat.shoppingapp.model.response.ResponseOrder
 import com.doanducdat.shoppingapp.repository.OrderRepository
 import com.doanducdat.shoppingapp.utils.AppConstants
 import dagger.hilt.android.lifecycle.HiltViewModel

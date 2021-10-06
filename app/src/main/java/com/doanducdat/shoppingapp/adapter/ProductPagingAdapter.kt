@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemProductBinding
-import com.doanducdat.shoppingapp.module.product.Product
+import com.doanducdat.shoppingapp.model.product.Product
 
 class ProductPagingAdapter :
     PagingDataAdapter<Product, ProductPagingAdapter.ProductPagingViewHolder>(PRODUCT_COMPARATOR) {

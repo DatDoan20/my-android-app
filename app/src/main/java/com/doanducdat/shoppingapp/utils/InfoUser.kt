@@ -1,6 +1,6 @@
 package com.doanducdat.shoppingapp.utils
 
-import com.doanducdat.shoppingapp.module.user.User
+import com.doanducdat.shoppingapp.model.user.User
 
 object InfoUser {
     var currentUser: User? = null

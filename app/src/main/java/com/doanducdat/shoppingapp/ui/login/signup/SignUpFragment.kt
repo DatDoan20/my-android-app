@@ -46,14 +46,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), MyActionApp {
     private fun subscribeListenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             with(binding) {
-                setStateViews(
+                setStateEnableViews(
                     !it, btnBack, btnSignUp, txtInputEdtPhone, txtInputEdtEmail,
                     txtInputEdtName, txtInputEdtPassword
                 )
                 if (it) {
-                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                    setStateVisibleView(View.VISIBLE, spinKitProgressBar)
                 } else {
-                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                    setStateVisibleView(View.GONE, spinKitProgressBar)
                 }
             }
         })

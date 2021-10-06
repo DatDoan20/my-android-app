@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentProfileBinding
-import com.doanducdat.shoppingapp.module.response.Status
-import com.doanducdat.shoppingapp.module.user.Email
+import com.doanducdat.shoppingapp.model.response.Status
+import com.doanducdat.shoppingapp.model.user.Email
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -83,7 +83,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                 controller.navigate(R.id.orderManagementFragment)
             }
             AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT -> {
-                controller.navigate(R.id.showProductReviewFragment)
+                controller.navigate(R.id.purchasedProductFragment)
             }
 
         }

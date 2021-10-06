@@ -3,18 +3,17 @@ package com.doanducdat.shoppingapp.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
-import com.doanducdat.shoppingapp.module.product.Product
-import com.doanducdat.shoppingapp.module.product.ProductId
-import com.doanducdat.shoppingapp.module.response.*
-import com.doanducdat.shoppingapp.module.review.*
+import com.doanducdat.shoppingapp.model.cart.Cart
+import com.doanducdat.shoppingapp.model.product.Product
+import com.doanducdat.shoppingapp.model.product.ProductId
+import com.doanducdat.shoppingapp.model.response.*
+import com.doanducdat.shoppingapp.model.review.*
 import com.doanducdat.shoppingapp.paging.*
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
-import com.doanducdat.shoppingapp.utils.validation.ResponseValidation
+import com.doanducdat.shoppingapp.utils.validation.ResCatch
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -36,7 +35,7 @@ class ProductRepository @Inject constructor(
                 )
             emit(DataState.success(resSaleProduct))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -51,7 +50,7 @@ class ProductRepository @Inject constructor(
                 )
             emit(DataState.success(resNewProduct))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -90,7 +89,7 @@ class ProductRepository @Inject constructor(
                 )
             emit(DataState.success(resHandleProductInCard))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -104,7 +103,7 @@ class ProductRepository @Inject constructor(
                 )
             emit(DataState.success(resHandleProductInCard))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -119,7 +118,7 @@ class ProductRepository @Inject constructor(
                 )
             emit(DataState.success(responseComment))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 
@@ -135,7 +134,7 @@ class ProductRepository @Inject constructor(
                 )
             emit(DataState.success(responseReview))
         } catch (e: Throwable) {
-            emit(DataState.error(null, ResponseValidation.msgErrResponse(e)))
+            emit(DataState.error(null, ResCatch.errMsg(e)))
         }
     }
 }

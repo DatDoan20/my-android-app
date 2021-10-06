@@ -18,10 +18,10 @@ import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.adapter.ProductBasicAdapter
 import com.doanducdat.shoppingapp.adapter.SlideImageIntroAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentHomeBinding
-import com.doanducdat.shoppingapp.module.SlideImage
-import com.doanducdat.shoppingapp.module.category.Category
-import com.doanducdat.shoppingapp.module.category.CategoryListFactory
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.SlideImage
+import com.doanducdat.shoppingapp.model.category.Category
+import com.doanducdat.shoppingapp.model.category.CategoryListFactory
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -67,7 +67,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         subsCribCollapsingListen()
 
         setUpMyInfo()
-
 
         setUpSlideImageIntro()
 

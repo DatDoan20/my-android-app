@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CartAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCartBinding
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -44,6 +44,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         super.onViewCreated(view, savedInstanceState)
         listenLoadingForm()
         listenSumMoneyCart()
+
         setUpRcvCart()
         setUpActionClick()
 
@@ -53,9 +54,9 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             cartAdapter.isClickAble = !it
             if (it) {
-                setStateProgressBar(View.VISIBLE, binding.spinKitProgressBar)
+                setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
             } else {
-                setStateProgressBar(View.GONE, binding.spinKitProgressBar)
+                setStateVisibleView(View.GONE, binding.spinKitProgressBar)
             }
         })
     }
@@ -74,7 +75,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     }
 
     /**
-     * when init load, after delete product, use this fun
+     * when init load or after delete product -> use this fun
      */
     private fun calculatingSumCart() {
         var sumMoneyCart: Int = 0
@@ -84,16 +85,31 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         viewModel.sumMoneyCart.value = sumMoneyCart
     }
 
-    private fun setUpRcvCart() {
-        InfoUser.currentUser?.cart?.let {
-            cartAdapter.setCartList(it)
-            calculatingSumCart()
+    private fun loadDataAdapter() {
+        if (InfoUser.currentUser?.cart == null || InfoUser.currentUser!!.cart.size == 0) {
+            setStateVisibleView(View.VISIBLE, binding.imgEmptyCart)
+            setStateVisibleView(View.VISIBLE, binding.txtEmptyCart)
+            return
         }
+
+        cartAdapter.setCartList(InfoUser.currentUser!!.cart)
+        calculatingSumCart()
+    }
+
+    private fun setUpRcvCart() {
+        loadDataAdapter()
+
         binding.rcvCart.adapter = cartAdapter
         binding.rcvCart.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         //event click adapter
+        setEventClickAdapter()
+
+    }
+
+
+    private fun setEventClickAdapter() {
         cartAdapter.mySetOnClickMinusOrPlush { CODE_ACTION_CLICK, populatedCart, txtQuantity, txtPrice ->
             if (cartAdapter.isClickAble) {
                 val priceOneItem = populatedCart.price / populatedCart.quantity

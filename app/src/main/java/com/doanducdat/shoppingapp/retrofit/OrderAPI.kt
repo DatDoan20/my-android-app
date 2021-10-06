@@ -1,8 +1,8 @@
 package com.doanducdat.shoppingapp.retrofit
 
-import com.doanducdat.shoppingapp.module.order.Order
-import com.doanducdat.shoppingapp.module.response.ResponseNotifyOrder
-import com.doanducdat.shoppingapp.module.response.ResponseOrder
+import com.doanducdat.shoppingapp.model.order.Order
+import com.doanducdat.shoppingapp.model.response.ResponseNotifyOrder
+import com.doanducdat.shoppingapp.model.response.ResponseOrder
 import retrofit2.http.*
 
 

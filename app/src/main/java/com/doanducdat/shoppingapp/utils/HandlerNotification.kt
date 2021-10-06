@@ -11,8 +11,8 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.doanducdat.shoppingapp.R
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
-import com.doanducdat.shoppingapp.module.review.NotifyComment
+import com.doanducdat.shoppingapp.model.order.NotifyOrder
+import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

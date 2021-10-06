@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemImgIntroBinding
-import com.doanducdat.shoppingapp.module.SlideImage
+import com.doanducdat.shoppingapp.model.SlideImage
 
 class SlideImageIntroAdapter(
 ) : RecyclerView.Adapter<SlideImageIntroAdapter.SlideImageIntroViewHolder>() {

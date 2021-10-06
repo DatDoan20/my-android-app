@@ -2,8 +2,8 @@ package com.doanducdat.shoppingapp.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.doanducdat.shoppingapp.module.product.Product
-import com.doanducdat.shoppingapp.module.response.ResponseProduct
+import com.doanducdat.shoppingapp.model.product.Product
+import com.doanducdat.shoppingapp.model.response.ResponseProduct
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser

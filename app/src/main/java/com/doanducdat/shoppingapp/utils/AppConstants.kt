@@ -206,7 +206,7 @@ object AppConstants {
 
     annotation class MsgErr {
         companion object {
-            const val GENERIC_ERR_MSG = "Thất bại! đã có lỗi xảy ra, thử lại sau"
+            const val GENERIC_ERR_MSG = "Yêu cầu thất bại! đã có lỗi xảy ra, thử lại sau"
             const val GENERIC_ERR_RESPONSE = "Đường truyền mạng internet bị gián đoạn, thử lại sau"
             const val PHONE_ERR_LENGTH = "Chiều dài không hợp lệ"
             const val PASSWORD_ERR_LENGTH = "Độ dài ít hơn 8 kí tự, không chứa khoảng trắng"
@@ -227,6 +227,10 @@ object AppConstants {
                 "Đăng nhập thất bại! đã có lỗi xảy ra, thử lại sau"
             const val MSG_ERR_INCORRECT_PHONE_OR_PASS =
                 "Số điện thoại hoặc mật khẩu không chính xác, vui lòng kiểm tra lại!"
+
+            const val EMPTY_ORDER = "Bạn không có đơn đặt hàng nào"
+            const val EMPTY_PURCHASED_PRODUCT = "Bạn không có sản phẩm chưa đánh giá"
+            const val EMPTY_PRODUCT_SEARCH = "Không tìm thấy phẩm nào, hãy thử một tìm kiếm khác"
 
         }
     }

@@ -21,10 +21,10 @@ import com.doanducdat.shoppingapp.adapter.ProductColorAdapter
 import com.doanducdat.shoppingapp.adapter.ProductSizeAdapter
 import com.doanducdat.shoppingapp.adapter.SlideImageProductAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductBinding
-import com.doanducdat.shoppingapp.module.cart.Cart
-import com.doanducdat.shoppingapp.module.product.Product
-import com.doanducdat.shoppingapp.module.product.ProductColor
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.cart.Cart
+import com.doanducdat.shoppingapp.model.product.Product
+import com.doanducdat.shoppingapp.model.product.ProductColor
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -234,8 +234,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             if (it) {
                 with(binding) {
-                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
-                    setStateViews(
+                    setStateVisibleView(View.VISIBLE, spinKitProgressBar)
+                    setStateEnableViews(
                         false,
                         imgBack,
                         layoutMyCart.imgMyCart,
@@ -246,8 +246,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                 }
             } else {
                 with(binding) {
-                    setStateProgressBar(View.GONE, spinKitProgressBar)
-                    setStateViews(
+                    setStateVisibleView(View.GONE, spinKitProgressBar)
+                    setStateEnableViews(
                         true,
                         imgBack,
                         layoutMyCart.imgMyCart,

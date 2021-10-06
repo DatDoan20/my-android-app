@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.doanducdat.shoppingapp.module.response.DataState
-import com.doanducdat.shoppingapp.module.response.ResponseProduct
+import com.doanducdat.shoppingapp.model.response.DataState
+import com.doanducdat.shoppingapp.model.response.ResponseProduct
 import com.doanducdat.shoppingapp.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

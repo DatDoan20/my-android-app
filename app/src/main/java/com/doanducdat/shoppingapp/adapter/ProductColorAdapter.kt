@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.databinding.ItemProductColorBinding
-import com.doanducdat.shoppingapp.module.product.ProductColor
+import com.doanducdat.shoppingapp.model.product.ProductColor
 import com.doanducdat.shoppingapp.utils.MyBgCustom
 
 class ProductColorAdapter(

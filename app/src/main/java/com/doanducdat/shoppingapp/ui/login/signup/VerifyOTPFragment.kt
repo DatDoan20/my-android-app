@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentVerifyOTPBinding
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -61,11 +61,11 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
     private fun subscribeListenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
             with(binding) {
-                setStateViews(!it, btnVerifyOtp)
+                setStateEnableViews(!it, btnVerifyOtp)
                 if (it) {
-                    setStateProgressBar(View.VISIBLE, spinKitProgressBar)
+                    setStateVisibleView(View.VISIBLE, spinKitProgressBar)
                 } else {
-                    setStateProgressBar(View.GONE, spinKitProgressBar)
+                    setStateVisibleView(View.GONE, spinKitProgressBar)
                 }
             }
         })

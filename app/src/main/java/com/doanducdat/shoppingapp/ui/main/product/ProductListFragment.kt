@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.ProductPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductListBinding
-import com.doanducdat.shoppingapp.module.category.Category
+import com.doanducdat.shoppingapp.model.category.Category
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import dagger.hilt.android.AndroidEntryPoint

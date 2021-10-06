@@ -1,11 +1,11 @@
 package com.doanducdat.shoppingapp.retrofit
 
-import com.doanducdat.shoppingapp.module.response.ResponseComment
-import com.doanducdat.shoppingapp.module.response.ResponseNotifyComment
-import com.doanducdat.shoppingapp.module.response.ResponseProduct
-import com.doanducdat.shoppingapp.module.response.ResponseReview
-import com.doanducdat.shoppingapp.module.review.CommentPost
-import com.doanducdat.shoppingapp.module.review.ReviewPost
+import com.doanducdat.shoppingapp.model.response.ResponseComment
+import com.doanducdat.shoppingapp.model.response.ResponseNotifyComment
+import com.doanducdat.shoppingapp.model.response.ResponseProduct
+import com.doanducdat.shoppingapp.model.response.ResponseReview
+import com.doanducdat.shoppingapp.model.review.CommentPost
+import com.doanducdat.shoppingapp.model.review.ReviewPost
 import retrofit2.http.*
 
 

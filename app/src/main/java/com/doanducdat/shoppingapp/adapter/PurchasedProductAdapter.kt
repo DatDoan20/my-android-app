@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemProductInOrderBinding
-import com.doanducdat.shoppingapp.module.order.PurchasedProduct
+import com.doanducdat.shoppingapp.model.order.PurchasedProduct
 
 class PurchasedProductAdapter :
     RecyclerView.Adapter<PurchasedProductAdapter.ProductReviewHolder>() {

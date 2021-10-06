@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
-import com.doanducdat.shoppingapp.module.review.NotifyComment
+import com.doanducdat.shoppingapp.model.order.NotifyOrder
+import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.repository.OrderRepository
 import com.doanducdat.shoppingapp.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

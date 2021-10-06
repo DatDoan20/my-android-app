@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemCommentBinding
-import com.doanducdat.shoppingapp.module.review.Comment
+import com.doanducdat.shoppingapp.model.review.Comment
 import com.doanducdat.shoppingapp.utils.HandlerTime
 
 class CommentPagingAdapter :

@@ -91,4 +91,6 @@
     <string name="notification">Thông báo của tôi</string>
     <string name="myOrder">Đơn hàng của tôi</string>
 
+    <string name="emptyCart">Bạn chưa có sản phẩm nào trong giỏ hàng</string>
+
 </resources>

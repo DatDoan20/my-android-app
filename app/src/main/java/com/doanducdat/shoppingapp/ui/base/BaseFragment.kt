@@ -51,7 +51,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 
-    fun setStateViews(isEnable: Boolean, vararg views: View) {
+    fun setStateEnableViews(isEnable: Boolean, vararg views: View) {
         for (view in views) {
             view.isEnabled = isEnable
         }
@@ -60,8 +60,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     /**
      *  use when there is progressbar in form
      */
-    fun setStateProgressBar(isVisible: Int, progressBar: View) {
-        progressBar.visibility = isVisible
+    fun setStateVisibleView(isVisible: Int, view: View) {
+        view.visibility = isVisible
     }
 
     /**

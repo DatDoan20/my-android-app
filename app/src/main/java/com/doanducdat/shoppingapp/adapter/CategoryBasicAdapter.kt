@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.databinding.ItemHotCategoryBinding
-import com.doanducdat.shoppingapp.module.category.Category
+import com.doanducdat.shoppingapp.model.category.Category
 
 class CategoryBasicAdapter(
 ) : RecyclerView.Adapter<CategoryBasicAdapter.CategoryViewHolder>() {

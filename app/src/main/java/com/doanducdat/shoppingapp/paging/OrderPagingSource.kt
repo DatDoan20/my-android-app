@@ -3,7 +3,7 @@ package com.doanducdat.shoppingapp.paging
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.doanducdat.shoppingapp.module.order.Order
+import com.doanducdat.shoppingapp.model.order.Order
 import com.doanducdat.shoppingapp.retrofit.OrderAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser

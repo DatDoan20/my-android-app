@@ -2,8 +2,8 @@ package com.doanducdat.shoppingapp.service
 
 import android.content.Context
 import android.util.Log
-import com.doanducdat.shoppingapp.module.order.NotifyOrder
-import com.doanducdat.shoppingapp.module.review.NotifyComment
+import com.doanducdat.shoppingapp.model.order.NotifyOrder
+import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.HandlerNotification
 import com.doanducdat.shoppingapp.utils.InfoUser

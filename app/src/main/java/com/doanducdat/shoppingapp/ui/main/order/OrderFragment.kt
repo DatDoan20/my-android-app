@@ -11,8 +11,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentOrderBinding
-import com.doanducdat.shoppingapp.module.order.PurchasedProduct
-import com.doanducdat.shoppingapp.module.response.Status
+import com.doanducdat.shoppingapp.model.order.PurchasedProduct
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
@@ -46,11 +46,11 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
 
     private fun listenLoadingForm() {
         viewModel.isLoading.observe(viewLifecycleOwner, {
-            setStateViews(!it, binding.btnOrder)
+            setStateEnableViews(!it, binding.btnOrder)
             if (it) {
-                setStateProgressBar(View.VISIBLE, binding.spinKitProgressBar)
+                setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
             } else {
-                setStateProgressBar(View.GONE, binding.spinKitProgressBar)
+                setStateVisibleView(View.GONE, binding.spinKitProgressBar)
             }
         })
     }
