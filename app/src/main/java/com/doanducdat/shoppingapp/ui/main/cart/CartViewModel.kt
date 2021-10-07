@@ -2,11 +2,11 @@ package com.doanducdat.shoppingapp.ui.main.cart
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.model.response.ResponseHandleProductInCart
 import com.doanducdat.shoppingapp.repository.ProductRepository
+import com.doanducdat.shoppingapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val productRepository: ProductRepository,
-) : ViewModel() {
-    var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+) : BaseViewModel() {
     var sumMoneyCart: MutableLiveData<Int> = MutableLiveData(0)
 
     private val _dataStateDeleteProductInCart: MutableLiveData<DataState<ResponseHandleProductInCart>> =
@@ -30,6 +29,4 @@ class CartViewModel @Inject constructor(
             _dataStateDeleteProductInCart.value = it
         }.launchIn(viewModelScope)
     }
-
-
 }

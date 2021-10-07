@@ -35,14 +35,23 @@ class NotifyCommentPagingAdapter :
             with(binding) {
                 imgAvatar.load(notifyComment.commentId.userId.getUrlAvatar())
                 txtName.text = notifyComment.commentId.userId.name
-                txtTimeComment.text =
-                    HandlerTime.getTimeAgo(notifyComment.updatedAt.time)
-                txtContentNotify.text = notifyComment.commentId.comment
-                if (!notifyComment.receiverIds[0].readState) {
-                    imgBlueDotReadState.visibility = View.VISIBLE
-                    imgBlueDotReadState.background =
-                        myBgCustom.bgOval(AppConstants.ColorHex.UN_READ_STATE_NOTIFY)
-                }
+                txtTimeComment.text = HandlerTime.getTimeAgo(notifyComment.updatedAt.time)
+
+                txtContentNotify.text = getContent(notifyComment.commentId.comment)
+
+                setReadStateDot(notifyComment.receiverIds[0].readState)
+            }
+        }
+
+        private fun getContent(comment: String): String {
+            return if (comment.trim().length > 53) "${comment.substring(0, 50)}..." else comment
+        }
+
+        private fun setReadStateDot(readState: Boolean) {
+            if (!readState) {
+                binding.imgBlueDotReadState.visibility = View.VISIBLE
+                binding.imgBlueDotReadState.background =
+                    myBgCustom.bgOval(AppConstants.ColorHex.UN_READ_STATE_NOTIFY)
             }
         }
     }

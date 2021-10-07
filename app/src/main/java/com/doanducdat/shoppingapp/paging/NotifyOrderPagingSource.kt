@@ -27,7 +27,7 @@ class NotifyOrderPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NotifyOrder> {
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
-            val response = orderAPI.getNotifyOrder(InfoUser.token.toString(), params.loadSize, page)
+            val response = orderAPI.getNotifyOrder(InfoUser.localToken.toString(), params.loadSize, page)
             val notifyOrders = response.data
             LoadResult.Page(
                 data = notifyOrders,

@@ -27,7 +27,6 @@ class HomeViewModel @Inject constructor(
     val dataStateNewProducts: LiveData<DataState<ResponseProduct>>
         get() = _dataStateNewProducts
 
-
     fun getIntroSaleProducts() = viewModelScope.launch {
         productRepository.getIntroSaleProducts().onEach {
             _dataStateSaleProducts.value = it

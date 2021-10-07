@@ -19,6 +19,11 @@ class MyBasicDialog(context: Context) {
         initDialog(context)
     }
 
+    var callback: () -> Unit = {}
+    fun setOnClick(funCallback: () -> Unit) {
+        callback = funCallback
+    }
+
     private fun initDialog(context: Context) {
 //        binding = MyDialogBinding.inflate(LayoutInflater.from(context), null, false)
         dialog = Dialog(context)
@@ -33,13 +38,15 @@ class MyBasicDialog(context: Context) {
         val btnTryAgain: Button = dialog.findViewById(R.id.btn_try_again)
         btnTryAgain.setOnClickListener {
             dialog.dismiss()
+            callback.invoke()
         }
     }
 
-    fun setTextButton(msgButton: String){
+    fun setTextButton(msgButton: String) {
         val btnTryAgain: Button = dialog.findViewById(R.id.btn_try_again)
         btnTryAgain.text = msgButton
     }
+
     fun setText(msgDialog: String) {
         val msgText: TextView = dialog.findViewById(R.id.txt_msg)
         msgText.text = msgDialog

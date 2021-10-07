@@ -3,6 +3,7 @@ package com.doanducdat.shoppingapp.retrofit
 import com.doanducdat.shoppingapp.model.order.Order
 import com.doanducdat.shoppingapp.model.response.ResponseNotifyOrder
 import com.doanducdat.shoppingapp.model.response.ResponseOrder
+import com.doanducdat.shoppingapp.model.response.ResponseOrderPost
 import retrofit2.http.*
 
 
@@ -12,7 +13,7 @@ interface OrderAPI {
     suspend fun order(
         @Header("Authorization") authorization: String,
         @Body order: Order
-    ): ResponseOrder
+    ): ResponseOrderPost
 
     @GET("api/users/orders/me")
     suspend fun getOrder(

@@ -14,7 +14,6 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.MyDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -68,7 +67,7 @@ class SignInViewModel @Inject constructor(
     }
 
     fun getTokenLocal() = viewModelScope.launch {
-        withContext(Dispatchers.IO) {
+        withContext(scopeIO) {
             _token.postValue(myDataStore.userJwtFlow.first().trim())
         }
     }
@@ -77,14 +76,14 @@ class SignInViewModel @Inject constructor(
         val handlerException = handlerException(AppConstants.TAG.LOAD_ME, "writeJwt task")
 
         val writeTokenJob = viewModelScope.launch(handlerException + NonCancellable) {
-            withContext(Dispatchers.IO) {
+            withContext(scopeIO) {
                 myDataStore.writeJwt(token)
             }
         }
         writeTokenJob.invokeOnCompletion { handler ->
             if (handler == null) {
-                InfoUser.token.append(token)
-                Log.e(AppConstants.TAG.SIGN_IN, "ListenSignIn Success: ${InfoUser.token}")
+                InfoUser.localToken.append(token)
+                Log.e(AppConstants.TAG.SIGN_IN, "ListenSignIn Success: ${InfoUser.localToken}")
                 loadMe()
             }
         }

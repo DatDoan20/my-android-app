@@ -43,10 +43,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
         listenLoadingForm()
         listenLoadMe()
 
-        //it work if token is exist and not expired
+        //it work if localToken is exist and not expired
         autoSignInWithToken()
 
-        // if token = null or token expired
+        // if localToken = null or localToken expired
         listenSignIn()
 
         setUpCheckForm()
@@ -82,8 +82,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     if (it.response != null && it.response.error == AppConstants.Response.ERR_JWT_EXPIRED) {
                         errMsg = AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
                     }
-                    //auto sign in fail -> clear token
-                    InfoUser.token = StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
+                    //auto sign in fail -> clear localToken
+                    InfoUser.localToken = StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
 
                     showLongToast(errMsg)
                     Log.e(AppConstants.TAG.LOAD_ME, "listenLoadMe: ${it.message}")
@@ -117,7 +117,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
-                    //write token + loadMe
+                    //write localToken + loadMe
                     viewModel.writeTokenLocal(it.response!!.token)
                 }
             }
@@ -133,13 +133,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
     }
 
     private fun checkTokenToLoadMe(token: String) {
-        //token is exist, assign token before call loadMe()
+        //localToken is exist, assign localToken before call loadMe()
         if (!TextUtils.isEmpty(token)) {
-            Log.d(AppConstants.TAG.LOAD_ME, "token in datastore is $token")
-            InfoUser.token.append(token)
+            Log.d(AppConstants.TAG.LOAD_ME, "localToken in datastore is $token")
+            InfoUser.localToken.append(token)
             viewModel.loadMe()
         } else {
-            Log.d(AppConstants.TAG.LOAD_ME, "token is empty in datastore, token is $token")
+            Log.d(AppConstants.TAG.LOAD_ME, "localToken is empty in datastore, localToken is $token")
             viewModel.isLoading.value = false
         }
     }

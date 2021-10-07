@@ -36,11 +36,12 @@ class NotifyOrderPagingAdapter :
             with(binding) {
                 txtName.text = AppConstants.StateNotifyOrder.RECEIVER_NAME
 
-                imgAvatar.setImageResource(R.drawable.ic_order_notification_white)
+                imgAvatar.setImageResource(R.drawable.ic_order_notification_blue)
+                imgAvatar.borderWidth = 0
                 txtTimeComment.text = HandlerTime.getTimeAgo(notifyOrder.updatedAt.time)
                 txtContentNotify.text = FormValidation.getContentStateOrder(
-                    notifyOrder.orderId.totalPayment,
-                    notifyOrder.orderId.state
+                    notifyOrder.totalPayment,
+                    notifyOrder.state
                 )
 
                 if (!notifyOrder.receiverIds[0].readState) {

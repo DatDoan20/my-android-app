@@ -123,7 +123,7 @@ object AppConstants {
 
     annotation class ColorHex() {
         companion object {
-            const val UN_READ_STATE_NOTIFY = "#2cca2d"
+            const val UN_READ_STATE_NOTIFY = "#261c87"
         }
     }
 
@@ -229,6 +229,7 @@ object AppConstants {
                 "Số điện thoại hoặc mật khẩu không chính xác, vui lòng kiểm tra lại!"
 
             const val EMPTY_ORDER = "Bạn không có đơn đặt hàng nào"
+            const val EMPTY_NOTIFICATION = "Bạn không có thông báo nào"
             const val EMPTY_PURCHASED_PRODUCT = "Bạn không có sản phẩm chưa đánh giá"
             const val EMPTY_PRODUCT_SEARCH = "Không tìm thấy phẩm nào, hãy thử một tìm kiếm khác"
 
@@ -253,6 +254,7 @@ object AppConstants {
             const val CONTENT_REPLY_COMMENT_EMPTY = "Nội dung bình luận của bạn đang trống!"
             const val CONTENT_REVIEW_EMPTY = "Nội dung đánh giá của bạn đang trống!"
             const val RATING_EMPTY = "Vui lòng đánh giá với số ngôi sao bạn muốn!"
+            const val CLOSE = "Đóng"
         }
     }
 

@@ -28,7 +28,7 @@ class CommentPagingSource(
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
             val responseComment =
-                productAPI.getComment(InfoUser.token.toString(), params.loadSize, page, reviewId)
+                productAPI.getComment(InfoUser.localToken.toString(), params.loadSize, page, reviewId)
             val comments = responseComment.data
             LoadResult.Page(
                 data = comments,

@@ -27,7 +27,7 @@ class NotifyCommentPagingSource(
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
             val response =
-                productAPI.getNotifyComment(InfoUser.token.toString(), params.loadSize, page)
+                productAPI.getNotifyComment(InfoUser.localToken.toString(), params.loadSize, page)
             val notifyComments = response.data
             LoadResult.Page(
                 data = notifyComments,

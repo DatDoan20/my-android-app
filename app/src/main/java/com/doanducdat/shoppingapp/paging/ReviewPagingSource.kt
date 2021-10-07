@@ -28,7 +28,7 @@ class ReviewPagingSource(
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
             val responseReview =
-                productAPI.getReview(InfoUser.token.toString(), params.loadSize, page, productId)
+                productAPI.getReview(InfoUser.localToken.toString(), params.loadSize, page, productId)
             val reviews = responseReview.data
             LoadResult.Page(
                 data = reviews,

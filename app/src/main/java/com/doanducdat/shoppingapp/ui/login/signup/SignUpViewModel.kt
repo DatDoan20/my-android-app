@@ -64,5 +64,4 @@ class SignUpViewModel @Inject constructor(
             _dataState.value = it
         }.launchIn(viewModelScope)
     }
-
 }

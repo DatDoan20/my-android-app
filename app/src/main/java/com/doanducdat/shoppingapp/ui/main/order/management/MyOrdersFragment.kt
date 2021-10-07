@@ -74,23 +74,19 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         lifecycleScope.launch {
             orderAdapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
-                    is LoadState.Loading -> {
-                        viewModel.isLoading.value = true
-                    }
+                    is LoadState.Loading -> viewModel.isLoading.value = true
+
                     is LoadState.Error -> {
                         viewModel.isLoading.value = false
-                        setStateInfoToView(R.drawable.error, AppConstants.MsgErr.GENERIC_ERR_MSG)
+                        setStateBgToView(R.drawable.error, AppConstants.MsgErr.GENERIC_ERR_MSG)
                     }
                     is LoadState.NotLoading -> {
-                        viewModel.isLoading.value = false
-//                        if (orderAdapter.itemCount == 0) {
-//                            setStateInfoToView(
-//                                R.drawable.empty_order,
-//                                AppConstants.MsgErr.EMPTY_ORDER
-//                            )
-//                        }
-                    }
-                    else -> {
+                        if (loadStates.append.endOfPaginationReached && orderAdapter.itemCount == 0) {
+                            setStateBgToView(
+                                R.drawable.empty_order,
+                                AppConstants.MsgErr.EMPTY_ORDER
+                            )
+                        }
                         viewModel.isLoading.value = false
                     }
                 }
@@ -106,7 +102,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         }
     }
 
-    private fun setStateInfoToView(idIcon: Int, msg: String) {
+    private fun setStateBgToView(idIcon: Int, msg: String) {
         binding.imgEmptyOrder.setImageResource(idIcon)
         binding.txtEmptyOrder.text = msg
         setStateVisibleView(View.VISIBLE, binding.imgEmptyOrder)
@@ -115,7 +111,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
 
     private fun setUpActionClick() {
         orderAdapter.mySetOnClickCancelOrder {
-            val flag = AppConstants.ActionClick.CANCEL_ORDER
+//            val flag = AppConstants.ActionClick.CANCEL_ORDER
             cancelOrder(it)
         }
         orderAdapter.mySetOnClickViewDetail {

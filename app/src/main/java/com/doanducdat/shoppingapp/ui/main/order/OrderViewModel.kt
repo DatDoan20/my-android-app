@@ -2,7 +2,6 @@ package com.doanducdat.shoppingapp.ui.main.order
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -10,7 +9,9 @@ import com.doanducdat.shoppingapp.model.order.Order
 import com.doanducdat.shoppingapp.model.order.PurchasedProduct
 import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.model.response.ResponseOrder
+import com.doanducdat.shoppingapp.model.response.ResponseOrderPost
 import com.doanducdat.shoppingapp.repository.OrderRepository
+import com.doanducdat.shoppingapp.ui.base.BaseViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -22,8 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OrderViewModel @Inject constructor(
     private val orderRepository: OrderRepository
-) : ViewModel() {
-    var isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+) : BaseViewModel() {
 
     var state = AppConstants.QueryRequest.WAITING
     var paymentMode = AppConstants.QueryRequest.PAYMENT_MODE
@@ -38,8 +38,8 @@ class OrderViewModel @Inject constructor(
     var totalPrice: Int = 0
     var totalPayment: Int = 0
 
-    private val _dataStateOrder: MutableLiveData<DataState<ResponseOrder>> = MutableLiveData()
-    val dataStateOrder: LiveData<DataState<ResponseOrder>>
+    private val _dataStateOrder: MutableLiveData<DataState<ResponseOrderPost>> = MutableLiveData()
+    val dataStateOrder: LiveData<DataState<ResponseOrderPost>>
         get() = _dataStateOrder
 
     private val _dataStateCancel: MutableLiveData<DataState<ResponseOrder>> = MutableLiveData()

@@ -48,6 +48,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         setUpRcvCart()
         setUpActionClick()
 
+        //check: it will work if order sucess -> cart local was cleared -> sumMoneyCart = 0
     }
 
     private fun listenLoadingForm() {
@@ -74,28 +75,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         })
     }
 
-    /**
-     * when init load or after delete product -> use this fun
-     */
-    private fun calculatingSumCart() {
-        var sumMoneyCart: Int = 0
-        InfoUser.currentUser?.cart?.forEach {
-            sumMoneyCart += it.price
-        }
-        viewModel.sumMoneyCart.value = sumMoneyCart
-    }
-
-    private fun loadDataAdapter() {
-        if (InfoUser.currentUser?.cart == null || InfoUser.currentUser!!.cart.size == 0) {
-            setStateVisibleView(View.VISIBLE, binding.imgEmptyCart)
-            setStateVisibleView(View.VISIBLE, binding.txtEmptyCart)
-            return
-        }
-
-        cartAdapter.setCartList(InfoUser.currentUser!!.cart)
-        calculatingSumCart()
-    }
-
     private fun setUpRcvCart() {
         loadDataAdapter()
 
@@ -108,6 +87,28 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
 
     }
 
+    private fun loadDataAdapter() {
+        calculatingSumCart()
+        if (InfoUser.currentUser?.cart == null || InfoUser.currentUser!!.cart.size == 0) {
+            setStateVisibleView(View.VISIBLE, binding.imgEmptyCart)
+            setStateVisibleView(View.VISIBLE, binding.txtEmptyCart)
+            return
+        }
+
+        cartAdapter.setCartList(InfoUser.currentUser!!.cart)
+    }
+
+    /**
+     * when init load or after delete product -> use this fun
+     */
+    private fun calculatingSumCart() {
+        Log.e(AppConstants.TAG.CART, "calculatingSumCart: do it")
+        var sumMoneyCart: Int = 0
+        InfoUser.currentUser?.cart?.forEach {
+            sumMoneyCart += it.price
+        }
+        viewModel.sumMoneyCart.value = sumMoneyCart
+    }
 
     private fun setEventClickAdapter() {
         cartAdapter.mySetOnClickMinusOrPlush { CODE_ACTION_CLICK, populatedCart, txtQuantity, txtPrice ->

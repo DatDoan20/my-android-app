@@ -191,6 +191,7 @@
                 android:background="@drawable/bg_btn_generic_two_style"
                 android:paddingLeft="@dimen/_18sdp"
                 android:paddingRight="@dimen/_18sdp"
+                android:visibility="gone"
                 android:text="@string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/textColorBtnGeneric"

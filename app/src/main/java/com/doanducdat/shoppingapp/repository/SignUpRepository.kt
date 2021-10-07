@@ -5,16 +5,18 @@ import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.model.user.UserSignUp
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.retrofit.UserAPI
+import com.doanducdat.shoppingapp.ui.base.BaseRepository
 import com.doanducdat.shoppingapp.utils.PhoneAuthentication
 import com.doanducdat.shoppingapp.utils.validation.ResCatch
 import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SignUpRepository @Inject constructor(
     private val userAPI: UserAPI,
     private val phoneAuthentication: PhoneAuthentication
-) {
+) : BaseRepository() {
 
     fun generateOTP(
         phoneNumberWithCountryCode: String,
@@ -52,19 +54,13 @@ class SignUpRepository @Inject constructor(
         phoneAuthentication.verifyOTP(verificationID, otp, activity, callbackVerifyOTP)
     }
 
-    suspend fun signUpUser(userSignUp: UserSignUp) = flow {
-        emit(DataState.loading(null))
-        try {
+    suspend fun signUpUser(userSignUp: UserSignUp) = safeThreadNonCatch(
+        flow {
+            emit(loading)
             val responseAuthSignUpUser = userAPI.signUpUser(userSignUp)
             emit(DataState.success(responseAuthSignUpUser))
-        } catch (e: Throwable) {
-            emit(
-                DataState.error(
-                    ResCatch.errResponseSignUp(e),
-                    ResCatch.errMsg(e)
-                )
-            )
-        }
-    }
-
+        }.catch { e ->
+            emit(DataState.error(ResCatch.errResponseSignUp(e), ResCatch.errMsg(e)))
+        }, IO
+    )
 }

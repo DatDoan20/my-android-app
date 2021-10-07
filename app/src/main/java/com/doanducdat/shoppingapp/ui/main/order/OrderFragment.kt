@@ -17,6 +17,7 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +29,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
     ): FragmentOrderBinding = FragmentOrderBinding.inflate(inflater, container, false)
 
     val viewModel: OrderViewModel by viewModels()
-
+    val myBasicDialog by lazy { MyBasicDialog(requireContext()) }
     private val controller by lazy {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
@@ -171,11 +172,22 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
                 }
                 Status.SUCCESS -> {
                     viewModel.isLoading.value = false
-                    showLongToast(AppConstants.MsgInfo.MSG_ORDER_SUCCESS)
+                    showDialog(it.response!!.data.addressDelivery, it.response.data.totalPayment)
                     InfoUser.currentUser?.cart?.clear()
-                    controller.popBackStack()
                 }
             }
         })
+    }
+
+    private fun showDialog(addressDelivery: String, totalPayment: Int) {
+        val price = FormValidation.formatMoney(totalPayment)
+        myBasicDialog.setText(
+            "${AppConstants.MsgInfo.MSG_ORDER_SUCCESS} đơn hàng ${price}đ đến địa chỉ: $addressDelivery"
+        )
+        myBasicDialog.setTextButton(AppConstants.MsgInfo.CLOSE)
+        myBasicDialog.setOnClick {
+            controller.popBackStack()
+        }
+        myBasicDialog.show()
     }
 }

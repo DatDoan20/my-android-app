@@ -47,17 +47,13 @@ class OrderPagingAdapter :
         }
 
         private fun getNameFirstProduct(order: Order, sizePurchasedProduct: Int): String {
-            var nameFirstProduct = order.purchasedProducts[0].name
+            val nameFirstProduct = order.purchasedProducts[0].name
             //many product -> custom nameFirstProduct to display
-            if (sizePurchasedProduct > 1) {
-                val suffixes = " và $sizePurchasedProduct mặt hàng khác..."
-                if (nameFirstProduct.length > 45) {
-                    nameFirstProduct.substring(0, 44) + suffixes
-                } else {
-                    nameFirstProduct += suffixes
-                }
+            return if (sizePurchasedProduct > 1) {
+                "${nameFirstProduct.substring(0, 44)} và $sizePurchasedProduct mặt hàng khác..."
+            } else {
+                nameFirstProduct
             }
-            return nameFirstProduct
         }
 
         private fun setStateOrder(state: String) {
@@ -89,13 +85,8 @@ class OrderPagingAdapter :
             binding.btnViewDetailOrder.setOnClickListener {
                 callbackClickViewDetail(order)
             }
-            if (order.state == AppConstants.Order.ACCEPTED) {
-                binding.btnCancelOrder.visibility = View.GONE
-            }
-            if (order.state == AppConstants.Order.RECEIVED) {
-                binding.btnCancelOrder.visibility = View.GONE
-            }
             if (order.state == AppConstants.Order.WAITING) {
+                binding.btnCancelOrder.visibility = View.VISIBLE
                 binding.btnCancelOrder.setOnClickListener {
                     callbackClickCancel(order)
                 }

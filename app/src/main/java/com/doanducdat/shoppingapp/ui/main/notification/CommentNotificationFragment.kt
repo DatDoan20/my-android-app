@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.NotifyCommentPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentCommentNotificationBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -27,29 +28,56 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
 
     private val viewModel: NotificationViewModel by viewModels()
     private val notifyCommentAdapter = NotifyCommentPagingAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenLoadingForm()
 
         setUpRcvNotifyComment()
         listenLoadNotifyComment()
         loadNotifyComment()
     }
 
+    private fun listenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            if (it) {
+                setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
+            } else {
+                setStateVisibleView(View.GONE, binding.spinKitProgressBar)
+            }
+        })
+    }
+
     private fun listenLoadNotifyComment() {
         lifecycleScope.launch {
             notifyCommentAdapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
-                    is LoadState.Loading -> {
-                        binding.spinKitProgressBar.visibility = View.VISIBLE
-                    }
+                    is LoadState.Loading -> viewModel.isLoading.value = true
                     is LoadState.Error -> {
-                        binding.spinKitProgressBar.visibility = View.GONE
+                        viewModel.isLoading.value = false
                         showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     }
-                    else -> binding.spinKitProgressBar.visibility = View.GONE
+                    is LoadState.NotLoading -> {
+                        if (loadStates.append.endOfPaginationReached &&
+                            notifyCommentAdapter.itemCount == 0
+                        ) {
+                            setStateBgToView(
+                                R.drawable.empty_notification,
+                                AppConstants.MsgErr.EMPTY_NOTIFICATION
+                            )
+                        }
+                        viewModel.isLoading.value = false
+                    }
                 }
             }
         }
+    }
+
+    private fun setStateBgToView(idIcon: Int, msg: String) {
+        binding.imgEmptyCommentNotify.setImageResource(idIcon)
+        binding.txtEmptyCommentNotify.text = msg
+        setStateVisibleView(View.VISIBLE, binding.imgEmptyCommentNotify)
+        setStateVisibleView(View.VISIBLE, binding.txtEmptyCommentNotify)
     }
 
     private fun loadNotifyComment() {

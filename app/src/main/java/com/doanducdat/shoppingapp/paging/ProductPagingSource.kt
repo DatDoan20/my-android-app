@@ -31,7 +31,7 @@ class ProductPagingSource(
         return try {
             val response: ResponseProduct =
                 productAPI.getProducts(
-                    InfoUser.token.toString(),
+                    InfoUser.localToken.toString(),
                     params.loadSize,
                     page,
                     null,

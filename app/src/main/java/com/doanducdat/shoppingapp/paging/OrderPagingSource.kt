@@ -27,7 +27,7 @@ class OrderPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Order> {
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
-            val response = orderAPI.getOrder(InfoUser.token.toString(), params.loadSize, page)
+            val response = orderAPI.getOrder(InfoUser.localToken.toString(), params.loadSize, page)
             val orders = response.data
             LoadResult.Page(
                 data = orders,
