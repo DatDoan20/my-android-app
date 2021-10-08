@@ -12,6 +12,8 @@
     <color name="green">#2cca2d</color>
     <color name="grey">#C1B9B9</color>
     <color name="unReadStateNotify">#261c87</color>
+    <color name="readBlue">#99251B85</color>
+    <color name="readBlack">#99000000</color>
 
     <!-- custom color Light -->
     <!--

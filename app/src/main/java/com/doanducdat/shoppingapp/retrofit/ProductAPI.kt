@@ -1,12 +1,9 @@
 package com.doanducdat.shoppingapp.retrofit
 
-import com.doanducdat.shoppingapp.model.response.ResponseComment
-import com.doanducdat.shoppingapp.model.response.ResponseNotifyComment
 import com.doanducdat.shoppingapp.model.response.ResponseProduct
-import com.doanducdat.shoppingapp.model.response.ResponseReview
-import com.doanducdat.shoppingapp.model.review.CommentPost
-import com.doanducdat.shoppingapp.model.review.ReviewPost
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Query
 
 
 interface ProductAPI {
@@ -26,45 +23,4 @@ interface ProductAPI {
         @Query("category") category: String? = null,
         @Query("type") type: String? = null,
     ): ResponseProduct
-
-    @GET("api/users/reviews/search")
-    suspend fun getReview(
-        @Header("Authorization") authorization: String,
-        @Query("limit") limit: Int,
-        @Query("page") page: Int,
-        @Query("productId") productId: String
-    ): ResponseReview
-
-    @GET("api/users/reviews/comments/search")
-    suspend fun getComment(
-        @Header("Authorization") authorization: String,
-        @Query("limit") limit: Int,
-        @Query("page") page: Int,
-        @Query("reviewId") reviewId: String
-    ): ResponseComment
-
-    //get notify comment
-    @GET("api/users/notify-comments/me/limit/{limit}/page/{page}")
-    suspend fun getNotifyComment(
-        @Header("Authorization") authorization: String,
-        @Path("limit") limit: Int,
-        @Path("page") page:Int
-    ): ResponseNotifyComment
-
-    @POST("api/users/reviews/{reviewId}/comment") //reviewId
-    suspend fun createComment(
-        @Header("Authorization") authorization: String,
-        @Path("reviewId") reviewId: String,
-        @Body comment: CommentPost
-    ): ResponseComment
-
-    //orderId use update stateRating of product
-    @POST("api/users/reviews/{productId}/{orderId}")
-    suspend fun createReview(
-        @Header("Authorization") authorization: String,
-        @Path("productId") productId: String,
-        @Body reviewPost: ReviewPost,
-        @Path("orderId") orderId: String
-
-    ): ResponseReview
 }

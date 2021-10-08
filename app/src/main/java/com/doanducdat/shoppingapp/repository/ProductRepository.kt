@@ -7,11 +7,7 @@ import com.doanducdat.shoppingapp.model.cart.Cart
 import com.doanducdat.shoppingapp.model.product.Product
 import com.doanducdat.shoppingapp.model.product.ProductId
 import com.doanducdat.shoppingapp.model.response.DataState
-import com.doanducdat.shoppingapp.model.review.*
-import com.doanducdat.shoppingapp.paging.CommentPagingSource
-import com.doanducdat.shoppingapp.paging.NotifyCommentPagingSource
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
-import com.doanducdat.shoppingapp.paging.ReviewPagingSource
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.ui.base.BaseRepository
@@ -47,23 +43,6 @@ class ProductRepository @Inject constructor(
         ProductPagingSource(productAPI, category, type)
     }.flow
 
-    fun getReviewPaging(productId: String): Flow<PagingData<Review>> = Pager(
-        PagingConfig(pageSize = str.LIMIT_8, enablePlaceholders = false),
-    ) {
-        ReviewPagingSource(productAPI, productId)
-    }.flow
-
-    fun getCommentPaging(reviewId: String): Flow<PagingData<Comment>> = Pager(
-        PagingConfig(pageSize = str.LIMIT_8, enablePlaceholders = false),
-    ) {
-        CommentPagingSource(productAPI, reviewId)
-    }.flow
-
-    fun getNotifyCommentPaging(): Flow<PagingData<NotifyComment>> = Pager(
-        PagingConfig(pageSize = str.LIMIT_8, enablePlaceholders = false),
-    ) {
-        NotifyCommentPagingSource(productAPI)
-    }.flow
 
     suspend fun addToCart(carts: Cart) = safeThreadDefaultCatch(
         flow {
@@ -80,21 +59,4 @@ class ProductRepository @Inject constructor(
             emit(DataState.success(resHandleProductInCard))
         }, IO
     )
-
-    suspend fun createComment(reviewId: String, comment: CommentPost) = safeThreadDefaultCatch(
-        flow {
-            emit(loading)
-            val responseComment = productAPI.createComment(token, reviewId, comment)
-            emit(DataState.success(responseComment))
-        }, IO
-    )
-
-    suspend fun createReview(productId: String, reviewPost: ReviewPost, orderId: String) =
-        safeThreadDefaultCatch(
-            flow {
-                emit(loading)
-                val responseReview = productAPI.createReview(token, productId, reviewPost, orderId)
-                emit(DataState.success(responseReview))
-            }, IO
-        )
 }

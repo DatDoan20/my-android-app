@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/option_mark_as_read"
+        android:icon="@drawable/ic_check_blue"
+        android:title="@string/martAsRead" />
+
+    <item
+        android:id="@+id/option_delete_notification"
+        android:icon="@drawable/ic_delete_blue"
+        android:title="@string/delete" />
+
+    <item
+        android:id="@+id/option_mark_as_read_all"
+        android:icon="@drawable/ic_check_blue_all"
+        android:title="@string/martAsReadAll" />
+
+    <item
+        android:id="@+id/option_delete_all_notification"
+        android:icon="@drawable/ic_delete_blue"
+        android:title="@string/deleteAll" />
+
+</menu>

@@ -3,6 +3,7 @@ package com.doanducdat.shoppingapp.model.user
 import com.doanducdat.shoppingapp.model.cart.PopulatedCart
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class User(
     @SerializedName("_id")
@@ -18,7 +19,8 @@ data class User(
     val role: String,
     val sex: String,
     var stateVerifyEmail: Boolean,
-    val updatedAt: String
+    val updatedAt: String,
+    var readAllOrderNoti:Date
 ) {
     fun getUrlAvatar(): String {
         //avatar is name of image, not link

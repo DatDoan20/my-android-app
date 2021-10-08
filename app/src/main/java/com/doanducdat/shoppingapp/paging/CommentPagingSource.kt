@@ -3,7 +3,7 @@ package com.doanducdat.shoppingapp.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.doanducdat.shoppingapp.model.review.Comment
-import com.doanducdat.shoppingapp.retrofit.ProductAPI
+import com.doanducdat.shoppingapp.retrofit.CommentAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import retrofit2.HttpException
@@ -11,7 +11,7 @@ import java.io.IOException
 
 
 class CommentPagingSource(
-    private val productAPI: ProductAPI,
+    private val commentAPI: CommentAPI,
     private val reviewId: String,
 ) : PagingSource<Int, Comment>() {
 
@@ -28,7 +28,12 @@ class CommentPagingSource(
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
             val responseComment =
-                productAPI.getComment(InfoUser.localToken.toString(), params.loadSize, page, reviewId)
+                commentAPI.getComment(
+                    InfoUser.localToken.toString(),
+                    params.loadSize,
+                    page,
+                    reviewId
+                )
             val comments = responseComment.data
             LoadResult.Page(
                 data = comments,

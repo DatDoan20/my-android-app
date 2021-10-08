@@ -30,10 +30,12 @@ object AppConstants {
             const val NAV_MANAGE_ORDER = 20
             const val CANCEL_ORDER = 21
             const val NAV_DETAIL_ORDER = 22
-            const val NAV_REVIEW_PRODUCT = 25
-            const val CREATE_COMMENT = 23
-            const val REVIEW_PURCHASED_PRODUCT = 24
-            const val NAV_ADD_TO_CARD = 26
+            const val REVIEW_PRODUCT = 23
+            const val NAV_REVIEW_PRODUCT = 24
+            const val CREATE_COMMENT = 25
+            const val REVIEW_PURCHASED_PRODUCT = 26
+            const val NAV_ADD_TO_CARD = 27
+            const val READ_NOTIFY_COMMENT = 28
         }
     }
 
@@ -118,6 +120,7 @@ object AppConstants {
             const val COMMENT = "COMMENT"
             const val PURCHASED_PRODUCT = "PURCHASED_PRODUCT"
             const val SOCKET_IO = "SOCKET.IO"
+            const val ORDER_NOTI = "ORDER_NOTI"
         }
     }
 

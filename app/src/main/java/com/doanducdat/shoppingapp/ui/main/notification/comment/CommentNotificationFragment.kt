@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.ui.main.notification
+package com.doanducdat.shoppingapp.ui.main.notification.comment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,7 +26,7 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
     ): FragmentCommentNotificationBinding =
         FragmentCommentNotificationBinding.inflate(inflater, container, false)
 
-    private val viewModel: NotificationViewModel by viewModels()
+    private val viewModelComment: CommentNotificationViewModel by viewModels()
     private val notifyCommentAdapter = NotifyCommentPagingAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
     }
 
     private fun listenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        viewModelComment.isLoading.observe(viewLifecycleOwner, {
             if (it) {
                 setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
             } else {
@@ -52,9 +52,9 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
         lifecycleScope.launch {
             notifyCommentAdapter.loadStateFlow.collectLatest { loadStates ->
                 when (loadStates.refresh) {
-                    is LoadState.Loading -> viewModel.isLoading.value = true
+                    is LoadState.Loading -> viewModelComment.isLoading.value = true
                     is LoadState.Error -> {
-                        viewModel.isLoading.value = false
+                        viewModelComment.isLoading.value = false
                         showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     }
                     is LoadState.NotLoading -> {
@@ -66,7 +66,7 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
                                 AppConstants.MsgErr.EMPTY_NOTIFICATION
                             )
                         }
-                        viewModel.isLoading.value = false
+                        viewModelComment.isLoading.value = false
                     }
                 }
             }
@@ -82,7 +82,7 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
 
     private fun loadNotifyComment() {
         lifecycleScope.launch {
-            viewModel.getNotifyCommentPaging().collectLatest {
+            viewModelComment.getNotifyCommentPaging().collectLatest {
                 notifyCommentAdapter.submitData(it)
             }
         }

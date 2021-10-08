@@ -86,7 +86,9 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+                if (tab != null) {
+                    changeColorTabIcon(tab, R.color.white)
+                }
             }
 
         })

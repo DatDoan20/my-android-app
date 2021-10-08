@@ -12,7 +12,9 @@ import com.doanducdat.shoppingapp.model.review.Comment
 import com.doanducdat.shoppingapp.model.review.CommentPost
 import com.doanducdat.shoppingapp.model.review.Review
 import com.doanducdat.shoppingapp.model.review.ReviewPost
+import com.doanducdat.shoppingapp.repository.CommentRepository
 import com.doanducdat.shoppingapp.repository.ProductRepository
+import com.doanducdat.shoppingapp.repository.ReviewRepository
 import com.doanducdat.shoppingapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +25,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReviewViewModel @Inject constructor(
-    private val productRepository: ProductRepository
+    private val reviewRepository: ReviewRepository,
+    private val commentRepository: CommentRepository
+
 ) : BaseViewModel() {
 
     private val _dataStateCreateComment: MutableLiveData<DataState<ResponseComment>> =
@@ -37,23 +41,23 @@ class ReviewViewModel @Inject constructor(
         get() = _dataStateCreateReview
 
     fun getReviewPaging(productId: String): Flow<PagingData<Review>> {
-        return productRepository.getReviewPaging(productId).cachedIn(viewModelScope)
+        return reviewRepository.getReviewPaging(productId).cachedIn(viewModelScope)
     }
 
     fun getCommentPaging(reviewId: String): Flow<PagingData<Comment>> {
-        return productRepository.getCommentPaging(reviewId).cachedIn(viewModelScope)
+        return commentRepository.getCommentPaging(reviewId).cachedIn(viewModelScope)
     }
 
     fun createComment(reviewId: String, comment: CommentPost) = viewModelScope.launch {
-        productRepository.createComment(reviewId, comment).onEach {
+        commentRepository.createComment(reviewId, comment).onEach {
             _dataStateCreateComment.value = it
         }.launchIn(viewModelScope)
     }
 
-    fun createReview(productId: String, ratingValue: Int, contentReview: String, orderId:String) =
+    fun createReview(productId: String, ratingValue: Int, contentReview: String, orderId: String) =
         viewModelScope.launch {
             val reviewPost = ReviewPost(ratingValue, contentReview)
-            productRepository.createReview(productId, reviewPost, orderId).onEach {
+            reviewRepository.createReview(productId, reviewPost, orderId).onEach {
                 _dataStateCreateReview.value = it
             }.launchIn(viewModelScope)
         }

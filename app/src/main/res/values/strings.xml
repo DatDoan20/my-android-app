@@ -41,6 +41,9 @@
     <string name="sportsWear">Đồ thể thao</string>
     <string name="searchHistory">Lịch Sử Tìm Kiếm</string>
     <string name="delete">Xóa</string>
+    <string name="deleteAll">Xóa tất cả</string>
+    <string name="martAsRead">Đánh dấu đã đọc</string>
+    <string name="martAsReadAll">Đánh dấu đã đọc tất cả</string>
     <string name="verifyEmail"> <u>Xác nhận email</u></string>
     <string name="titleEditProfile">Chỉnh sửa hồ sơ</string>
     <string name="titleManageOrder">Quản lý đơn hàng</string>

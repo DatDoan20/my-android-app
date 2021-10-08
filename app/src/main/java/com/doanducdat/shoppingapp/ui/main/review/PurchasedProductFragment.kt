@@ -130,6 +130,7 @@ class PurchasedProductFragment : BaseFragment<FragmentPurchasedProductBinding>()
     }
 
     private fun showDialogRating(purchasedProduct: PurchasedProduct) {
+//        val flag = AppConstants.ActionClick.REVIEW_PRODUCT
         myRatingDialog.mySetOnClickYes {
             val ratingValue: Int = myRatingDialog.getRatingValue().toInt()
             val contentReview = myRatingDialog.getReview().trim()
