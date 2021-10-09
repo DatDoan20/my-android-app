@@ -13,16 +13,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
+import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.HandlerTime
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 
 class NotifyOrderPagingAdapter(
-    val context: Context
+    val context: Context,
 ) : PagingDataAdapter<NotifyOrder, NotifyOrderPagingAdapter.NotifyOrderPagingViewHolder>(
     PRODUCT_COMPARATOR
 ) {
+
     private val readBlackColor = ContextCompat.getColor(context, R.color.readBlack)
     private val readBlueColor = ContextCompat.getColor(context, R.color.readBlue)
     private var callbackClickOpenMenu: (
@@ -64,10 +66,12 @@ class NotifyOrderPagingAdapter(
                 if (InfoUser.currentUser?.readAllOrderNoti?.before(notifyOrder.updatedAt) == true) {
 
                     // if readState == true -> Read -> setState..., otherwise default view is unRead
-                    if (notifyOrder.receiverIds[0].readState) {
+                    if (notifyOrder.receiverIds[0].readState) { //-> read
                         setStateReadDot(imgBlueDotReadState)
                         setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                        return
                     }
+                    //->UnRead: view is default UnRead not need handle here
                 } else {
                     setStateReadDot(imgBlueDotReadState)
                     setColorReadTextView(txtName, txtTimeComment, txtContentNotify)

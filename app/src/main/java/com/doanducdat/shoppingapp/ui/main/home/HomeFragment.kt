@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,6 +25,7 @@ import com.doanducdat.shoppingapp.model.category.CategoryListFactory
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +54,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
             switchSlide(position)
         }
     }
+    private val notificationShareViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
+    }
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -60,6 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenUpdateBadgeCountNotify()
         //hide underline of search view
         hideSearchPlate(binding.myAppBarLayout.searchView)
 
@@ -96,6 +102,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
         //Event click
         setUpActionClick()
+    }
+
+    private fun listenUpdateBadgeCountNotify() {
+        notificationShareViewModel.numberUnReadNotifyOrder.observe(viewLifecycleOwner, {
+            if (it > 0) {
+                binding.myAppBarLayout.layoutNotification.imgRedDot.visibility = View.VISIBLE
+            } else {
+                binding.myAppBarLayout.layoutNotification.imgRedDot.visibility = View.GONE
+            }
+        })
     }
 
     private fun subsCribCollapsingListen() {

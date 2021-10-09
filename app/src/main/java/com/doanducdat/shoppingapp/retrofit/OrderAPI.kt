@@ -61,7 +61,7 @@ interface OrderAPI {
         @Header("Authorization") authorization: String,
     ): ResponseNotifyOrder
 
-    @PATCH(" api/users/notify-orders/all")
+    @PATCH(" api/users/notify-orders/me/all")
     suspend fun checkReadAllNotifyOrder(
         @Header("Authorization") authorization: String,
         @Body readAllOrderNoti: ReadAllOrderNoti

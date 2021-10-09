@@ -2,24 +2,29 @@ package com.doanducdat.shoppingapp.ui.main
 
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityMainBinding
 import com.doanducdat.shoppingapp.service.WebSocketIO
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
+import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
     private val controller by lazy {
         (supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
     private val webSocketIO by lazy { WebSocketIO() }
+    private val notificationShareViewModel by lazy {
+        ViewModelProvider(this).get(NotificationShareViewModel::class.java)
+    }
 
     override fun getViewBinding(): Int = R.layout.activity_main
 
@@ -79,7 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.profileFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                R.id.cartFragment-> {
+                R.id.cartFragment -> {
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
                 else -> binding.bubbleBtmNvgMain.visibility = View.GONE

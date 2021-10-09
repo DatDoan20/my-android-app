@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -18,12 +19,14 @@ import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.MyPopupMenu
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 
 @AndroidEntryPoint
 class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>() {
@@ -33,6 +36,9 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
     ): FragmentOrderNotificationBinding =
         FragmentOrderNotificationBinding.inflate(inflater, container, false)
 
+    private val notificationShareViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
+    }
     private val notifyOrderPagingAdapter by lazy { NotifyOrderPagingAdapter(requireContext()) }
     private val viewModel: OrderNotificationViewModel by viewModels()
     private val myPopupMenu by lazy { MyPopupMenu(requireContext()) }
@@ -88,6 +94,10 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
                                 R.drawable.empty_notification,
                                 AppConstants.MsgErr.EMPTY_NOTIFICATION
                             )
+                        } else {
+                            notificationShareViewModel.countNumberUnReadNotifyOrder(
+                                notifyOrderPagingAdapter
+                            )
                         }
                         viewModel.isLoading.value = false
                     }
@@ -135,10 +145,15 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
 
     private fun delete(notifyOrder: NotifyOrder) {
         myPopupMenu.setOnClickDelete {
-            //change UI client side
-            viewModel.deleteClientSideNotifyOrder(notifyOrder.id, notifyOrderPagingAdapter)
             //call api update server side
             viewModel.deleteNotifyOrder(notifyOrder.id)
+            //change UI client side
+            viewModel.deleteClientSideNotifyOrder(notifyOrder.id, notifyOrderPagingAdapter)
+            //update badge
+            if (!notifyOrder.receiverIds[0].readState) { //UnRead
+                notificationShareViewModel.minusOneDigitCountUnRead()
+            }
+
         }
     }
 
@@ -155,6 +170,8 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
                     Status.SUCCESS -> {
                         //clear all item in paging list
                         notifyOrderPagingAdapter.submitData(lifecycle, PagingData.empty())
+                        //update badge
+                        notificationShareViewModel.clearCountUnRead()
                         setStateBgToView(
                             R.drawable.empty_notification,
                             AppConstants.MsgErr.EMPTY_NOTIFICATION
@@ -177,14 +194,16 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
                 //time notify > time read all can update
                 if (notifyOrder.updatedAt.after(InfoUser.currentUser?.readAllOrderNoti)) {
                     if (!notifyOrder.receiverIds[0].readState) { //unRead
-                        //change state client side
+                        //call api update server side
+                        viewModel.checkReadNotifyOrder(notifyOrder.id)
+                        //change state view client side
                         notifyOrderPagingAdapter.setStateReadDot(imgBlueDotReadState)
                         notifyOrderPagingAdapter
                             .setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
                         notifyOrder.receiverIds[0].readState = true
+                        //update badge
+                        notificationShareViewModel.minusOneDigitCountUnRead()
 
-                        //call api update server side
-                        viewModel.checkReadNotifyOrder(notifyOrder.id)
                     }
                 }
             }
@@ -204,11 +223,12 @@ class OrderNotificationFragment : BaseFragment<FragmentOrderNotificationBinding>
                         Log.e(AppConstants.TAG.ORDER_NOTI, "markAsReadAll: ${it.message}")
                     }
                     Status.SUCCESS -> {
-                        InfoUser.currentUser = it.response!!.data
+                        /* return readAllOrderNoti -> update that is time now */
+                        InfoUser.currentUser?.readAllOrderNoti = Calendar.getInstance().time
                         notifyOrderPagingAdapter.notifyDataSetChanged()
+                        notificationShareViewModel.clearCountUnRead()
                         viewModel.isLoading.value = false
                     }
-
                 }
             })
             viewModel.checkReadAllNotifyOrder()

@@ -121,6 +121,7 @@ object AppConstants {
             const val PURCHASED_PRODUCT = "PURCHASED_PRODUCT"
             const val SOCKET_IO = "SOCKET.IO"
             const val ORDER_NOTI = "ORDER_NOTI"
+            const val UPDATE_COUNT_NOTI_ORDER = "UPDATE_COUNT_NOTI_ORDER"
         }
     }
 

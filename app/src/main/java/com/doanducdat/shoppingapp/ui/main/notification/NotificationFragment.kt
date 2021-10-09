@@ -1,9 +1,11 @@
 package com.doanducdat.shoppingapp.ui.main.notification
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
@@ -11,10 +13,12 @@ import com.doanducdat.shoppingapp.adapter.NotificationPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentNotificationBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.InfoUser
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
 
     override fun getFragmentBinding(
@@ -22,6 +26,9 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         container: ViewGroup?
     ): FragmentNotificationBinding = FragmentNotificationBinding.inflate(inflater, container, false)
 
+    private val notificationShareViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
+    }
 
     private val controller by lazy {
         (requireActivity().supportFragmentManager
@@ -57,14 +64,13 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
                     tab.icon = getMyDrawable(R.drawable.ic_comment_notification)
                     // set default when launch
                     changeColorTabIcon(tab, R.color.white)
-
-                    val badge = tab.orCreateBadge
-                    badge.number = 1
+                    updateBadgeTabComment(tab)
                 }
                 1 -> {
                     tab.text = AppConstants.TextTab.ORDER
                     tab.icon = getMyDrawable(R.drawable.ic_order_notification_blue)
                     changeColorTabIcon(tab, R.color.boxStrokeTextInputGeneric)
+                    updateBadgeTabOrder(tab)
                 }
 
             }
@@ -91,6 +97,27 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
                 }
             }
 
+        })
+    }
+
+    private fun updateBadgeTabComment(tab: TabLayout.Tab) {
+        if (InfoUser.numberUnReadNotifyComment > 0) {
+            val badge = tab.orCreateBadge
+            badge.number = InfoUser.numberUnReadNotifyComment
+            return
+        }
+        tab.removeBadge()
+    }
+
+    private fun updateBadgeTabOrder(tab: TabLayout.Tab) {
+        notificationShareViewModel.numberUnReadNotifyOrder.observe(viewLifecycleOwner, {
+//            Log.e(AppConstants.TAG.UPDATE_COUNT_NOTI_ORDER, "updateBadgeTabOrder: $it")
+            if (it > 0) {
+                val badge = tab.orCreateBadge
+                badge.number = notificationShareViewModel.numberUnReadNotifyOrder.value!!
+            } else {
+                tab.removeBadge()
+            }
         })
     }
 }
