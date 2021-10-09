@@ -125,7 +125,7 @@
                 android:id="@+id/img_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_comment_notification" />
+                android:src="@drawable/ic_comment_notification_blue" />
 
             <TextView
                 android:id="@+id/txt_comment"

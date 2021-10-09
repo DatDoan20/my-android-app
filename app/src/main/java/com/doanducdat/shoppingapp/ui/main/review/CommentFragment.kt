@@ -103,8 +103,21 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
                         viewModel.isLoading.value = true
                     }
                     is LoadState.Error -> {
+                        setStateBgToView(
+                            R.drawable.error,
+                            AppConstants.MsgErr.GENERIC_ERR_MSG
+                        )
                         viewModel.isLoading.value = false
                         showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    }
+                    is LoadState.NotLoading -> {
+                        if (loadStates.append.endOfPaginationReached && commentAdapter.itemCount == 0) {
+                            setStateBgToView(
+                                R.drawable.empty_comment,
+                                AppConstants.MsgErr.EMPTY_COMMENT
+                            )
+                        }
+                        viewModel.isLoading.value = false
                     }
                     else -> viewModel.isLoading.value = false
 
@@ -122,6 +135,12 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
         }
     }
 
+    private fun setStateBgToView(idIcon: Int, msg: String) {
+        binding.imgEmptyComment.setImageResource(idIcon)
+        binding.txtEmptyComment.text = msg
+        setStateVisibleView(View.VISIBLE, binding.imgEmptyComment)
+        setStateVisibleView(View.VISIBLE, binding.txtEmptyComment)
+    }
 
     private fun setUpEventSend() {
         binding.imgSend.setOnClickListener {

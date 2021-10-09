@@ -43,7 +43,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
 
         setUpRcvReview()
         listenStateLoadReview()
-        if(reviewAdapter.itemCount == 0) {
+        if (reviewAdapter.itemCount == 0) {
             loadReview()
         }
     }
@@ -68,11 +68,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
         binding.rcvReview.adapter = reviewAdapter
 
         reviewAdapter.mySetOnClickReview {
-            if (it.comments.isEmpty()) {
-                showLongToast(AppConstants.MsgInfo.COMMENTS_EMPTY)
-            } else {
-                controller.navigate(R.id.commentFragment, bundleOf("REVIEW_ID" to it.id))
-            }
+            controller.navigate(R.id.commentFragment, bundleOf("REVIEW_ID" to it.id))
         }
     }
 
@@ -84,8 +80,22 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
                         binding.spinKitProgressBar.visibility = View.VISIBLE
                     }
                     is LoadState.Error -> {
+                        setStateBgToView(
+                            R.drawable.error,
+                            AppConstants.MsgErr.GENERIC_ERR_MSG
+                        )
                         binding.spinKitProgressBar.visibility = View.GONE
                         showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+
+                    }
+                    is LoadState.NotLoading -> {
+                        if (loadStates.append.endOfPaginationReached && reviewAdapter.itemCount == 0) {
+                            setStateBgToView(
+                                R.drawable.empty_review,
+                                AppConstants.MsgErr.EMPTY_REVIEW
+                            )
+                        }
+                        binding.spinKitProgressBar.visibility = View.GONE
                     }
                     else -> binding.spinKitProgressBar.visibility = View.GONE
 
@@ -100,6 +110,12 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
                 reviewAdapter.submitData(it)
             }
         }
+    }
 
+    private fun setStateBgToView(idIcon: Int, msg: String) {
+        binding.imgEmptyReview.setImageResource(idIcon)
+        binding.txtEmptyReview.text = msg
+        setStateVisibleView(View.VISIBLE, binding.imgEmptyReview)
+        setStateVisibleView(View.VISIBLE, binding.txtEmptyReview)
     }
 }

@@ -235,6 +235,8 @@ object AppConstants {
             const val EMPTY_NOTIFICATION = "Bạn không có thông báo nào"
             const val EMPTY_PURCHASED_PRODUCT = "Bạn không có sản phẩm chưa đánh giá"
             const val EMPTY_PRODUCT_SEARCH = "Không tìm thấy phẩm nào, hãy thử một tìm kiếm khác"
+            const val EMPTY_REVIEW = "Chưa có đánh giá nào cho sản phẩm này"
+            const val EMPTY_COMMENT = "Chưa có bình luận nào cho sản đánh giá này"
 
         }
     }
