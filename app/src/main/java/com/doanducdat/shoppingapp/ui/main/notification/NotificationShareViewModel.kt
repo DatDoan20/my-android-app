@@ -15,6 +15,10 @@ class NotificationShareViewModel @Inject constructor(
     val numberUnReadNotifyOrder: LiveData<Int>
         get() = _numberUnReadNotifyOrder
 
+    private var _numberUnReadNotifyComment: MutableLiveData<Int> = MutableLiveData(0)
+    val numberUnReadNotifyComment: LiveData<Int>
+        get() = _numberUnReadNotifyComment
+
 
     fun countNumberUnReadNotifyOrder(it: NotifyOrderPagingAdapter) {
         _numberUnReadNotifyOrder.value = it.snapshot().count { notifyOrder ->

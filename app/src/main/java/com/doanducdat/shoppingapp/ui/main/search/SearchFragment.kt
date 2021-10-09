@@ -17,6 +17,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenUpdateBadgeCountNotify(binding.myAppBarLayout.layoutNotification.imgRedDot)
 
         setUpSearchView()
     }

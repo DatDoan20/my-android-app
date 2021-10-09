@@ -16,8 +16,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 
@@ -26,7 +28,9 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     protected lateinit var binding: VB
     val setAnimationSearchView = AnimatorSet()
-
+    private val notificationShareViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +40,13 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         return binding.root
     }
 
+     fun listenUpdateBadgeCountNotify(viewRedDot:View) {
+        if (notificationShareViewModel.numberUnReadNotifyOrder.value!! > 0 ||
+            notificationShareViewModel.numberUnReadNotifyComment.value!! > 0
+        ) {
+            viewRedDot.visibility = View.VISIBLE
+        }
+    }
     abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
     fun focusView(requestedView: View, msg: String) {

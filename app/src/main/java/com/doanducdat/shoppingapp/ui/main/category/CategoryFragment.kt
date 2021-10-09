@@ -28,6 +28,7 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenUpdateBadgeCountNotify(binding.myAppBarLayout.layoutNotification.imgRedDot)
 
         hideSearchPlate(binding.myAppBarLayout.searchView)
         //set up adapter Viewpager have to be in advance TabLayout
