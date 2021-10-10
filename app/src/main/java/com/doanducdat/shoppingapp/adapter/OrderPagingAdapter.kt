@@ -34,7 +34,8 @@ class OrderPagingAdapter :
         fun bind(order: Order?) {
             if (order != null) {
                 val sizePurchasedProduct = order.purchasedProducts.size
-                binding.txtNameProduct.text = getNameFirstProduct(order, sizePurchasedProduct)
+                binding.txtNameProduct.text =
+                    FormValidation.getNameFirstProduct(order, sizePurchasedProduct)
                 binding.txtNameReceiver.text = order.nameUser
                 binding.txtDateOrder.text =
                     order.createdAt?.let { FormValidation.formatDay(it, context) }
@@ -43,16 +44,6 @@ class OrderPagingAdapter :
                 binding.txtTotalPayment.text = FormValidation.formatMoney(order.totalPayment)
                 setStateOrder(order.state)
                 setActionOrder(order)
-            }
-        }
-
-        private fun getNameFirstProduct(order: Order, sizePurchasedProduct: Int): String {
-            val nameFirstProduct = order.purchasedProducts[0].name
-            //many product -> custom nameFirstProduct to display
-            return if (sizePurchasedProduct > 1) {
-                "${nameFirstProduct.substring(0, 44)} và $sizePurchasedProduct mặt hàng khác..."
-            } else {
-                nameFirstProduct
             }
         }
 

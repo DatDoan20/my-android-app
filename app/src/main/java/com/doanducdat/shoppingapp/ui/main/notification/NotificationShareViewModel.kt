@@ -2,6 +2,7 @@ package com.doanducdat.shoppingapp.ui.main.notification
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.doanducdat.shoppingapp.adapter.NotifyCommentPagingAdapter
 import com.doanducdat.shoppingapp.adapter.NotifyOrderPagingAdapter
 import com.doanducdat.shoppingapp.ui.base.BaseViewModel
 import com.doanducdat.shoppingapp.utils.InfoUser
@@ -33,12 +34,32 @@ class NotificationShareViewModel @Inject constructor(
         }
     }
 
-    fun minusOneDigitCountUnRead() {
+    fun minusOneDigitCountUnReadNotifyOrder() {
         _numberUnReadNotifyOrder.value = numberUnReadNotifyOrder.value?.minus(1)
     }
 
-    fun clearCountUnRead() {
+    fun clearCountUnReadNotifyOrder() {
         _numberUnReadNotifyOrder.value = 0
     }
 
+    fun countNumberUnReadNotifyComment(it: NotifyCommentPagingAdapter) {
+        _numberUnReadNotifyComment.value = it.snapshot().count { notifyComment ->
+            var valid = false
+            if (notifyComment != null &&
+                InfoUser.currentUser?.readAllCommentNoti?.before(notifyComment.updatedAt) == true &&
+                !notifyComment.receiverIds[0].readState
+            ) {
+                valid = true
+            }
+            valid
+        }
+    }
+
+    fun minusOneDigitCountUnReadNotifyComment() {
+        _numberUnReadNotifyComment.value = numberUnReadNotifyOrder.value?.minus(1)
+    }
+
+    fun clearCountUnReadNotifyComment() {
+        _numberUnReadNotifyComment.value = 0
+    }
 }

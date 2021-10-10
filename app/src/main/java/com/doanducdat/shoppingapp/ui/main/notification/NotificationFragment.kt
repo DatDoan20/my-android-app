@@ -26,10 +26,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         container: ViewGroup?
     ): FragmentNotificationBinding = FragmentNotificationBinding.inflate(inflater, container, false)
 
-    private val notificationShareViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
-    }
-
     private val controller by lazy {
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
@@ -101,20 +97,23 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
     }
 
     private fun updateBadgeTabComment(tab: TabLayout.Tab) {
-        if (InfoUser.numberUnReadNotifyComment > 0) {
-            val badge = tab.orCreateBadge
-            badge.number = InfoUser.numberUnReadNotifyComment
-            return
-        }
-        tab.removeBadge()
+        notificationShareViewModel.numberUnReadNotifyComment.observe(viewLifecycleOwner, {
+//            Log.e(AppConstants.TAG.COUNT_NOTI_COMMENT, "updateBadgeTabComment: $it")
+            if (it > 0) {
+                val badge = tab.orCreateBadge
+                badge.number = it
+            } else {
+                tab.removeBadge()
+            }
+        })
     }
 
     private fun updateBadgeTabOrder(tab: TabLayout.Tab) {
         notificationShareViewModel.numberUnReadNotifyOrder.observe(viewLifecycleOwner, {
-//            Log.e(AppConstants.TAG.UPDATE_COUNT_NOTI_ORDER, "updateBadgeTabOrder: $it")
+//            Log.e(AppConstants.TAG.COUNT_NOTI_ORDER, "updateBadgeTabOrder: $it")
             if (it > 0) {
                 val badge = tab.orCreateBadge
-                badge.number = notificationShareViewModel.numberUnReadNotifyOrder.value!!
+                badge.number = it
             } else {
                 tab.removeBadge()
             }

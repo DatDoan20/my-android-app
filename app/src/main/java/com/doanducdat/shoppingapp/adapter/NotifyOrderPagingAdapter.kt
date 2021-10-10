@@ -2,31 +2,25 @@ package com.doanducdat.shoppingapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
-import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.HandlerTime
 import com.doanducdat.shoppingapp.utils.InfoUser
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
+import com.doanducdat.shoppingapp.utils.validation.ViewState
 
 class NotifyOrderPagingAdapter(
-    val context: Context,
+    context: Context,
 ) : PagingDataAdapter<NotifyOrder, NotifyOrderPagingAdapter.NotifyOrderPagingViewHolder>(
     PRODUCT_COMPARATOR
 ) {
-
-    private val readBlackColor = ContextCompat.getColor(context, R.color.readBlack)
-    private val readBlueColor = ContextCompat.getColor(context, R.color.readBlue)
+    val viewState = ViewState(context)
     private var callbackClickOpenMenu: (
         notifyOrder: NotifyOrder, positionItem: Int, itemBinding: ItemNotificationBinding
     ) -> Unit = { _: NotifyOrder, _: Int, _: ItemNotificationBinding -> }
@@ -67,14 +61,14 @@ class NotifyOrderPagingAdapter(
 
                     // if readState == true -> Read -> setState..., otherwise default view is unRead
                     if (notifyOrder.receiverIds[0].readState) { //-> read
-                        setStateReadDot(imgBlueDotReadState)
-                        setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                        viewState.setStateReadDot(imgBlueDotReadState)
+                        viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
                         return
                     }
                     //->UnRead: view is default UnRead not need handle here
                 } else {
-                    setStateReadDot(imgBlueDotReadState)
-                    setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                    viewState.setStateReadDot(imgBlueDotReadState)
+                    viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
                 }
             }
         }
@@ -94,23 +88,6 @@ class NotifyOrderPagingAdapter(
             callbackClickOpenMenu.invoke(notifyOrder, positionItem, binding)
         }
     }
-
-    // region state set notify was read
-    fun setStateReadDot(imgBlueDotReadState: ImageView) {
-        imgBlueDotReadState.visibility = View.GONE
-    }
-
-    fun setColorReadTextView(
-        txtName: TextView,
-        txtTimeComment: TextView,
-        txtContentNotify: TextView
-    ) {
-        txtName.setTextColor(readBlackColor)
-        txtTimeComment.setTextColor(readBlueColor)
-        txtContentNotify.setTextColor(readBlackColor)
-    }
-
-    //endregion
 
     override fun onBindViewHolder(holder: NotifyOrderPagingViewHolder, position: Int) {
         holder.bind(getItem(position), holder.absoluteAdapterPosition)

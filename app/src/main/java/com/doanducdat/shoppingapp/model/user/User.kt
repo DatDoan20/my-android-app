@@ -20,7 +20,8 @@ data class User(
     val sex: String,
     var stateVerifyEmail: Boolean,
     val updatedAt: String,
-    var readAllOrderNoti:Date
+    var readAllOrderNoti:Date,
+    var readAllCommentNoti:Date
 ) {
     fun getUrlAvatar(): String {
         //avatar is name of image, not link

@@ -5,6 +5,7 @@ import android.content.Context
 import android.text.format.DateFormat
 import android.util.Patterns
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.model.order.Order
 import com.doanducdat.shoppingapp.utils.AppConstants
 import java.text.DecimalFormat
 import java.util.*
@@ -84,7 +85,7 @@ object FormValidation {
         return dateFormat.format(date)
     }
 
-    fun getContentStateOrder(totalPayment:Int, state:String): String? {
+    fun getContentStateOrder(totalPayment: Int, state: String): String? {
         val totalPaymentOrder = formatMoney(totalPayment)
 
         with(AppConstants.StateNotifyOrder) {
@@ -100,6 +101,20 @@ object FormValidation {
                 }
                 else -> null
             }
+        }
+    }
+
+    fun getContentComment(comment: String): String {
+        return if (comment.trim().length > 53) "${comment.substring(0, 50)}..." else comment
+    }
+
+    fun getNameFirstProduct(order: Order, sizePurchasedProduct: Int): String {
+        val nameFirstProduct = order.purchasedProducts[0].name
+        //many product -> custom nameFirstProduct to display
+        return if (sizePurchasedProduct > 1) {
+            "${nameFirstProduct.substring(0, 44)} và $sizePurchasedProduct mặt hàng khác..."
+        } else {
+            nameFirstProduct
         }
     }
 }

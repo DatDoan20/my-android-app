@@ -36,6 +36,7 @@ object AppConstants {
             const val REVIEW_PURCHASED_PRODUCT = 26
             const val NAV_ADD_TO_CARD = 27
             const val READ_NOTIFY_COMMENT = 28
+            const val READ_NOTIFY_ORDER = 29
         }
     }
 
@@ -121,7 +122,9 @@ object AppConstants {
             const val PURCHASED_PRODUCT = "PURCHASED_PRODUCT"
             const val SOCKET_IO = "SOCKET.IO"
             const val ORDER_NOTI = "ORDER_NOTI"
-            const val UPDATE_COUNT_NOTI_ORDER = "UPDATE_COUNT_NOTI_ORDER"
+            const val COMMENT_NOTI = "COMMENT_NOTI"
+            const val COUNT_NOTI_ORDER = "COUNT_NOTI_ORDER"
+            const val COUNT_NOTI_COMMENT = "COUNT_NOTI_COMMENT"
         }
     }
 

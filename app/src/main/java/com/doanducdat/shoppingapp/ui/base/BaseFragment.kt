@@ -28,9 +28,10 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     protected lateinit var binding: VB
     val setAnimationSearchView = AnimatorSet()
-    private val notificationShareViewModel by lazy {
+    val notificationShareViewModel by lazy {
         ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,13 +41,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         return binding.root
     }
 
-     fun listenUpdateBadgeCountNotify(viewRedDot:View) {
+    fun listenUpdateBadgeCountNotify(viewRedDot: View) {
         if (notificationShareViewModel.numberUnReadNotifyOrder.value!! > 0 ||
             notificationShareViewModel.numberUnReadNotifyComment.value!! > 0
         ) {
             viewRedDot.visibility = View.VISIBLE
         }
     }
+
     abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
     fun focusView(requestedView: View, msg: String) {

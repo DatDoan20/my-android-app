@@ -7,6 +7,7 @@ import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.model.review.Comment
 import com.doanducdat.shoppingapp.model.review.CommentPost
 import com.doanducdat.shoppingapp.model.review.NotifyComment
+import com.doanducdat.shoppingapp.model.user.ReadAllCommentNoti
 import com.doanducdat.shoppingapp.paging.CommentPagingSource
 import com.doanducdat.shoppingapp.paging.NotifyCommentPagingSource
 import com.doanducdat.shoppingapp.retrofit.CommentAPI
@@ -43,6 +44,32 @@ class CommentRepository @Inject constructor(
         flow {
             emit(loading)
             val responseNotifyComment = commentAPI.checkReadNotifyComment(token, idNotifyComment)
+            emit(DataState.success(responseNotifyComment))
+        }, IO
+    )
+
+    suspend fun checkReadAllNotifyComment(readAllCommentNoti: ReadAllCommentNoti) =
+        safeThreadDefaultCatch(
+            flow {
+                emit(loading)
+                val responseNotifyComment =
+                    commentAPI.checkReadAllNotifyComment(token, readAllCommentNoti)
+                emit(DataState.success(responseNotifyComment))
+            }, IO
+        )
+
+    suspend fun deleteNotifyComment(idNotifyComment: String) = safeThreadDefaultCatch(
+        flow {
+            emit(loading)
+            val responseNotifyComment = commentAPI.deleteNotifyComment(token, idNotifyComment)
+            emit(DataState.success(responseNotifyComment))
+        }, IO
+    )
+
+    suspend fun deleteAllNotifyComment() = safeThreadDefaultCatch(
+        flow {
+            emit(loading)
+            val responseNotifyComment = commentAPI.deleteAllNotifyComment(token)
             emit(DataState.success(responseNotifyComment))
         }, IO
     )

@@ -2,7 +2,6 @@ package com.doanducdat.shoppingapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -10,20 +9,28 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.review.NotifyComment
-import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.HandlerTime
-import com.doanducdat.shoppingapp.utils.MyBgCustom
+import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.validation.FormValidation
+import com.doanducdat.shoppingapp.utils.validation.ViewState
 
-class NotifyCommentPagingAdapter :
-    PagingDataAdapter<NotifyComment, NotifyCommentPagingAdapter.NotifyCommentPagingViewHolder>(
-        PRODUCT_COMPARATOR
+class NotifyCommentPagingAdapter(
+    context: Context,
+) : PagingDataAdapter<NotifyComment, NotifyCommentPagingAdapter.NotifyCommentPagingViewHolder>(
+    PRODUCT_COMPARATOR
+) {
+    val viewState: ViewState = ViewState(context)
+    private var callbackClickOpenMenu: (
+        notifyComment: NotifyComment, itemBinding: ItemNotificationBinding
+    ) -> Unit = { _: NotifyComment, _: ItemNotificationBinding -> }
+
+    fun mySetOnClickRead(
+        funClickOpenMenu: (
+            notifyComment: NotifyComment, itemBinding: ItemNotificationBinding
+        ) -> Unit
     ) {
-    val myBgCustom = MyBgCustom.getInstance()
-//    var callbackClickRepComment: (comment: Comment) -> Unit = {}
-//
-//    fun mySetOnClickRepComment(callbackFun: (comment: Comment) -> Unit) {
-//        callbackClickRepComment = callbackFun
-//    }
+        callbackClickOpenMenu = funClickOpenMenu
+    }
 
     inner class NotifyCommentPagingViewHolder(
         val binding: ItemNotificationBinding,
@@ -36,25 +43,48 @@ class NotifyCommentPagingAdapter :
                 imgAvatar.load(notifyComment.commentId.userId.getUrlAvatar())
                 txtName.text = notifyComment.commentId.userId.name
                 txtTimeComment.text = HandlerTime.getTimeAgo(notifyComment.updatedAt.time)
-
-                txtContentNotify.text = getContent(notifyComment.commentId.comment)
-
-                setReadStateDot(notifyComment.receiverIds[0].readState)
+                txtContentNotify.text =
+                    FormValidation.getContentComment(notifyComment.commentId.comment)
+                checkViewReadOrUnRead(notifyComment)
+                setUpActionClick(notifyComment)
             }
         }
 
-        private fun getContent(comment: String): String {
-            return if (comment.trim().length > 53) "${comment.substring(0, 50)}..." else comment
+        private fun checkViewReadOrUnRead(notifyComment: NotifyComment) {
+            with(binding) {
+                // time read all < time notify -> UnRead All -> check particular state Read? in notify
+                if (InfoUser.currentUser?.readAllCommentNoti?.before(notifyComment.updatedAt) == true) {
+
+                    // if readState == true -> Read -> setState..., otherwise default view is unRead
+                    if (notifyComment.receiverIds[0].readState) { //-> read
+                        viewState.setStateReadDot(imgBlueDotReadState)
+                        viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                        return
+                    }
+                    //->UnRead: view is default UnRead not need handle here
+                } else {
+                    viewState.setStateReadDot(imgBlueDotReadState)
+                    viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                }
+            }
         }
 
-        private fun setReadStateDot(readState: Boolean) {
-            if (!readState) {
-                binding.imgBlueDotReadState.visibility = View.VISIBLE
-                binding.imgBlueDotReadState.background =
-                    myBgCustom.bgOval(AppConstants.ColorHex.UN_READ_STATE_NOTIFY)
+        private fun setUpActionClick(notifyComment: NotifyComment) {
+            with(binding) {
+                imgMore.setOnClickListener {
+                    openPopupMenu(notifyComment)
+                }
+                layoutItemNotification.setOnClickListener {
+                    openPopupMenu(notifyComment)
+                }
             }
+        }
+
+        private fun openPopupMenu(notifyComment: NotifyComment) {
+            callbackClickOpenMenu.invoke(notifyComment, binding)
         }
     }
+
 
     override fun onBindViewHolder(holder: NotifyCommentPagingViewHolder, position: Int) {
         holder.bind(getItem(position))

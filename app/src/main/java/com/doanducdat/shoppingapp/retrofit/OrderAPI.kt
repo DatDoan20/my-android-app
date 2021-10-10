@@ -44,11 +44,17 @@ interface OrderAPI {
         @Path("page") page: Int
     ): ResponseNotifyOrder
 
-    @PATCH("api/users/notify-orders/{idNotifyOrder}")
+    @PATCH("api/users/notify-orders/{idNotifyOrder}/read/me")
     suspend fun checkReadNotifyOrder(
         @Header("Authorization") authorization: String,
         @Path("idNotifyOrder") idNotifyOrder: String,
     ): ResponseNotifyOrder
+
+    @PATCH(" api/users/notify-orders/me/read/all")
+    suspend fun checkReadAllNotifyOrder(
+        @Header("Authorization") authorization: String,
+        @Body readAllOrderNoti: ReadAllOrderNoti
+    ): ResponseUser
 
     @DELETE(" api/users/notify-orders/{idNotifyOrder}/force")
     suspend fun deleteNotifyOrder(
@@ -60,12 +66,6 @@ interface OrderAPI {
     suspend fun deleteAllNotifyOrder(
         @Header("Authorization") authorization: String,
     ): ResponseNotifyOrder
-
-    @PATCH(" api/users/notify-orders/me/all")
-    suspend fun checkReadAllNotifyOrder(
-        @Header("Authorization") authorization: String,
-        @Body readAllOrderNoti: ReadAllOrderNoti
-    ): ResponseUser
 
 
 }
