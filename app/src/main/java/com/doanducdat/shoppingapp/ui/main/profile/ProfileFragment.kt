@@ -61,11 +61,17 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
 
     private fun setUpActionClick() {
         setUpVerifyEmail()
+        binding.layoutEditProfileItem.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.NAV_EDIT_PROFILE)
+        }
         binding.layoutManageOrderItem.setOnClickListener {
             doActionClick(AppConstants.ActionClick.NAV_MANAGE_ORDER)
         }
         binding.layoutReviewPurchasedProduct.setOnClickListener {
             doActionClick(AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT)
+        }
+        binding.layoutSignOutItem.setOnClickListener {
+
         }
     }
 
@@ -84,6 +90,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
             }
             AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT -> {
                 controller.navigate(R.id.purchasedProductFragment)
+            }
+            AppConstants.ActionClick.NAV_EDIT_PROFILE -> {
+                controller.navigate(R.id.profileUpdateFragment)
             }
 
         }

@@ -47,4 +47,9 @@ interface UserAPI {
         @Header("Authorization") authorization: String,
         @Body ProductId: ProductId
     ): ResponseHandleProductInCart
+
+    @PATCH("api/users/update-me")
+    suspend fun updateMe(
+        @Header("Authorization") authorization: String,
+    ): ResponseUser
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.model.response.ResponseUpdateEmail
+import com.doanducdat.shoppingapp.model.response.ResponseUser
 import com.doanducdat.shoppingapp.model.user.Email
 import com.doanducdat.shoppingapp.repository.SignInRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +24,23 @@ class ProfileViewModel @Inject constructor(
     val dataStateUpdateEmail: LiveData<DataState<ResponseUpdateEmail>>
         get() = _dataStateUpdateEmail
 
+    private val _dataStateUpdateUser: MutableLiveData<DataState<ResponseUser>> =
+        MutableLiveData()
+    val dataStateUpdateUser: LiveData<DataState<ResponseUser>>
+        get() = _dataStateUpdateUser
+
+    var stateErrName = false
+
+
     fun updateEmail(email: Email) = viewModelScope.launch {
         signInRepository.updateEmail(email).onEach {
             _dataStateUpdateEmail.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun updateProfile() = viewModelScope.launch {
+        signInRepository.updateMe().onEach {
+            _dataStateUpdateUser.value = it
         }.launchIn(viewModelScope)
     }
 }

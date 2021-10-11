@@ -35,6 +35,14 @@ class SignInRepository @Inject constructor(
         }, IO
     )
 
+    suspend fun updateMe() = safeThreadDefaultCatch(
+        flow {
+            emit(loading)
+            val responseUpdateEmail = userAPI.updateMe(InfoUser.localToken.toString())
+            emit(DataState.success(responseUpdateEmail))
+        }, IO
+    )
+
     suspend fun loadMe() = safeThreadNonCatch(
         flow {
 //            Log.e(AppConstants.TAG.LOAD_ME, "repo1: ${Thread.currentThread().name}") (IO)

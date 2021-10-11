@@ -16,6 +16,7 @@
     <string name="signIn">Đăng nhập</string>
     <string name="youDontHaveAccount">Bạn chưa có tài khoản?</string>
     <string name="signUp">Đăng ký</string>
+    <string name="save">Lưu thay đổi</string>
     <string name="verify">Xác nhận</string>
     <string name="tryAgain">Thử lại</string>
     <string name="send">Gửi xác nhận</string>
@@ -80,6 +81,7 @@
     <string name="numberProduct">Số mặt hàng:</string>
     <string name="dateOrder">Ngày đặt:</string>
     <string name="addressText">Địa chỉ</string>
+    <string name="birthYear">Năm sinh</string>
     <string name="detailOrder">Chi tiết đơn hàng</string>
     <string name="cancel">Hủy đơn hàng</string>
     <string name="textPurchased">Đã mua hàng</string>
@@ -93,6 +95,8 @@
     <string name="myPurchasedProduct">Sản phẩm đã mua chưa đánh giá</string>
     <string name="notification">Thông báo của tôi</string>
     <string name="myOrder">Đơn hàng của tôi</string>
+    <string name="infoPersonal">Thông tin cá nhân</string>
+    <string name="sex">Giới tính</string>
 
     <string name="emptyCart">Bạn chưa có sản phẩm nào trong giỏ hàng</string>
 

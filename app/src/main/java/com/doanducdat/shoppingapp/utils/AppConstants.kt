@@ -37,6 +37,7 @@ object AppConstants {
             const val NAV_ADD_TO_CARD = 27
             const val READ_NOTIFY_COMMENT = 28
             const val READ_NOTIFY_ORDER = 29
+            const val NAV_EDIT_PROFILE = 30
         }
     }
 
@@ -223,6 +224,8 @@ object AppConstants {
             const val EMAIL_ERR_MSG = "Email không hợp lệ"
             const val PHONE_ERR_MSG = "Số điện thoại không hợp lệ"
             const val NAME_ERR_MSG = "Tên không được để trống, chứa kí đặc biệt tự hoặc số"
+            const val BIRTH_YEAR_ERR_MSG = "Bạn chưa chọn giới tính năm sinh"
+            const val GENDER_ERR_MSG = "Bạn chưa chọn giới tính"
             const val ADDRESS_ERR_MSG = "Địa chỉ không được để trống"
             const val EXIT_APP = "Nhấn lần nữa để thoát"
 

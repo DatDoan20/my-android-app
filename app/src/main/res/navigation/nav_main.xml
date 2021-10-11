@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_profileFragment_to_purchasedProductFragment"
             app:destination="@id/purchasedProductFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_profileUpdateFragment"
+            app:destination="@id/profileUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -118,4 +121,8 @@
         android:id="@+id/purchasedProductFragment"
         android:name="com.doanducdat.shoppingapp.ui.main.review.PurchasedProductFragment"
         android:label="PurchasedProductFragment" />
+    <fragment
+        android:id="@+id/profileUpdateFragment"
+        android:name="com.doanducdat.shoppingapp.ui.main.profile.ProfileUpdateFragment"
+        android:label="ProfileUpdateFragment" />
 </navigation>
