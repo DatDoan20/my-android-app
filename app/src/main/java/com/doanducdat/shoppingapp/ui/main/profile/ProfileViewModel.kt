@@ -29,6 +29,7 @@ class ProfileViewModel @Inject constructor(
     val dataStateUpdateUser: LiveData<DataState<ResponseUser>>
         get() = _dataStateUpdateUser
 
+    // = false so it's not empty, it was assign name of user before
     var stateErrName = false
 
 

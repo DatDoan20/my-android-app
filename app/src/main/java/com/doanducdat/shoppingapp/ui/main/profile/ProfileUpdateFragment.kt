@@ -1,11 +1,18 @@
 package com.doanducdat.shoppingapp.ui.main.profile
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -31,13 +38,27 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                binding.imgAvatar.setImageURI(result.data?.data)
+            }
+        }
+
     val viewModel: ProfileViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkLengthAndValidationName()
         setUpBackFragment()
         loadSpinner()
+        checkLengthAndValidationName()
+        setUpActionClick()
 
+    }
+
+    private fun setUpBackFragment() {
+        binding.imgBack.setOnClickListener {
+            controller.popBackStack()
+        }
     }
 
     private fun loadSpinner() {
@@ -52,12 +73,6 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
             birthYear.add(i.toString())
         }
         binding.spinnerBirthYear.setAdapter(birthYearAdapter)
-    }
-
-    private fun setUpBackFragment() {
-        binding.imgBack.setOnClickListener {
-            controller.popBackStack()
-        }
     }
 
     private fun checkLengthAndValidationName() {
@@ -84,13 +99,47 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         }
     }
 
-    override fun doActionClick(CODE_ACTION_CLICK: Int) {
-        binding.imgPhoto.setOnClickListener {
+    private fun setUpActionClick() {
+        binding.imgCamera.setOnClickListener {
+            doActionClick(AppConstants.ActionClick.PICKER_PHOTO)
+        }
 
-        }
         binding.btnSave.setOnClickListener {
-            handlePreSave()
+            doActionClick(AppConstants.ActionClick.SAVE_INFO_PERSONAL)
         }
+    }
+
+    override fun doActionClick(CODE_ACTION_CLICK: Int) {
+        when (CODE_ACTION_CLICK) {
+            AppConstants.ActionClick.PICKER_PHOTO -> {
+                requestPermissionAndPickImage()
+            }
+            AppConstants.ActionClick.SAVE_INFO_PERSONAL -> {
+                handlePreSave()
+            }
+        }
+    }
+
+    private fun requestPermissionAndPickImage() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            pickImage()
+            return
+        }
+        showLongToast("ahihi")
+        val result = checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE)
+
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            pickImage()
+        } else {
+            showLongToast(AppConstants.MsgInfo.PERMISSION_PICK_PHOTO_NOT_GRANTED)
+        }
+    }
+
+    private fun pickImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        activityResultLauncher.launch(intent)
     }
 
     private fun handlePreSave() {

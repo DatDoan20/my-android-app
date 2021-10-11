@@ -38,6 +38,8 @@ object AppConstants {
             const val READ_NOTIFY_COMMENT = 28
             const val READ_NOTIFY_ORDER = 29
             const val NAV_EDIT_PROFILE = 30
+            const val PICKER_PHOTO = 31
+            const val SAVE_INFO_PERSONAL = 32
         }
     }
 
@@ -267,6 +269,7 @@ object AppConstants {
             const val CONTENT_REVIEW_EMPTY = "Nội dung đánh giá của bạn đang trống!"
             const val RATING_EMPTY = "Vui lòng đánh giá với số ngôi sao bạn muốn!"
             const val CLOSE = "Đóng"
+            const val PERMISSION_PICK_PHOTO_NOT_GRANTED= "Bạn cần cho phép quyền truy cập để tải ảnh"
         }
     }
 
