@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.utils.validation
+package com.doanducdat.shoppingapp.utils.handler
 
 import com.doanducdat.shoppingapp.model.response.ResponseAuth
 import com.doanducdat.shoppingapp.model.response.ResponseError
@@ -9,7 +9,7 @@ import retrofit2.HttpException
 import java.io.IOException
 
 
-object ResCatch {
+object HandlerErrRes {
     fun errMsg(e: Throwable): String {
         return when (e) {
             is HttpException -> { // non-2xx

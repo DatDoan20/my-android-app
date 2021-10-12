@@ -5,8 +5,8 @@ import android.util.Log
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
 import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.HandlerNotification
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerNotification
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -49,7 +49,7 @@ class WebSocketIO {
     fun emitSignIn() {
         if (mSocket == null) return
         Log.e(AppConstants.TAG.SOCKET_IO, "emitSignIn: ")
-        mSocket!!.emit("ConnectLogin", InfoUser.currentUser?.id);
+        mSocket!!.emit("ConnectLogin", InfoLocalUser.currentUser?.id);
     }
 
     fun listenNewNotifyComment() {

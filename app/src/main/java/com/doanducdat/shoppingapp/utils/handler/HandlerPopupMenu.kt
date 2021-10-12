@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.handler
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import androidx.appcompat.widget.PopupMenu
 import com.doanducdat.shoppingapp.R
 
 
-class MyPopupMenu(val context: Context) {
+class HandlerPopupMenu(val context: Context) {
 
     private var callbackMarkAsRead: () -> Unit = {}
     private var callbackDelete: () -> Unit = {}

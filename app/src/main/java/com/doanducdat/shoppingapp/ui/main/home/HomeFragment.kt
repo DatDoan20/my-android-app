@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,9 +24,8 @@ import com.doanducdat.shoppingapp.model.category.CategoryListFactory
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
-import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -108,7 +106,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun setUpMyInfo() {
-        binding.myAppBarLayout.imgAvatar.load(InfoUser.currentUser?.getUrlAvatar())
+        binding.myAppBarLayout.imgAvatar.load(InfoLocalUser.currentUser?.getUrlAvatar())
     }
 
     //region Slide Image Intro

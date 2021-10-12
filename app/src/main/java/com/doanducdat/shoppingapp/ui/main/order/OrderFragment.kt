@@ -16,7 +16,7 @@ import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +37,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.user = InfoUser.currentUser
+        binding.user = InfoLocalUser.currentUser
         listenLoadingForm()
         setUpBackFragment()
         setUpClickRadio()
@@ -82,7 +82,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
     private fun setUpInfo() {
         with(viewModel) {
             costDelivery = 15000
-            InfoUser.currentUser?.cart?.forEach {
+            InfoLocalUser.currentUser?.cart?.forEach {
                 totalPrice += it.price
             }
             totalPayment = costDelivery + totalPrice
@@ -125,12 +125,12 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
     }
 
     private fun preOrderSetInput(nameUser: String, addressUser: String) {
-        if (InfoUser.currentUser == null) return
+        if (InfoLocalUser.currentUser == null) return
 
         viewModel.isLoading.value = true
 
         val purchasedProductsInCart: MutableList<PurchasedProduct> = mutableListOf()
-        InfoUser.currentUser!!.cart.forEach {
+        InfoLocalUser.currentUser!!.cart.forEach {
             purchasedProductsInCart.add(
                 PurchasedProduct(
                     false,
@@ -150,8 +150,8 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
         with(viewModel) {
             name = nameUser
             address = addressUser
-            email = InfoUser.currentUser!!.email
-            phone = InfoUser.currentUser!!.phone
+            email = InfoLocalUser.currentUser!!.email
+            phone = InfoLocalUser.currentUser!!.phone
             purchasedProducts = purchasedProductsInCart
             note = binding.edtNote.text.toString().trim()
         }
@@ -173,7 +173,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
                 Status.SUCCESS -> {
                     viewModel.isLoading.value = false
                     showDialog(it.response!!.data.addressDelivery, it.response.data.totalPayment)
-                    InfoUser.currentUser?.cart?.clear()
+                    InfoLocalUser.currentUser?.cart?.clear()
                 }
             }
         })

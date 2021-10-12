@@ -90,7 +90,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), MyActionApp {
     private fun checkLengthAndValidationName() {
         with(binding) {
             txtInputEdtName.doOnTextChanged { text, _, _, _ ->
-                val errMsgValid = FormValidation.checkValidationName(text.toString())
+                val errMsgValid = FormValidation.checkValidationName(text.toString().trim())
                 val errMsgLength =
                     FormValidation.checkLengthName(text.toString().trim().length > 50)
                 when {

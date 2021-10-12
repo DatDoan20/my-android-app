@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.EmailAuthentication
+import com.doanducdat.shoppingapp.utils.auth.EmailAuthentication
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import com.github.ybq.android.spinkit.SpinKitView
 import com.google.android.material.textfield.TextInputEditText

@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.retrofit.CommentAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -27,7 +27,7 @@ class NotifyCommentPagingSource(
         val page = params.key ?: AppConstants.QueryRequest.PAGE_1
         return try {
             val response =
-                commentAPI.getNotifyComment(InfoUser.localToken.toString(), params.loadSize, page)
+                commentAPI.getNotifyComment(InfoLocalUser.localToken.toString(), params.loadSize, page)
             val notifyComments = response.data
             LoadResult.Page(
                 data = notifyComments,

@@ -54,6 +54,14 @@ object AppConstants {
             const val BEARER = "Bearer"
         }
     }
+    annotation class BodyRequest {
+        companion object {
+            const val NAME = "name"
+            const val BIRTH_YEAR = "birthYear"
+            const val SEX = "sex"
+            const val AVATAR = "avatar"
+        }
+    }
 
     annotation class Response {
         companion object {
@@ -128,6 +136,7 @@ object AppConstants {
             const val COMMENT_NOTI = "COMMENT_NOTI"
             const val COUNT_NOTI_ORDER = "COUNT_NOTI_ORDER"
             const val COUNT_NOTI_COMMENT = "COUNT_NOTI_COMMENT"
+            const val UPDATE_ME= "COUNT_NOTI_COMMENT"
         }
     }
 
@@ -217,6 +226,7 @@ object AppConstants {
     annotation class MsgErr {
         companion object {
             const val GENERIC_ERR_MSG = "Yêu cầu thất bại! đã có lỗi xảy ra, thử lại sau"
+            const val LIMIT_ERR_MSG = "Bạn đã yêu cầu quá nhiều lần, thử lại sau 1 giờ!"
             const val GENERIC_ERR_RESPONSE = "Đường truyền mạng internet bị gián đoạn, thử lại sau"
             const val PHONE_ERR_LENGTH = "Chiều dài không hợp lệ"
             const val PASSWORD_ERR_LENGTH = "Độ dài ít hơn 8 kí tự, không chứa khoảng trắng"

@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.doanducdat.shoppingapp.model.review.Review
 import com.doanducdat.shoppingapp.retrofit.ReviewAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -29,7 +29,7 @@ class ReviewPagingSource(
         return try {
             val responseReview =
                 reviewAPI.getReview(
-                    InfoUser.localToken.toString(),
+                    InfoLocalUser.localToken.toString(),
                     params.loadSize,
                     page,
                     productId

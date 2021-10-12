@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.handler
 
 import android.content.Context
 import android.graphics.Color
@@ -6,14 +6,14 @@ import android.graphics.drawable.GradientDrawable
 import androidx.core.content.ContextCompat
 import com.doanducdat.shoppingapp.R
 
-class MyBgCustom {
+class HandlerBgCustom {
     companion object {
         @Volatile
-        private var instance: MyBgCustom? = null
+        private var instance: HandlerBgCustom? = null
 
-        fun getInstance(): MyBgCustom {
+        fun getInstance(): HandlerBgCustom {
             if (instance == null) {
-                instance = MyBgCustom()
+                instance = HandlerBgCustom()
             }
             return instance!!
         }

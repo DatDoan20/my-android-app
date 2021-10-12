@@ -1,4 +1,6 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.handler
+
+import com.doanducdat.shoppingapp.utils.AppConstants
 
 object HandlerTime {
     fun getTimeAgo(timeInput: Long): String? {

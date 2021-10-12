@@ -1,8 +1,9 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.auth
 
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemReviewBinding
 import com.doanducdat.shoppingapp.model.review.Review
-import com.doanducdat.shoppingapp.utils.HandlerTime
+import com.doanducdat.shoppingapp.utils.handler.HandlerTime
 
 class ReviewPagingAdapter :
     PagingDataAdapter<Review, ReviewPagingAdapter.ReviewPagingViewHolder>(PRODUCT_COMPARATOR) {

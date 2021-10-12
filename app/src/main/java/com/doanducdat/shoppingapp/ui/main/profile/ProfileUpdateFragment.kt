@@ -7,10 +7,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.core.widget.doOnTextChanged
@@ -19,12 +21,20 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentProfileUpdateBinding
+import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerFile
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.util.*
+
 
 @AndroidEntryPoint
 class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyActionApp {
@@ -38,21 +48,31 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         (requireActivity().supportFragmentManager
             .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
     }
-    private val activityResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                binding.imgAvatar.setImageURI(result.data?.data)
-            }
-        }
 
     val viewModel: ProfileViewModel by viewModels()
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenLoadingForm()
         setUpBackFragment()
-        loadSpinner()
+        loadDataForm()
         checkLengthAndValidationName()
+        initResultLauncher()
         setUpActionClick()
 
+    }
+
+
+    private fun listenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            setStateEnableViews(!it, binding.btnSave)
+            if (it) {
+                setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
+            } else {
+                setStateVisibleView(View.GONE, binding.spinKitProgressBar)
+            }
+        })
     }
 
     private fun setUpBackFragment() {
@@ -61,26 +81,36 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         }
     }
 
-    private fun loadSpinner() {
+    private fun loadDataForm() {
+        //load name
+        binding.txtInputEdtName.setText(InfoLocalUser.currentUser?.name)
+        //load spinner sex
         val sex = listOf("Nam", "Nữ")
         val sexAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, sex)
         binding.spinnerSex.setAdapter(sexAdapter)
-
+        //load spinner birthYear
         val birthYear = mutableListOf<String>()
         val birthYearAdapter = ArrayAdapter(requireContext(), R.layout.item_spinner, birthYear)
 
-        for (i in 1956..Calendar.getInstance().get(Calendar.YEAR)) {
+        for (i in Calendar.getInstance().get(Calendar.YEAR) downTo 1956) {
             birthYear.add(i.toString())
         }
         binding.spinnerBirthYear.setAdapter(birthYearAdapter)
+
+        //load value default
+        if (InfoLocalUser.currentUser?.sex == "male") binding.spinnerSex.setText("Nam", false)
+        if (InfoLocalUser.currentUser?.birthYear != null) {
+            binding.spinnerBirthYear.setText(InfoLocalUser.currentUser!!.birthYear, false)
+        }
     }
 
     private fun checkLengthAndValidationName() {
         with(binding) {
             txtInputEdtName.doOnTextChanged { text, _, _, _ ->
-                val errMsgValid = FormValidation.checkValidationName(text.toString())
+                val name = text.toString().trim()
+                val errMsgValid = FormValidation.checkValidationName(name)
                 val errMsgLength =
-                    FormValidation.checkLengthName(text.toString().trim().length > 50)
+                    FormValidation.checkLengthName(name.length > 50 || TextUtils.isEmpty(name))
                 when {
                     errMsgLength == null && errMsgValid == null -> { // not any err
                         viewModel.stateErrName = false
@@ -97,6 +127,23 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
                 }
             }
         }
+    }
+
+    private fun initResultLauncher() {
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK && result.data?.data != null) {
+                    viewModel.imageUri = result.data!!.data
+                    binding.imgAvatar.setImageURI(viewModel.imageUri)
+                    val realPath =
+                        HandlerFile.getPathFromUri(requireContext(), viewModel.imageUri!!)
+                    if (realPath != null) {
+                        viewModel.file = File(realPath)
+                    } else {
+                        Log.e(AppConstants.TAG.UPDATE_ME, "realPath: null ")
+                    }
+                }
+            }
     }
 
     private fun setUpActionClick() {
@@ -125,7 +172,6 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
             pickImage()
             return
         }
-        showLongToast("ahihi")
         val result = checkSelfPermission(requireContext(), READ_EXTERNAL_STORAGE)
 
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -139,25 +185,102 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        activityResultLauncher.launch(intent)
+        activityResultLauncher?.launch(intent)
     }
 
     private fun handlePreSave() {
+        viewModel.birthYear = binding.spinnerBirthYear.text.toString().trim()
+        if (binding.spinnerSex.text.toString().trim() == "Nam") {
+            viewModel.sex = "male"
+        } else {
+            viewModel.sex = "female"
+        }
+        viewModel.name = FormValidation.formatName(binding.txtInputEdtName.text.toString().trim())
+
         when {
+            //check empty
             viewModel.stateErrName -> {
                 return focusView(binding.txtInputEdtName, AppConstants.MsgErr.NAME_ERR_MSG)
             }
-            TextUtils.isEmpty(binding.spinnerBirthYear.text.toString().trim()) -> {
-                return focusView(binding.spinnerBirthYear, AppConstants.MsgErr.BIRTH_YEAR_ERR_MSG)
+            TextUtils.isEmpty(viewModel.birthYear) -> {
+                return focusView(
+                    binding.spinnerBirthYear,
+                    AppConstants.MsgErr.BIRTH_YEAR_ERR_MSG
+                )
             }
-            TextUtils.isEmpty(binding.spinnerSex.text.toString().trim()) -> {
+            TextUtils.isEmpty(viewModel.sex) -> {
                 return focusView(binding.spinnerSex, AppConstants.MsgErr.GENDER_ERR_MSG)
+            }
+            //check value change?, if there is not change -> not call api update info
+            viewModel.name == InfoLocalUser.currentUser?.name &&
+                    viewModel.birthYear == InfoLocalUser.currentUser?.birthYear &&
+                    viewModel.sex == InfoLocalUser.currentUser?.sex -> {
+                controller.popBackStack()
+                return
             }
         }
         handleSave()
     }
 
     private fun handleSave() {
-        viewModel.updateProfile()
+        listenUpdateMe()
+        updateMe()
+    }
+
+    private fun listenUpdateMe() {
+        viewModel.dataStateUpdateUser.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    Log.e(AppConstants.TAG.UPDATE_ME, "listenUpdateMe: ${it.message}")
+                    if (it.message?.startsWith("LIMIT", true) == true) {
+                        showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    } else {
+                        showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    }
+                    viewModel.isLoading.value = false
+                }
+                Status.SUCCESS -> {
+                    InfoLocalUser.currentUser?.name = viewModel.name
+                    InfoLocalUser.currentUser?.birthYear = viewModel.birthYear
+                    InfoLocalUser.currentUser?.sex = viewModel.sex
+                    InfoLocalUser.currentUser?.avatar =
+                        "user-${InfoLocalUser.currentUser?.id}.png"
+                    viewModel.isLoading.value = false
+                    controller.popBackStack()
+                }
+            }
+        })
+    }
+
+    private fun updateMe() {
+        val str = AppConstants.BodyRequest
+        with(viewModel)
+        {
+            val name = RequestBody.create(MultipartBody.FORM, name)
+            val birthYear = RequestBody.create(MultipartBody.FORM, birthYear)
+            val sex = RequestBody.create(MultipartBody.FORM, sex)
+
+            //user can update avatar or not
+            if (viewModel.imageUri == null) {
+                Log.e(AppConstants.TAG.UPDATE_ME, "imageUri: null ")
+                updateMe(name, birthYear, sex, null)
+            } else {
+                if (viewModel.file == null) {
+                    Log.e(AppConstants.TAG.UPDATE_ME, "file: null ")
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
+                    return
+                }
+                val reqBodyAvt = RequestBody.create(
+                    MediaType.parse(requireContext().contentResolver.getType(imageUri!!)!!),
+                    file!!
+                )
+                val avatar =
+                    MultipartBody.Part.createFormData(str.AVATAR, file!!.name, reqBodyAvt)
+                updateMe(name, birthYear, sex, avatar)
+            }
+        }
     }
 }

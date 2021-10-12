@@ -1,4 +1,4 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.handler
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -13,6 +13,7 @@ import coil.transform.CircleCropTransformation
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
 import com.doanducdat.shoppingapp.model.review.NotifyComment
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

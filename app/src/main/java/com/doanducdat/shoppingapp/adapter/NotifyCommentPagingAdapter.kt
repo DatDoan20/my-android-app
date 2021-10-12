@@ -9,17 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.review.NotifyComment
-import com.doanducdat.shoppingapp.utils.HandlerTime
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerTime
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
-import com.doanducdat.shoppingapp.utils.validation.ViewState
+import com.doanducdat.shoppingapp.utils.handler.HandlerViewState
 
 class NotifyCommentPagingAdapter(
     context: Context,
 ) : PagingDataAdapter<NotifyComment, NotifyCommentPagingAdapter.NotifyCommentPagingViewHolder>(
     PRODUCT_COMPARATOR
 ) {
-    val viewState: ViewState = ViewState(context)
+    val handlerViewState: HandlerViewState = HandlerViewState(context)
     private var callbackClickOpenMenu: (
         notifyComment: NotifyComment, itemBinding: ItemNotificationBinding
     ) -> Unit = { _: NotifyComment, _: ItemNotificationBinding -> }
@@ -53,18 +53,18 @@ class NotifyCommentPagingAdapter(
         private fun checkViewReadOrUnRead(notifyComment: NotifyComment) {
             with(binding) {
                 // time read all < time notify -> UnRead All -> check particular state Read? in notify
-                if (InfoUser.currentUser?.readAllCommentNoti?.before(notifyComment.updatedAt) == true) {
+                if (InfoLocalUser.currentUser?.readAllCommentNoti?.before(notifyComment.updatedAt) == true) {
 
                     // if readState == true -> Read -> setState..., otherwise default view is unRead
                     if (notifyComment.receiverIds[0].readState) { //-> read
-                        viewState.setStateReadDot(imgBlueDotReadState)
-                        viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                        handlerViewState.setStateReadDot(imgBlueDotReadState)
+                        handlerViewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
                         return
                     }
                     //->UnRead: view is default UnRead not need handle here
                 } else {
-                    viewState.setStateReadDot(imgBlueDotReadState)
-                    viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                    handlerViewState.setStateReadDot(imgBlueDotReadState)
+                    handlerViewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
                 }
             }
         }

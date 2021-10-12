@@ -53,8 +53,7 @@ object FormValidation {
         val regexNumber = Pattern.compile(AppConstants.RegexCheck.CONTAINS_NUMBER);
         val regexSpecialCharacter =
             Pattern.compile(AppConstants.RegexCheck.CONTAINS_SPECIAL_CHARACTER);
-        val myName = name.trim()
-        if (regexNumber.matcher(myName).find() || regexSpecialCharacter.matcher(myName).find()) {
+        if (regexNumber.matcher(name).find() || regexSpecialCharacter.matcher(name).find()) {
             return AppConstants.MsgErr.NAME_ERR_MSG
         }
         return null

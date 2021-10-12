@@ -3,7 +3,6 @@ package com.doanducdat.shoppingapp.ui.main
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
@@ -12,7 +11,7 @@ import com.doanducdat.shoppingapp.service.WebSocketIO
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
 import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun updateBadgeCountCart() {
-        binding.bubbleBtmNvgMain.setBadgeValue(3, InfoUser.currentUser?.cart?.size.toString())
+        binding.bubbleBtmNvgMain.setBadgeValue(3, InfoLocalUser.currentUser?.cart?.size.toString())
     }
 
     private fun setUpActionClick() {

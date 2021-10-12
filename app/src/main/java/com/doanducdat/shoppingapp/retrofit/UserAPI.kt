@@ -9,6 +9,8 @@ import com.doanducdat.shoppingapp.model.response.ResponseUser
 import com.doanducdat.shoppingapp.model.user.Email
 import com.doanducdat.shoppingapp.model.user.UserSignIn
 import com.doanducdat.shoppingapp.model.user.UserSignUp
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 
@@ -48,8 +50,22 @@ interface UserAPI {
         @Body ProductId: ProductId
     ): ResponseHandleProductInCart
 
+    @Multipart
+    @PATCH("api/users/update-me")
+    suspend fun updateMeWithAvatar(
+        @Header("Authorization") authorization: String,
+        @Part("name") name: RequestBody,
+        @Part("birthYear") birthYear: RequestBody,
+        @Part("sex") sex: RequestBody,
+        @Part file: MultipartBody.Part,
+    ): ResponseUser
+
+    @Multipart
     @PATCH("api/users/update-me")
     suspend fun updateMe(
         @Header("Authorization") authorization: String,
+        @Part("name") name: RequestBody,
+        @Part("birthYear") birthYear: RequestBody,
+        @Part("sex") sex: RequestBody,
     ): ResponseUser
 }

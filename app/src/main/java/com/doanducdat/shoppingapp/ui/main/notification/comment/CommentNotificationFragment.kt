@@ -19,9 +19,9 @@ import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
-import com.doanducdat.shoppingapp.utils.MyPopupMenu
-import com.doanducdat.shoppingapp.utils.validation.ViewState
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerPopupMenu
+import com.doanducdat.shoppingapp.utils.handler.HandlerViewState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,11 +36,11 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
     ): FragmentCommentNotificationBinding =
         FragmentCommentNotificationBinding.inflate(inflater, container, false)
 
-    private val viewState by lazy { ViewState(requireContext()) }
+    private val handlerViewState by lazy { HandlerViewState(requireContext()) }
     private val viewModelComment: CommentNotificationViewModel by viewModels()
     private val notifyCommentAdapter by lazy { NotifyCommentPagingAdapter(requireContext()) }
     private var viewClickAble = true
-    private val myPopupMenu by lazy { MyPopupMenu(requireContext()) }
+    private val myPopupMenu by lazy { HandlerPopupMenu(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -174,13 +174,13 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
         myPopupMenu.setOnClickMarkAsRead {
             with(itemNotificationBinding) {
                 //time notify > time read all can update
-                if (notifyComment.updatedAt.after(InfoUser.currentUser?.readAllOrderNoti)) {
+                if (notifyComment.updatedAt.after(InfoLocalUser.currentUser?.readAllOrderNoti)) {
                     if (!notifyComment.receiverIds[0].readState) { //unRead
                         //call api update server side
                         viewModelComment.checkReadNotifyComment(notifyComment.id)
                         //change state view client side
-                        viewState.setStateReadDot(imgBlueDotReadState)
-                        viewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
+                        handlerViewState.setStateReadDot(imgBlueDotReadState)
+                        handlerViewState.setColorReadTextView(txtName, txtTimeComment, txtContentNotify)
                         notifyComment.receiverIds[0].readState = true
                         //update badge
                         notificationShareViewModel.minusOneDigitCountUnReadNotifyComment()
@@ -203,7 +203,7 @@ class CommentNotificationFragment : BaseFragment<FragmentCommentNotificationBind
                     }
                     Status.SUCCESS -> {
                         /* return readAllCommentNoti -> update that is time now */
-                        InfoUser.currentUser?.readAllOrderNoti = Calendar.getInstance().time
+                        InfoLocalUser.currentUser?.readAllOrderNoti = Calendar.getInstance().time
                         notifyCommentAdapter.notifyDataSetChanged()
                         notificationShareViewModel.clearCountUnReadNotifyComment()
                         viewModelComment.isLoading.value = false

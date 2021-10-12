@@ -2,8 +2,8 @@ package com.doanducdat.shoppingapp.ui.base
 
 import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
-import com.doanducdat.shoppingapp.utils.validation.ResCatch
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerErrRes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ open class BaseRepository {
      */
     val loading = DataState.loading(null)
     val IO = Dispatchers.IO
-    val token = InfoUser.localToken.toString()
+    val token = InfoLocalUser.localToken.toString()
     val str = AppConstants.QueryRequest
 
     fun <T> safeThreadDefaultCatch(
@@ -24,7 +24,7 @@ open class BaseRepository {
         scope: CoroutineDispatcher
     ): Flow<DataState<T>> {
         return callBack.catch { t ->
-            emit(DataState.error(null, ResCatch.errMsg(t)))
+            emit(DataState.error(null, HandlerErrRes.errMsg(t)))
         }.flowOn(scope)
     }
 

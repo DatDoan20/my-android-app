@@ -1,11 +1,9 @@
 package com.doanducdat.shoppingapp.ui.main.notification
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
@@ -13,7 +11,6 @@ import com.doanducdat.shoppingapp.adapter.NotificationPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentNotificationBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

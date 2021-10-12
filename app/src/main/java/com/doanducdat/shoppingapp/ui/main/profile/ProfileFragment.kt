@@ -1,14 +1,18 @@
 package com.doanducdat.shoppingapp.ui.main.profile
 
+import android.annotation.SuppressLint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.request.CachePolicy
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentProfileBinding
 import com.doanducdat.shoppingapp.model.response.Status
@@ -16,7 +20,7 @@ import com.doanducdat.shoppingapp.model.user.Email
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.dialog.MyVerifyEmailDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,14 +46,31 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
         listenUpdateEmail()
     }
 
-
+    @SuppressLint("SetTextI18n")
     private fun setUpInfo() {
-        binding.imgAvatar.load(InfoUser.currentUser?.getUrlAvatar())
-        binding.txtEmail.text = InfoUser.currentUser?.email ?: ""
+        binding.imgAvatar.load(InfoLocalUser.currentUser?.getUrlAvatar()) {
+            diskCachePolicy(CachePolicy.DISABLED)
+            memoryCachePolicy(CachePolicy.DISABLED)
+        }
+        binding.txtEmail.text = InfoLocalUser.currentUser?.email ?: ""
+        binding.txtName.text = InfoLocalUser.currentUser?.name ?: ""
+        var sex = ""
+        var birthYear = ""
+        sex = if (InfoLocalUser.currentUser?.sex != null) {
+            if (InfoLocalUser.currentUser?.sex == "male") "Nam" else "Nữ"
+        } else {
+            "..."
+        }
+        birthYear = if (InfoLocalUser.currentUser?.birthYear != null) {
+            InfoLocalUser.currentUser?.birthYear!!
+        } else {
+            "..."
+        }
+        binding.txtSexAndBirthYear.text = "Giới tính: $sex - Ngày sinh: $birthYear"
     }
 
     private fun setUpVerifyEmail() {
-        if (InfoUser.currentUser?.stateVerifyEmail == false) {
+        if (InfoLocalUser.currentUser?.stateVerifyEmail == false) {
             binding.txtVerifyEmail.visibility = View.VISIBLE
             binding.txtVerifyEmail.setOnClickListener {
                 doActionClick(AppConstants.ActionClick.VERIFY_EMAIL)
@@ -92,7 +113,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                 controller.navigate(R.id.purchasedProductFragment)
             }
             AppConstants.ActionClick.NAV_EDIT_PROFILE -> {
-                controller.navigate(R.id.profileUpdateFragment)
+                val bitmapAvatar = (binding.imgAvatar.drawable as BitmapDrawable).bitmap
+                controller.navigate(R.id.profileUpdateFragment )
             }
 
         }
@@ -117,8 +139,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                         "listenUpdateEmail: ${it.response!!.message}"
                     )
                     val email = it.response.data
-                    InfoUser.currentUser?.email = email
-                    InfoUser.currentUser?.stateVerifyEmail = true
+                    InfoLocalUser.currentUser?.email = email
+                    InfoLocalUser.currentUser?.stateVerifyEmail = true
 
                     binding.txtEmail.text = email
                     binding.txtVerifyEmail.visibility = View.GONE

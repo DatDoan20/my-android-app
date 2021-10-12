@@ -11,7 +11,7 @@ import com.doanducdat.shoppingapp.model.user.UserSignIn
 import com.doanducdat.shoppingapp.repository.SignInRepository
 import com.doanducdat.shoppingapp.ui.base.BaseViewModel
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.MyDataStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.NonCancellable
@@ -82,8 +82,8 @@ class SignInViewModel @Inject constructor(
         }
         writeTokenJob.invokeOnCompletion { handler ->
             if (handler == null) {
-                InfoUser.localToken.append(token)
-                Log.e(AppConstants.TAG.SIGN_IN, "ListenSignIn Success: ${InfoUser.localToken}")
+                InfoLocalUser.localToken.append(token)
+                Log.e(AppConstants.TAG.SIGN_IN, "ListenSignIn Success: ${InfoLocalUser.localToken}")
                 loadMe()
             }
         }

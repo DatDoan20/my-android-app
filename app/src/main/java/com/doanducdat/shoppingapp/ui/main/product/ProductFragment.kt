@@ -28,8 +28,8 @@ import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
-import com.doanducdat.shoppingapp.utils.MyBgCustom
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerBgCustom
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -162,8 +162,8 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                 txtDiscountProduct.visibility = View.VISIBLE
                 txtPriceNotDiscount.visibility = View.VISIBLE
             }
-            if (InfoUser.currentUser?.cart != null) {
-                binding.layoutMyCart.imgRedDot.text = InfoUser.currentUser!!.cart.size.toString()
+            if (InfoLocalUser.currentUser?.cart != null) {
+                binding.layoutMyCart.imgRedDot.text = InfoLocalUser.currentUser!!.cart.size.toString()
             }
         }
 
@@ -200,7 +200,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
             //make clicked color has stroke
             binding.txtColorName.text = clickedColor.name
 
-            val bgItemColor = MyBgCustom.getInstance()
+            val bgItemColor = HandlerBgCustom.getInstance()
                 .bgOvalStroke(requireContext(), clickedColor.getHexColor(), 13)
 
             txtColorHex.background = bgItemColor
@@ -275,9 +275,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                     myBasicDialog.setText("${productSelected.name} Đã được thêm vào giỏ hàng")
                     myBasicDialog.setTextButton("OK")
                     myBasicDialog.show()
-                    InfoUser.currentUser = it.response!!.data
+                    InfoLocalUser.currentUser = it.response!!.data
                     binding.layoutMyCart.imgRedDot.text =
-                        InfoUser.currentUser!!.cart.size.toString()
+                        InfoLocalUser.currentUser!!.cart.size.toString()
                     viewModel.isLoading.value = false
                 }
             }
@@ -321,7 +321,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
             return
         }
         //check if product is exist in cart
-        InfoUser.currentUser?.cart?.forEach {
+        InfoLocalUser.currentUser?.cart?.forEach {
             if (it.infoProduct.id == productSelected.id) {
                 myBasicDialog.setText(AppConstants.MsgInfo.PRODUCT_IS_EXIST_IN_CART)
                 myBasicDialog.show()

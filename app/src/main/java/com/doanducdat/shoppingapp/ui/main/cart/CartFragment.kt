@@ -17,7 +17,7 @@ import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.dialog.MyYesNoDialog
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
@@ -89,13 +89,13 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
 
     private fun loadDataAdapter() {
         calculatingSumCart()
-        if (InfoUser.currentUser?.cart == null || InfoUser.currentUser!!.cart.size == 0) {
+        if (InfoLocalUser.currentUser?.cart == null || InfoLocalUser.currentUser!!.cart.size == 0) {
             setStateVisibleView(View.VISIBLE, binding.imgEmptyCart)
             setStateVisibleView(View.VISIBLE, binding.txtEmptyCart)
             return
         }
 
-        cartAdapter.setCartList(InfoUser.currentUser!!.cart)
+        cartAdapter.setCartList(InfoLocalUser.currentUser!!.cart)
     }
 
     /**
@@ -104,7 +104,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     private fun calculatingSumCart() {
         Log.e(AppConstants.TAG.CART, "calculatingSumCart: do it")
         var sumMoneyCart: Int = 0
-        InfoUser.currentUser?.cart?.forEach {
+        InfoLocalUser.currentUser?.cart?.forEach {
             sumMoneyCart += it.price
         }
         viewModel.sumMoneyCart.value = sumMoneyCart
@@ -175,10 +175,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
                     showShortToast(AppConstants.MsgInfo.MSG_INFO_DELETE_PRODUCT_IN_CART)
 
                     //update currentUser variable in Ram
-                    InfoUser.currentUser = it.response.data
+                    InfoLocalUser.currentUser = it.response.data
 
                     //update adapter rcv
-                    cartAdapter.setCartList(InfoUser.currentUser!!.cart)
+                    cartAdapter.setCartList(InfoLocalUser.currentUser!!.cart)
                     cartAdapter.notifyDataSetChanged()
                     calculatingSumCart()
                     viewModel.isLoading.value = false
@@ -204,15 +204,15 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
 
     private fun checkPreOrder() {
         //check verify email?
-        if (InfoUser.currentUser?.stateVerifyEmail == false) {
-            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoUser.currentUser?.stateVerifyEmail}")
+        if (InfoLocalUser.currentUser?.stateVerifyEmail == false) {
+            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoLocalUser.currentUser?.stateVerifyEmail}")
             dialogBasic.setTextButton("Đã hiểu")
             dialogBasic.setText(AppConstants.MsgInfo.MSG_NOT_VERIFY_EMAIl)
             dialogBasic.show()
             return
         }
-        if (InfoUser.currentUser?.cart?.size == 0) {
-            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoUser.currentUser?.cart!!.size}")
+        if (InfoLocalUser.currentUser?.cart?.size == 0) {
+            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoLocalUser.currentUser?.cart!!.size}")
             dialogBasic.setTextButton("Đã hiểu")
             dialogBasic.setText(AppConstants.MsgInfo.MSG_INFO_EMPTY_CART)
             dialogBasic.show()

@@ -18,7 +18,7 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.ui.main.MainActivity
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
@@ -83,14 +83,14 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                         errMsg = AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
                     }
                     //auto sign in fail -> clear localToken
-                    InfoUser.localToken = StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
+                    InfoLocalUser.localToken = StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
 
                     showLongToast(errMsg)
                     Log.e(AppConstants.TAG.LOAD_ME, "listenLoadMe: ${it.message}")
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
-                    InfoUser.currentUser = it.response!!.data
+                    InfoLocalUser.currentUser = it.response!!.data
                     viewModel.isLoading.value = false
                     startMain()
                 }
@@ -136,7 +136,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
         //localToken is exist, assign localToken before call loadMe()
         if (!TextUtils.isEmpty(token)) {
             Log.d(AppConstants.TAG.LOAD_ME, "localToken in datastore is $token")
-            InfoUser.localToken.append(token)
+            InfoLocalUser.localToken.append(token)
             viewModel.loadMe()
         } else {
             Log.d(AppConstants.TAG.LOAD_ME, "localToken is empty in datastore, localToken is $token")

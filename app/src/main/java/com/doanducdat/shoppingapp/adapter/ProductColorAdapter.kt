@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.databinding.ItemProductColorBinding
 import com.doanducdat.shoppingapp.model.product.ProductColor
-import com.doanducdat.shoppingapp.utils.MyBgCustom
+import com.doanducdat.shoppingapp.utils.handler.HandlerBgCustom
 
 class ProductColorAdapter(
 ) : RecyclerView.Adapter<ProductColorAdapter.ProductColorViewHolder>() {
@@ -37,7 +37,7 @@ class ProductColorAdapter(
 
         fun bind(colorItem: ProductColor) {
             val bgItemColor =
-                MyBgCustom.getInstance().bgOval( colorItem.getHexColor())
+                HandlerBgCustom.getInstance().bgOval( colorItem.getHexColor())
             binding.txtColorHex.background = bgItemColor
 
             binding.txtColorHex.setOnClickListener {
@@ -51,7 +51,7 @@ class ProductColorAdapter(
 
         private fun formatUnClickColor(colorItem: ProductColor) {
             if (preClickedColor !== null) {
-                val bgPreClickedItemColor = MyBgCustom.getInstance()
+                val bgPreClickedItemColor = HandlerBgCustom.getInstance()
                     .bgOval( preClickedColor!!.getHexColor())
                 preTxtClickedColor!!.background = bgPreClickedItemColor
             }

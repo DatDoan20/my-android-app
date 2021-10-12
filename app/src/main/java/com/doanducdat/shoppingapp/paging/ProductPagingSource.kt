@@ -6,7 +6,7 @@ import com.doanducdat.shoppingapp.model.product.Product
 import com.doanducdat.shoppingapp.model.response.ResponseProduct
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -31,7 +31,7 @@ class ProductPagingSource(
         return try {
             val response: ResponseProduct =
                 productAPI.getProducts(
-                    InfoUser.localToken.toString(),
+                    InfoLocalUser.localToken.toString(),
                     params.loadSize,
                     page,
                     null,

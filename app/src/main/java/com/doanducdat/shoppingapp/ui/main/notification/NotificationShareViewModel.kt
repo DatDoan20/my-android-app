@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.doanducdat.shoppingapp.adapter.NotifyCommentPagingAdapter
 import com.doanducdat.shoppingapp.adapter.NotifyOrderPagingAdapter
 import com.doanducdat.shoppingapp.ui.base.BaseViewModel
-import com.doanducdat.shoppingapp.utils.InfoUser
+import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -25,7 +25,7 @@ class NotificationShareViewModel @Inject constructor(
         _numberUnReadNotifyOrder.value = it.snapshot().count { notifyOrder ->
             var valid = false
             if (notifyOrder != null &&
-                InfoUser.currentUser?.readAllOrderNoti?.before(notifyOrder.updatedAt) == true &&
+                InfoLocalUser.currentUser?.readAllOrderNoti?.before(notifyOrder.updatedAt) == true &&
                 !notifyOrder.receiverIds[0].readState
             ) {
                 valid = true
@@ -46,7 +46,7 @@ class NotificationShareViewModel @Inject constructor(
         _numberUnReadNotifyComment.value = it.snapshot().count { notifyComment ->
             var valid = false
             if (notifyComment != null &&
-                InfoUser.currentUser?.readAllCommentNoti?.before(notifyComment.updatedAt) == true &&
+                InfoLocalUser.currentUser?.readAllCommentNoti?.before(notifyComment.updatedAt) == true &&
                 !notifyComment.receiverIds[0].readState
             ) {
                 valid = true

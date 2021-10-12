@@ -1,7 +1,8 @@
-package com.doanducdat.shoppingapp.utils
+package com.doanducdat.shoppingapp.utils.auth
 
 import android.app.Activity
 import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
