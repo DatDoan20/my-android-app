@@ -23,6 +23,7 @@ import com.doanducdat.shoppingapp.model.category.Category
 import com.doanducdat.shoppingapp.model.category.CategoryListFactory
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
+import com.doanducdat.shoppingapp.room.entity.toListProductCacheEntity
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
@@ -185,6 +186,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
                     Log.e("TAG", "subscribeLoadNewProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {
+                    //set to adapter for rendering
                     newProductAdapter.setProducts(it.response!!.data)
                     binding.swipeRefreshLayout.isRefreshing = false
                 }
@@ -223,6 +225,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
                 Status.SUCCESS -> {
                     saleProductAdapter.setProducts(it.response!!.data)
                     binding.swipeRefreshLayout.isRefreshing = false
+
+                    //add product room
+                    //note here res is success from get data in cache -> call here (nologic)
+                    val parentJob = viewModel.insertAllProduct(it.response.data)
+                    parentJob.invokeOnCompletion {
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
                 }
             }
         })

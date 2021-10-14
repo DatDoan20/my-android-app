@@ -5,7 +5,7 @@ import com.doanducdat.shoppingapp.model.product.Product
 class ResponseProduct(
     val status: String,
     val data: List<Product>,
-    val error: String,
-    val message: String
+    val error: String?,
+    val message: String?
 ) {
 }

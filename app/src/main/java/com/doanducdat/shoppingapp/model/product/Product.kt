@@ -26,7 +26,6 @@ class Product(
     val category: String,
     val ratingsAverage: Float,
     private val ratingsQuantity: Int,
-    val reviews: List<Review>
 ) : Serializable {
     fun getPrice(): String {
         val dec = DecimalFormat("#,###")
@@ -54,6 +53,9 @@ class Product(
     fun getRatingsQuantity(): String {
         return "/${ratingsQuantity}"
     }
+    fun getUnFormatRatingsQuantity(): Int {
+        return ratingsQuantity
+    }
 
     fun getImageCover():String{
         return imageCover
@@ -68,6 +70,9 @@ class Product(
             urlImagesProduct.add(getUrlImg(it))
         }
         return urlImagesProduct
+    }
+    fun getImages(): List<String> {
+        return this.images
     }
 
     private fun getUrlImg(name: String): String {
