@@ -8,16 +8,21 @@ import com.doanducdat.shoppingapp.model.cart.Cart
 import com.doanducdat.shoppingapp.model.product.Product
 import com.doanducdat.shoppingapp.model.product.ProductId
 import com.doanducdat.shoppingapp.model.response.DataState
+import com.doanducdat.shoppingapp.model.response.ResponseProduct
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.room.dao.ImageDao
 import com.doanducdat.shoppingapp.room.dao.ProductDao
 import com.doanducdat.shoppingapp.room.entity.ImageCacheEntity
-import com.doanducdat.shoppingapp.room.entity.ProductCacheEntity
+import com.doanducdat.shoppingapp.room.entity.toListProduct
+import com.doanducdat.shoppingapp.room.entity.toListProductCacheEntity
 import com.doanducdat.shoppingapp.ui.base.BaseRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProductRepository @Inject constructor(
@@ -27,29 +32,74 @@ class ProductRepository @Inject constructor(
     private val userAPI: UserAPI
 ) : BaseRepository() {
 
-    suspend fun getIntroSaleProducts() = safeThreadDefaultCatch(
+    suspend fun getSaleProduct() = safeThreadDefaultCatch(
         flow {
             emit(loading)
-            val resSaleProduct =
-                productAPI.getProducts(token, str.LIMIT_10, str.PAGE_1, str.DISCOUNTING)
-            emit(DataState.success(resSaleProduct))
+//            Log.e("TEST_ROOM", "get products cache: ${Thread.currentThread().name}")
+
+            val saleProductCache = productDao.getSaleProduct()
+            if (saleProductCache.isEmpty()) {
+//                Log.e("TEST_ROOM", "get products api: ${Thread.currentThread().name}")
+                val resSaleProductAPI =
+                    productAPI.getProducts(token, str.LIMIT_10, str.PAGE_1, str.DISCOUNTING)
+                emit(DataState.success(resSaleProductAPI))
+
+                // insert got product from API to ROOM
+                insertAllProduct(resSaleProductAPI.data)
+            } else {
+//                Log.e("TEST_ROOM", "get image products cache: ${Thread.currentThread().name}")
+                val saleProductsId = saleProductCache.map { it.id }
+                val imagesCacheOfProduct = imageDao.getAll(saleProductsId)
+                val saleProduct = saleProductCache.toListProduct(imagesCacheOfProduct)
+                val resSaleProductCache = ResponseProduct("200", saleProduct, null, null)
+                emit(DataState.success(resSaleProductCache))
+            }
         }, IO
     )
 
-    suspend fun getIntroNewProducts() = safeThreadDefaultCatch(
+    private fun insertAllProduct(products: List<Product>) =
+        CoroutineScope(IO).launch(NonCancellable) {
+            // (1) insert product,
+            launch(IO) {
+                Log.e("TEST_ROOM", "insert pro: ${Thread.currentThread().name}")
+                productDao.insertAll(products.toListProductCacheEntity())
+            }
+            // (2) insert images of each product
+            launch(IO) {
+                val imagesOfAllProduct: MutableList<ImageCacheEntity> = mutableListOf()
+                products.forEach { itemProduct ->
+                    itemProduct.getImages().forEach { name ->
+                        imagesOfAllProduct.add(ImageCacheEntity(itemProduct.id, name))
+                    }
+                }
+                Log.e("TEST_ROOM", "insert image: ${Thread.currentThread().name}")
+                imageDao.insertAll(imagesOfAllProduct)
+            }
+        }
+
+    suspend fun getNewProduct() = safeThreadDefaultCatch(
         flow {
             emit(loading)
-            val resNewProduct = productAPI.getProducts(token, str.LIMIT_10, str.PAGE_1)
-            emit(DataState.success(resNewProduct))
+            val newProductCache = productDao.getNewProduct()
+            if (newProductCache.isEmpty()) {
+                val resNewProductAPI = productAPI.getProducts(token, str.LIMIT_10, str.PAGE_1)
+                emit(DataState.success(resNewProductAPI))
+                insertAllProduct(resNewProductAPI.data)
+            } else {
+                val newProductsId = newProductCache.map { it.id }
+                val imagesCacheOfProduct = imageDao.getAll(newProductsId)
+                val newProduct = newProductCache.toListProduct(imagesCacheOfProduct)
+                val resNewProductCache = ResponseProduct("200", newProduct, null, null)
+                emit(DataState.success(resNewProductCache))
+            }
         }, IO
     )
 
-    fun getProductPaging(category: String?, type: String?): Flow<PagingData<Product>> = Pager(
+    fun getProductPagingAPI(category: String?, type: String?): Flow<PagingData<Product>> = Pager(
         PagingConfig(pageSize = str.LIMIT_8, enablePlaceholders = false),
     ) {
         ProductPagingSource(productAPI, category, type)
     }.flow
-
 
     suspend fun addToCart(carts: Cart) = safeThreadDefaultCatch(
         flow {
@@ -66,23 +116,5 @@ class ProductRepository @Inject constructor(
             emit(DataState.success(resHandleProductInCard))
         }, IO
     )
-
-    /** ROOM */
-    suspend fun insertAllProduct(products: List<ProductCacheEntity>) {
-        Log.e("TEST_ROOM", "insert all product : ${Thread.currentThread().name}")
-        productDao.insertAll(products)
-    }
-
-    suspend fun insertImagesOfProduct(imagesOfAllProduct: MutableList<ImageCacheEntity>) {
-        Log.e("TEST_ROOM", "insert images of all product : ${Thread.currentThread().name}")
-        imageDao.insertAll(imagesOfAllProduct)
-    }
-
-    suspend fun getAllProduct(): List<ProductCacheEntity> {
-        Log.e("TEST_ROOM", "get all product cache: ${Thread.currentThread().name}")
-        return productDao.getAll()
-    }
-
-    suspend fun getImagesOfProduct() = imageDao.getAll()
 
 }

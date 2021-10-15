@@ -20,7 +20,8 @@ fun Product.toProductCacheEntity(): ProductCacheEntity {
         type = this.type,
         category = this.category,
         ratingsAverage = this.ratingsAverage,
-        ratingsQuantity = this.getUnFormatRatingsQuantity()
+        ratingsQuantity = this.getUnFormatRatingsQuantity(),
+        createdAt = this.createdAt
     )
 }
 
@@ -43,7 +44,8 @@ fun ProductCacheEntity.toProduct(images: List<String>): Product {
         type = this.type,
         category = this.category,
         ratingsAverage = this.ratingsAverage,
-        ratingsQuantity = this.ratingsQuantity
+        ratingsQuantity = this.ratingsQuantity,
+        createdAt = this.createdAt
     )
 }
 

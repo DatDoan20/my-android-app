@@ -31,7 +31,7 @@ class ProductViewModel @Inject constructor(
 
 
     fun getProductPaging(category: String?, type: String?): Flow<PagingData<Product>> {
-        return productRepository.getProductPaging(category, type).cachedIn(viewModelScope)
+        return productRepository.getProductPagingAPI(category, type).cachedIn(viewModelScope)
     }
 
     fun addToCart(carts: Cart)= viewModelScope.launch {

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.doanducdat.shoppingapp.R
@@ -23,7 +24,6 @@ import com.doanducdat.shoppingapp.model.category.Category
 import com.doanducdat.shoppingapp.model.category.CategoryListFactory
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
-import com.doanducdat.shoppingapp.room.entity.toListProductCacheEntity
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
@@ -61,30 +61,33 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        listenLoadingForm()
+        //listen value count notify from shareViewModel
         listenUpdateBadgeCountNotify(binding.myAppBarLayout.layoutNotification.imgRedDot)
+
         //hide underline of search view
         hideSearchPlate(binding.myAppBarLayout.searchView)
 
         // when collapsing -> disable refresh layout, expand fully -> enable refresh layout
-        subsCribCollapsingListen()
+        listenCollapsing()
 
         setUpMyInfo()
 
         setUpSlideImageIntro()
 
         //New product
-        setUpRecycleViewNewProduct()
-        subscribeLoadNewProduct()
+        setUpRCVNewProduct()
+        listenLoadNewProduct()
         // ==0 is : fragment not in backstack, open fragment in backstack not load again data
         if (newProductAdapter.itemCount == 0) {
-            loadIntroNewProduct()
+            loadNewProduct()
         }
 
         //Sale product
-        setUpRecycleViewSaleProduct()
-        subscribeLoadSaleProduct()
+        setUpRCVSaleProduct()
+        listenLoadSaleProduct()
         if (saleProductAdapter.itemCount == 0) {
-            loadIntroSaleProducts()
+            loadSaleProduct()
         }
 
         //Hot Category
@@ -100,7 +103,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         setUpActionClick()
     }
 
-    private fun subsCribCollapsingListen() {
+    private fun listenLoadingForm() {
+        viewModel.isLoading.observe(viewLifecycleOwner, {
+            binding.swipeRefreshLayout.isRefreshing = it
+        })
+    }
+
+    private fun listenCollapsing() {
         binding.myAppBarLayout.appBarLayout.addOnOffsetChangedListener(
             collapsingListen(binding.myAppBarLayout.searchView, binding.swipeRefreshLayout)
         )
@@ -162,83 +171,70 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
     //endregion
 
-    //region New Product
-    private fun setUpRecycleViewNewProduct() {
-        binding.rcvNewProduct.layoutManager =
+    private fun setUpRcvGeneric(rcv: RecyclerView, adapter: ProductBasicAdapter) {
+        rcv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rcvNewProduct.setHasFixedSize(true)
-        binding.rcvNewProduct.isNestedScrollingEnabled = false
-        binding.rcvNewProduct.adapter = newProductAdapter
-        newProductAdapter.mySetOnClick {
-            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
-        }
+        rcv.setHasFixedSize(true)
+        rcv.isNestedScrollingEnabled = false
+        rcv.adapter = adapter
     }
 
-    private fun subscribeLoadNewProduct() {
+    //region New Product
+    private fun setUpRCVNewProduct() {
+        setUpRcvGeneric(binding.rcvNewProduct, newProductAdapter)
+    }
+
+    private fun listenLoadNewProduct() {
         viewModel.dataStateNewProducts.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
-                    binding.swipeRefreshLayout.isRefreshing = true
+                    viewModel.isLoading.value = true
                 }
                 Status.ERROR -> {
-                    binding.swipeRefreshLayout.isRefreshing = false
+                    viewModel.isLoading.value = false
                     showLongToast(it.message!!)
                     Log.e("TAG", "subscribeLoadNewProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {
                     //set to adapter for rendering
                     newProductAdapter.setProducts(it.response!!.data)
-                    binding.swipeRefreshLayout.isRefreshing = false
+                    viewModel.isLoading.value = false
                 }
             }
         })
     }
 
-    private fun loadIntroNewProduct() {
-        viewModel.getIntroNewProducts()
+    private fun loadNewProduct() {
+        viewModel.getNewProducts()
     }
     //endregion
 
     //region Sale Product
-    private fun setUpRecycleViewSaleProduct() {
-        binding.rcvSaleProduct.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rcvSaleProduct.setHasFixedSize(true)
-        binding.rcvSaleProduct.isNestedScrollingEnabled = false
-        binding.rcvSaleProduct.adapter = saleProductAdapter
-        saleProductAdapter.mySetOnClick {
-            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
-        }
+    private fun setUpRCVSaleProduct() {
+        setUpRcvGeneric(binding.rcvSaleProduct, saleProductAdapter)
     }
 
-    private fun subscribeLoadSaleProduct() {
+    private fun listenLoadSaleProduct() {
         viewModel.dataStateSaleProducts.observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {
-                    binding.swipeRefreshLayout.isRefreshing = true
+                    viewModel.isLoading.value = true
                 }
                 Status.ERROR -> {
-                    binding.swipeRefreshLayout.isRefreshing = false
+                    viewModel.isLoading.value = false
                     showLongToast(it.message!!)
                     Log.e("TAG", "subscribeLoadSaleProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {
                     saleProductAdapter.setProducts(it.response!!.data)
-                    binding.swipeRefreshLayout.isRefreshing = false
-
-                    //add product room
-                    //note here res is success from get data in cache -> call here (nologic)
-                    val parentJob = viewModel.insertAllProduct(it.response.data)
-                    parentJob.invokeOnCompletion {
-                        binding.swipeRefreshLayout.isRefreshing = false
-                    }
+                    viewModel.isLoading.value = false
                 }
             }
         })
     }
 
-    private fun loadIntroSaleProducts() {
-        viewModel.getIntroSaleProducts()
+    private fun loadSaleProduct() {
+        viewModel.getSaleProduct()
     }
     //endregion
 
@@ -254,19 +250,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         binding.rcvHotCategory.setHasFixedSize(true)
         binding.rcvHotCategory.isNestedScrollingEnabled = false
         binding.rcvHotCategory.adapter = hotCategoryAdapter
-
-        //set event click recyclerview
-        hotCategoryAdapter.mySetOnClickCategoryAdapter {
-            val bundleCategory = bundleOf("CATEGORY" to it)
-            controller.navigate(R.id.productListFragment, bundleCategory)
-        }
     }
     //endregion
 
     private fun setUpSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            loadIntroNewProduct()
-            loadIntroSaleProducts()
+//            loadIntroNewProduct()
+//            loadIntroSaleProducts()
         }
     }
 
@@ -275,14 +265,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         binding.txtSeeAllHotCategory.setOnClickListener {
             doActionClick(AppConstants.ActionClick.NAV_CATEGORY)
         }
+
+        //set event click recyclerview
+        hotCategoryAdapter.mySetOnClickCategoryAdapter {
+            val bundleCategory = bundleOf("CATEGORY" to it)
+            controller.navigate(R.id.productListFragment, bundleCategory)
+        }
+
         //click searchView
         val callbackOnSearch: () -> Unit = {
             controller.navigate(R.id.searchFragment)
         }
         setOnSearchView(binding.myAppBarLayout.searchView, callbackOnSearch)
-        //
+
+        //click notify icon
         binding.myAppBarLayout.layoutNotification.imgNotification.setOnClickListener {
             controller.navigate(R.id.notificationFragment)
+        }
+
+        newProductAdapter.mySetOnClick {
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+        }
+
+        saleProductAdapter.mySetOnClick {
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
         }
     }
 

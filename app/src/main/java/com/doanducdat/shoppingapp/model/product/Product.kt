@@ -1,10 +1,10 @@
 package com.doanducdat.shoppingapp.model.product
 
-import com.doanducdat.shoppingapp.model.review.Review
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.text.DecimalFormat
+import java.util.*
 
 class Product(
     @SerializedName("_id")
@@ -26,6 +26,7 @@ class Product(
     val category: String,
     val ratingsAverage: Float,
     private val ratingsQuantity: Int,
+    val createdAt: Date
 ) : Serializable {
     fun getPrice(): String {
         val dec = DecimalFormat("#,###")
@@ -53,13 +54,15 @@ class Product(
     fun getRatingsQuantity(): String {
         return "/${ratingsQuantity}"
     }
+
     fun getUnFormatRatingsQuantity(): Int {
         return ratingsQuantity
     }
 
-    fun getImageCover():String{
+    fun getImageCover(): String {
         return imageCover
     }
+
     fun getUrlImgCover(): String {
         return getUrlImg(imageCover)
     }
@@ -71,6 +74,7 @@ class Product(
         }
         return urlImagesProduct
     }
+
     fun getImages(): List<String> {
         return this.images
     }

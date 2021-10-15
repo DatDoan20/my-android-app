@@ -3,6 +3,7 @@ package com.doanducdat.shoppingapp.room.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 //val reviews: List<Review>
 //private val images: List<String>
@@ -25,4 +26,5 @@ data class ProductCacheEntity(
     @ColumnInfo val category: String,
     @ColumnInfo val ratingsAverage: Float,
     @ColumnInfo val ratingsQuantity: Int,
+    @ColumnInfo val createdAt: Date
 )
