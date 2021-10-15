@@ -26,6 +26,7 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerErrRes
 import com.doanducdat.shoppingapp.utils.handler.HandlerFile
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
@@ -235,11 +236,7 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
                 }
                 Status.ERROR -> {
                     Log.e(AppConstants.TAG.UPDATE_ME, "listenUpdateMe: ${it.message}")
-                    if (it.message?.startsWith("LIMIT", true) == true) {
-                        showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
-                    } else {
-                        showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
-                    }
+                    showLongToast(HandlerErrRes.checkMsg(it.response?.message))
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {

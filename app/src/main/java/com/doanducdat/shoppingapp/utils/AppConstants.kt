@@ -68,6 +68,7 @@ object AppConstants {
             const val ERR_JWT_EXPIRED = "TokenExpiredError"
             const val ERR_DUPLICATE = "E11000"
             const val ERR_INCORRECT_PHONE_OR_PASS = "Incorrect"
+            const val ERR_LIMIT = "LIMIT"
         }
     }
 
@@ -226,7 +227,7 @@ object AppConstants {
     annotation class MsgErr {
         companion object {
             const val GENERIC_ERR_MSG = "Yêu cầu thất bại! đã có lỗi xảy ra, thử lại sau"
-            const val LIMIT_ERR_MSG = "Bạn đã yêu cầu quá nhiều lần, thử lại sau 1 giờ!"
+            const val LIMIT_ERR_MSG = "Bạn đã yêu cầu quá nhiều lần, vui lòng thử lại 1 giờ sau!"
             const val GENERIC_ERR_RESPONSE = "Đường truyền mạng internet bị gián đoạn, thử lại sau"
             const val PHONE_ERR_LENGTH = "Chiều dài không hợp lệ"
             const val PASSWORD_ERR_LENGTH = "Độ dài ít hơn 8 kí tự, không chứa khoảng trắng"

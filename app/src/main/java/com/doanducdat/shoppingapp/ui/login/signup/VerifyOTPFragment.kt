@@ -17,6 +17,7 @@ import com.doanducdat.shoppingapp.myinterface.MyPhoneAuth
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
+import com.doanducdat.shoppingapp.utils.handler.HandlerErrRes
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -78,27 +79,8 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
                     viewModel.isLoading.value = true
                 }
                 Status.ERROR -> {
-                    //default is err network
-                    var errMsg = AppConstants.MsgErr.GENERIC_ERR_MSG
-
-                    //if not err network?
-                    if (it.response != null) {
-                        //err duplicate? (message: E11000...)
-                        errMsg = if (it.response.message.startsWith(
-                                AppConstants.Response.ERR_DUPLICATE,
-                                true
-                            )
-                        ) {
-                            AppConstants.MsgErr.MSG_ERR_DUPLICATE_SIGN_IN
-                        } else {
-                            //another err, also err duplicate was processed by server
-                            // -> delegate message(production environment)
-                            it.response.message
-                        }
-                    }
-                    dialog.setText(errMsg)
+                    dialog.setText(HandlerErrRes.checkMsg(it.response?.message))
                     dialog.show()
-
                     Log.e(AppConstants.TAG.SIGN_UP, "subscribeListenSignUp: ${it.message!!}")
                     viewModel.isLoading.value = false
                 }

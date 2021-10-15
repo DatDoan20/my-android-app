@@ -27,6 +27,7 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerErrRes
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,29 +73,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         listenCollapsing()
 
         setUpMyInfo()
-
         setUpSlideImageIntro()
 
         //New product
         setUpRCVNewProduct()
         listenLoadNewProduct()
+        listenFreshNewProduct()
         // ==0 is : fragment not in backstack, open fragment in backstack not load again data
-        if (newProductAdapter.itemCount == 0) {
-            loadNewProduct()
-        }
+        if (newProductAdapter.itemCount == 0) loadNewProduct()
 
         //Sale product
         setUpRCVSaleProduct()
         listenLoadSaleProduct()
-        if (saleProductAdapter.itemCount == 0) {
-            loadSaleProduct()
-        }
+        listenFreshSaleProduct()
+        if (saleProductAdapter.itemCount == 0) loadSaleProduct()
 
         //Hot Category
         setUpRecyclerviewHotCategory()
-        if (hotCategoryAdapter.itemCount == 0) {
-            loadHotCategory()
-        }
+        if (hotCategoryAdapter.itemCount == 0) loadHotCategory()
 
         //when refresh layout -> load all data relate
         setUpSwipeRefreshLayout()
@@ -192,7 +188,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
                 }
                 Status.ERROR -> {
                     viewModel.isLoading.value = false
-                    showLongToast(it.message!!)
+                    showLongToast(HandlerErrRes.checkMsg(it.response?.message))
                     Log.e("TAG", "subscribeLoadNewProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {
@@ -206,6 +202,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private fun loadNewProduct() {
         viewModel.getNewProducts()
+    }
+
+    private fun listenFreshNewProduct() {
+        viewModel.freshNewProducts.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    viewModel.isLoading.value = false
+                    showLongToast(HandlerErrRes.checkMsg(it.response?.message))
+                    Log.e("TAG", "listenFreshNewProduct: ${it.message}")
+                }
+                Status.SUCCESS -> {
+                    newProductAdapter.setProducts(it.response!!.data)
+                    viewModel.isLoading.value = false
+                }
+            }
+        })
     }
     //endregion
 
@@ -222,7 +237,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
                 }
                 Status.ERROR -> {
                     viewModel.isLoading.value = false
-                    showLongToast(it.message!!)
+                    showLongToast(HandlerErrRes.checkMsg(it.response?.message))
                     Log.e("TAG", "subscribeLoadSaleProduct: ${it.message}")
                 }
                 Status.SUCCESS -> {
@@ -235,6 +250,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private fun loadSaleProduct() {
         viewModel.getSaleProduct()
+    }
+
+    private fun listenFreshSaleProduct() {
+        viewModel.freshSaleProducts.observe(viewLifecycleOwner, {
+            when (it.status) {
+                Status.LOADING -> {
+                    viewModel.isLoading.value = true
+                }
+                Status.ERROR -> {
+                    viewModel.isLoading.value = false
+                    showLongToast(HandlerErrRes.checkMsg(it.response?.message))
+                    Log.e("TAG", "listenFreshSaleProduct: ${it.message}")
+                }
+                Status.SUCCESS -> {
+                    saleProductAdapter.setProducts(it.response!!.data)
+                    viewModel.isLoading.value = false
+                }
+            }
+        })
     }
     //endregion
 
@@ -255,8 +289,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
 
     private fun setUpSwipeRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-//            loadIntroNewProduct()
-//            loadIntroSaleProducts()
+            viewModel.freshNewProduct()
+            viewModel.freshSaleProduct()
         }
     }
 
@@ -267,8 +301,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         }
 
         //set event click recyclerview
-        hotCategoryAdapter.mySetOnClickCategoryAdapter {
-            val bundleCategory = bundleOf("CATEGORY" to it)
+        hotCategoryAdapter.mySetOnClickCategoryAdapter { nameCategory ->
+            val bundleCategory = bundleOf("CATEGORY" to nameCategory)
             controller.navigate(R.id.productListFragment, bundleCategory)
         }
 
@@ -283,12 +317,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
             controller.navigate(R.id.notificationFragment)
         }
 
-        newProductAdapter.mySetOnClick {
-            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+        newProductAdapter.mySetOnClick { product ->
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to product))
         }
 
-        saleProductAdapter.mySetOnClick {
-            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+        saleProductAdapter.mySetOnClick { product ->
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to product))
         }
     }
 

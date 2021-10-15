@@ -27,6 +27,16 @@ class HomeViewModel @Inject constructor(
     val dataStateNewProducts: LiveData<DataState<ResponseProduct>>
         get() = _dataStateNewProducts
 
+    private val _freshNewProducts: MutableLiveData<DataState<ResponseProduct>> =
+        MutableLiveData()
+    val freshNewProducts: LiveData<DataState<ResponseProduct>>
+        get() = _freshNewProducts
+
+    private val _freshSaleProducts: MutableLiveData<DataState<ResponseProduct>> =
+        MutableLiveData()
+    val freshSaleProducts: LiveData<DataState<ResponseProduct>>
+        get() = _freshSaleProducts
+
     fun getSaleProduct() = viewModelScope.launch {
         productRepository.getSaleProduct().onEach {
             _dataStateSaleProducts.value = it
@@ -36,6 +46,18 @@ class HomeViewModel @Inject constructor(
     fun getNewProducts() = viewModelScope.launch {
         productRepository.getNewProduct().onEach {
             _dataStateNewProducts.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun freshSaleProduct() = viewModelScope.launch {
+        productRepository.getSaleProductAPI().onEach {
+            _freshNewProducts.value = it
+        }.launchIn(viewModelScope)
+    }
+
+    fun freshNewProduct() = viewModelScope.launch {
+        productRepository.getNewProductAPI().onEach {
+            _freshNewProducts.value = it
         }.launchIn(viewModelScope)
     }
 

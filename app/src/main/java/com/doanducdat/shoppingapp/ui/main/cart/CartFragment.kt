@@ -164,7 +164,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
                 }
                 Status.ERROR -> {
                     Log.e(AppConstants.TAG.CART, "listenDeleteProductInCart: ${it.message}")
-                    showLongToast(it.message.toString())
+                    showLongToast(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {

@@ -20,6 +20,7 @@ import com.doanducdat.shoppingapp.ui.main.MainActivity
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
+import com.doanducdat.shoppingapp.utils.handler.HandlerErrRes
 import com.doanducdat.shoppingapp.utils.validation.FormValidation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -75,17 +76,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
             when (it.status) {
                 Status.LOADING -> viewModel.isLoading.value = true
                 Status.ERROR -> {
-                    //default is err network, show generic msg
-                    var errMsg = AppConstants.MsgErr.MSG_ERR_AUTO_SIGN_IN
-
-                    // another err (network err can not response json)
-                    if (it.response != null && it.response.error == AppConstants.Response.ERR_JWT_EXPIRED) {
-                        errMsg = AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
-                    }
                     //auto sign in fail -> clear localToken
-                    InfoLocalUser.localToken = StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
-
-                    showLongToast(errMsg)
+                    InfoLocalUser.localToken =
+                        StringBuffer(AppConstants.HeaderRequest.BEARER).append(" ")
+                    showLongToast(HandlerErrRes.checkMsg(it.response?.error))
                     Log.e(AppConstants.TAG.LOAD_ME, "listenLoadMe: ${it.message}")
                     viewModel.isLoading.value = false
                 }
@@ -103,15 +97,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
             when (it.status) {
                 Status.LOADING -> viewModel.isLoading.value = true
                 Status.ERROR -> {
-                    //err network
-                    var msg = AppConstants.MsgErr.GENERIC_ERR_MSG
-                    //err incorrect pass or phone
-                    if (it.response != null) {
-                        if (it.response.message.startsWith(AppConstants.Response.ERR_INCORRECT_PHONE_OR_PASS)) {
-                            msg = AppConstants.MsgErr.MSG_ERR_INCORRECT_PHONE_OR_PASS
-                        }
-                    }
-                    dialog.setText(msg)
+                    dialog.setText(HandlerErrRes.checkMsg(it.response?.message))
                     dialog.show()
                     Log.e(AppConstants.TAG.SIGN_IN, "ListenSignIn Fail: ${it.message}")
                     viewModel.isLoading.value = false
@@ -139,7 +125,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
             InfoLocalUser.localToken.append(token)
             viewModel.loadMe()
         } else {
-            Log.d(AppConstants.TAG.LOAD_ME, "localToken is empty in datastore, localToken is $token")
+            Log.d(
+                AppConstants.TAG.LOAD_ME,
+                "localToken is empty in datastore, localToken is $token"
+            )
             viewModel.isLoading.value = false
         }
     }

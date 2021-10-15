@@ -46,5 +46,29 @@ object HandlerErrRes {
         return convertErrResponse(e, ResponseAuth::class.java) as ResponseAuth?
     }
 
-
+    fun checkMsg(msg: String?): String {
+        return when {
+            msg == null -> {
+                AppConstants.MsgErr.GENERIC_ERR_MSG
+            }
+            msg.startsWith(AppConstants.Response.ERR_DUPLICATE, true) -> {
+                AppConstants.MsgErr.MSG_ERR_DUPLICATE_SIGN_IN
+            }
+            msg.startsWith(AppConstants.Response.ERR_INCORRECT_PHONE_OR_PASS) -> {
+                AppConstants.MsgErr.MSG_ERR_INCORRECT_PHONE_OR_PASS
+            }
+            msg.startsWith(AppConstants.Response.ERR_LIMIT, true) -> {
+                AppConstants.MsgErr.LIMIT_ERR_MSG
+            }
+            msg == AppConstants.Response.ERR_JWT_EXPIRED -> {
+                AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
+            }
+            // delegate server custom err msg
+            msg.startsWith("Thất bại") -> {
+                msg
+            }
+            //default is err network or sth -> show generic
+            else -> AppConstants.MsgErr.GENERIC_ERR_MSG
+        }
+    }
 }

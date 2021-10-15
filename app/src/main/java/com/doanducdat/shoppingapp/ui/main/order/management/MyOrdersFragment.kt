@@ -89,6 +89,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
                         }
                         viewModel.isLoading.value = false
                     }
+                    else -> viewModel.isLoading.value = false
                 }
             }
         }
