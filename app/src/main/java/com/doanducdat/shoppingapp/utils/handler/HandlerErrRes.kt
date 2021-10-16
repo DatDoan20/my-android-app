@@ -64,7 +64,7 @@ object HandlerErrRes {
                 AppConstants.MsgErr.MSG_ERR_JWT_EXPIRED
             }
             // delegate server custom err msg
-            msg.startsWith("Thất bại") -> {
+            msg.startsWith(AppConstants.Response.ERR_DELEGATE_SERVER) -> {
                 msg
             }
             //default is err network or sth -> show generic

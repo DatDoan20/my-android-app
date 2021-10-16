@@ -69,6 +69,7 @@ object AppConstants {
             const val ERR_DUPLICATE = "E11000"
             const val ERR_INCORRECT_PHONE_OR_PASS = "Incorrect"
             const val ERR_LIMIT = "LIMIT"
+            const val ERR_DELEGATE_SERVER = "Thất bại"
         }
     }
 
