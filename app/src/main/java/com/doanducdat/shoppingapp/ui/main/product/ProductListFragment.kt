@@ -45,17 +45,15 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setUpBackFragment()
         setUpMyCart()
-        //get category form another fragment to search in here
-        getDataFromAnotherFragment()
 
         setUpSearchView()
 
         setUpRcvListProduct()
         setUpRefreshLayout()
         listenStateLoadProduct()
-        if (productAdapter.itemCount == 0) {
-            loadProductSearched()
-        }
+
+        //get category form another fragment to search in here
+        getDataFromAnotherFragment()
     }
 
     private fun setUpBackFragment() {
@@ -68,14 +66,6 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
     private fun setUpMyCart() {
         binding.myAppBarLayout.imgMyCard.visibility = View.VISIBLE
         //set click...
-    }
-
-    private fun getDataFromAnotherFragment() {
-        val bundle = arguments
-        if (bundle != null) {
-            categorySearch = bundle.getSerializable("CATEGORY") as Category
-            binding.txtTitleNameListProduct.text = categorySearch.name
-        }
     }
 
     private fun setUpSearchView() {
@@ -99,7 +89,6 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
     private fun setUpRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            loadProductSearched()
         }
     }
 
@@ -120,12 +109,55 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         }
     }
 
-    private fun loadProductSearched() {
-        jobLoadProducts = lifecycleScope.launch {
-            viewModel.getProductPaging(categorySearch.category, categorySearch.type).collectLatest {
+    private fun getDataFromAnotherFragment() {
+        val bundle = arguments
+        val str = AppConstants.ActionClick
+        if (bundle != null) {
+            when (bundle.getString(str.NAME_EVENT, "")) {
+                str.SEE_PRODUCT_BY_CATEGORY -> {
+                    categorySearch =
+                        bundle.getSerializable(str.SEE_PRODUCT_BY_CATEGORY) as Category
+                    binding.txtTitleNameListProduct.text = categorySearch.name
+                    loadProductByCategory()
+                }
+                str.SEE_ALL_NEW_PRODUCT -> {
+                    loadNewProduct()
+                    binding.txtTitleNameListProduct.text = "Sản phẩm mới"
+                }
+                str.SEE_ALL_SALE_PRODUCT -> {
+                    loadSaleProduct()
+                    binding.txtTitleNameListProduct.text = "Sản phẩm giảm giá"
+                }
+            }
+        }
+    }
+
+    private fun loadProductByCategory() {
+        if (productAdapter.itemCount != 0) return
+        lifecycleScope.launch {
+            viewModel.getProductPaging(categorySearch.category, categorySearch.type, null)
+                .collectLatest {
+                    productAdapter.submitData(it)
+                }
+        }
+    }
+
+    private fun loadNewProduct() {
+        if (productAdapter.itemCount != 0) return
+        lifecycleScope.launch {
+            viewModel.getProductPaging(null, null, null).collectLatest {
                 productAdapter.submitData(it)
             }
         }
+    }
 
+    private fun loadSaleProduct() {
+        if (productAdapter.itemCount != 0) return
+        lifecycleScope.launch {
+            viewModel.getProductPaging(null, null, 0)
+                .collectLatest {
+                    productAdapter.submitData(it)
+                }
+        }
     }
 }

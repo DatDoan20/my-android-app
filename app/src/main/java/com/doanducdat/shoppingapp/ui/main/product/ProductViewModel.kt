@@ -30,11 +30,16 @@ class ProductViewModel @Inject constructor(
         get() = _dataStateHandleProductInCart
 
 
-    fun getProductPaging(category: String?, type: String?): Flow<PagingData<Product>> {
-        return productRepository.getProductPagingAPI(category, type).cachedIn(viewModelScope)
+    fun getProductPaging(
+        category: String?,
+        type: String?,
+        discountDifferent: Int?
+    ): Flow<PagingData<Product>> {
+        return productRepository.getProductPagingAPI(category, type, discountDifferent)
+            .cachedIn(viewModelScope)
     }
 
-    fun addToCart(carts: Cart)= viewModelScope.launch {
+    fun addToCart(carts: Cart) = viewModelScope.launch {
         productRepository.addToCart(carts).onEach {
             _dataStateHandleProductInCart.value = it
         }.launchIn(viewModelScope)

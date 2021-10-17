@@ -14,7 +14,8 @@ import java.io.IOException
 class ProductPagingSource(
     private val productAPI: ProductAPI,
     private val category: String?,
-    private val type: String?
+    private val type: String?,
+    private val discountDifferent: Int?
 ) : PagingSource<Int, Product>() {
 
     override fun getRefreshKey(state: PagingState<Int, Product>): Int? {
@@ -34,7 +35,7 @@ class ProductPagingSource(
                     InfoLocalUser.localToken.toString(),
                     params.loadSize,
                     page,
-                    null,
+                    discountDifferent,
                     category,
                     type
                 )

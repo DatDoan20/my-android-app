@@ -295,34 +295,53 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun setUpActionClick() {
-        //open all category
-        binding.txtSeeAllHotCategory.setOnClickListener {
-            doActionClick(AppConstants.ActionClick.NAV_CATEGORY)
-        }
-
-        //set event click recyclerview
-        hotCategoryAdapter.mySetOnClickCategoryAdapter { nameCategory ->
-            val bundleCategory = bundleOf("CATEGORY" to nameCategory)
-            controller.navigate(R.id.productListFragment, bundleCategory)
-        }
-
+        val str = AppConstants.ActionClick
         //click searchView
         val callbackOnSearch: () -> Unit = {
             controller.navigate(R.id.searchFragment)
         }
         setOnSearchView(binding.myAppBarLayout.searchView, callbackOnSearch)
 
-        //click notify icon
+        //click notify icon -> open notification fragment
         binding.myAppBarLayout.layoutNotification.imgNotification.setOnClickListener {
             controller.navigate(R.id.notificationFragment)
         }
 
+        //click sale pro
+        saleProductAdapter.mySetOnClick { product ->
+            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to product))
+        }
+        //click new product rcv -> detail product
         newProductAdapter.mySetOnClick { product ->
             controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to product))
         }
+        //click hot category
+        hotCategoryAdapter.mySetOnClickCategoryAdapter { categorySelected ->
+            val bundleCategory = bundleOf(
+                str.NAME_EVENT to str.SEE_PRODUCT_BY_CATEGORY,
+                str.SEE_PRODUCT_BY_CATEGORY to categorySelected
+            )
+            controller.navigate(R.id.productListFragment, bundleCategory)
+        }
 
-        saleProductAdapter.mySetOnClick { product ->
-            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to product))
+        //click see all category
+        binding.txtSeeAllHotCategory.setOnClickListener {
+            doActionClick(str.NAV_CATEGORY)
+        }
+        //click see all new product
+        binding.txtSeeAllNewProduct.setOnClickListener {
+            val bundleSeeNewProduct =
+                bundleOf(
+                    str.NAME_EVENT to str.SEE_ALL_NEW_PRODUCT,
+                )
+            controller.navigate(R.id.productListFragment, bundleSeeNewProduct)
+        }
+        //click see all sale product
+        binding.txtSeeAllSaleProduct.setOnClickListener {
+            val bundleSeeSaleProduct = bundleOf(
+                str.NAME_EVENT to str.SEE_ALL_SALE_PRODUCT,
+            )
+            controller.navigate(R.id.productListFragment, bundleSeeSaleProduct)
         }
     }
 

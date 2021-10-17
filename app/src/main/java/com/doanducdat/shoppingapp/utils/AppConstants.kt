@@ -40,6 +40,10 @@ object AppConstants {
             const val NAV_EDIT_PROFILE = 30
             const val PICKER_PHOTO = 31
             const val SAVE_INFO_PERSONAL = 32
+            const val SEE_ALL_NEW_PRODUCT = "SEE_ALL_NEW_PRODUCT"
+            const val SEE_ALL_SALE_PRODUCT = "SEE_ALL_SALE_PRODUCT"
+            const val SEE_PRODUCT_BY_CATEGORY = "SEE_PRODUCT_BY_CATEGORY"
+            const val NAME_EVENT = "NAME_EVENT"
         }
     }
 
@@ -54,6 +58,7 @@ object AppConstants {
             const val BEARER = "Bearer"
         }
     }
+
     annotation class BodyRequest {
         companion object {
             const val NAME = "name"
@@ -138,7 +143,7 @@ object AppConstants {
             const val COMMENT_NOTI = "COMMENT_NOTI"
             const val COUNT_NOTI_ORDER = "COUNT_NOTI_ORDER"
             const val COUNT_NOTI_COMMENT = "COUNT_NOTI_COMMENT"
-            const val UPDATE_ME= "COUNT_NOTI_COMMENT"
+            const val UPDATE_ME = "COUNT_NOTI_COMMENT"
         }
     }
 
@@ -281,7 +286,8 @@ object AppConstants {
             const val CONTENT_REVIEW_EMPTY = "Nội dung đánh giá của bạn đang trống!"
             const val RATING_EMPTY = "Vui lòng đánh giá với số ngôi sao bạn muốn!"
             const val CLOSE = "Đóng"
-            const val PERMISSION_PICK_PHOTO_NOT_GRANTED= "Bạn cần cho phép quyền truy cập để tải ảnh"
+            const val PERMISSION_PICK_PHOTO_NOT_GRANTED =
+                "Bạn cần cho phép quyền truy cập để tải ảnh"
         }
     }
 

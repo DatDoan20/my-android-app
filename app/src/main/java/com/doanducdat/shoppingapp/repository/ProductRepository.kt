@@ -111,10 +111,14 @@ class ProductRepository @Inject constructor(
         }, IO
     )
 
-    fun getProductPagingAPI(category: String?, type: String?): Flow<PagingData<Product>> = Pager(
+    fun getProductPagingAPI(
+        category: String?,
+        type: String?,
+        discountDifferent: Int?
+    ): Flow<PagingData<Product>> = Pager(
         PagingConfig(pageSize = str.LIMIT_8, enablePlaceholders = false),
     ) {
-        ProductPagingSource(productAPI, category, type)
+        ProductPagingSource(productAPI, category, type, discountDifferent)
     }.flow
 
     suspend fun addToCart(carts: Cart) = safeThreadDefaultCatch(
