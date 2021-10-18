@@ -5,8 +5,8 @@ import android.util.Log
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
 import com.doanducdat.shoppingapp.model.review.NotifyComment
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.handler.HandlerNotification
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerNotification
 import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket

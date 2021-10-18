@@ -22,5 +22,6 @@ interface ProductAPI {
         @Query("discount[ne]") discountDifferent: Int? = null,
         @Query("category") category: String? = null,
         @Query("type") type: String? = null,
+        @Query("name") name: String? = null,
     ): ResponseProduct
 }

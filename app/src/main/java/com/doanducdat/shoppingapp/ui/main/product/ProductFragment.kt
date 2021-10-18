@@ -13,8 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.ProductColorAdapter
@@ -29,17 +27,13 @@ import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
-import com.doanducdat.shoppingapp.utils.handler.HandlerBgCustom
 import com.doanducdat.shoppingapp.utils.dialog.MyBasicDialog
+import com.doanducdat.shoppingapp.utils.handler.HandlerBgCustom
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     private lateinit var productSelected: Product
 
     private val productColorAdapter = ProductColorAdapter()
@@ -105,7 +99,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 
@@ -127,7 +121,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         adapter.setUrlImagesProduct(productSelected.getUrlImages())
         adapter.mySetOnclickImage {
             //click any one img in viewpager -> navigate
-            controller.navigate(
+            controllerMain.navigate(
                 R.id.productPhotoViewFragment,
                 bundleOf("URL_IMAGES" to productSelected.getUrlImages())
             )
@@ -292,7 +286,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
         }
         binding.imgReview.setOnClickListener {
 //            val flag = AppConstants.ActionClick.NAV_REVIEW_PRODUCT
-            controller.navigate(R.id.reviewFragment, bundleOf("PRODUCT_ID" to productSelected.id))
+            controllerMain.navigate(R.id.reviewFragment, bundleOf("PRODUCT_ID" to productSelected.id))
         }
     }
 

@@ -9,9 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignInBinding
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
@@ -26,11 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
-    }
-
     private val viewModel: SignInViewModel by viewModels()
     private val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
 
@@ -194,7 +186,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                 handleSignIn()
             }
             AppConstants.ActionClick.NAV_SIGN_UP -> {
-                controller.navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
+                controllerLogin.navigate(SignInFragmentDirections.actionSignInFragmentToSignUpFragment())
             }
         }
     }

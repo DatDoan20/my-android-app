@@ -5,9 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.OrderManagementPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentOrderManagementBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -22,10 +19,6 @@ class OrderManagementFragment : BaseFragment<FragmentOrderManagementBinding>() {
     ): FragmentOrderManagementBinding =
         FragmentOrderManagementBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     val adapter by lazy { OrderManagementPagerAdapter(requireActivity()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +32,7 @@ class OrderManagementFragment : BaseFragment<FragmentOrderManagementBinding>() {
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 

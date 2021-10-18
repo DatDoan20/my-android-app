@@ -13,14 +13,11 @@ import com.doanducdat.shoppingapp.paging.ProductPagingSource
 import com.doanducdat.shoppingapp.retrofit.ProductAPI
 import com.doanducdat.shoppingapp.retrofit.UserAPI
 import com.doanducdat.shoppingapp.room.dao.ImageDao
+import com.doanducdat.shoppingapp.room.dao.KeyWordDao
 import com.doanducdat.shoppingapp.room.dao.ProductDao
-import com.doanducdat.shoppingapp.room.entity.ImageCacheEntity
-import com.doanducdat.shoppingapp.room.entity.ProductCacheEntity
-import com.doanducdat.shoppingapp.room.entity.toListProduct
-import com.doanducdat.shoppingapp.room.entity.toListProductCacheEntity
+import com.doanducdat.shoppingapp.room.entity.*
 import com.doanducdat.shoppingapp.ui.base.BaseRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -32,7 +29,8 @@ class ProductRepository @Inject constructor(
     private val productAPI: ProductAPI,
     private val productDao: ProductDao,
     private val imageDao: ImageDao,
-    private val userAPI: UserAPI
+    private val userAPI: UserAPI,
+    private val keyWordDao: KeyWordDao
 ) : BaseRepository() {
 
     suspend fun getSaleProduct() = safeThreadDefaultCatch(
@@ -114,11 +112,12 @@ class ProductRepository @Inject constructor(
     fun getProductPagingAPI(
         category: String?,
         type: String?,
-        discountDifferent: Int?
+        discountDifferent: Int?,
+        name: String?
     ): Flow<PagingData<Product>> = Pager(
         PagingConfig(pageSize = str.LIMIT_8, enablePlaceholders = false),
     ) {
-        ProductPagingSource(productAPI, category, type, discountDifferent)
+        ProductPagingSource(productAPI, category, type, discountDifferent, name)
     }.flow
 
     suspend fun addToCart(carts: Cart) = safeThreadDefaultCatch(
@@ -137,4 +136,7 @@ class ProductRepository @Inject constructor(
         }, IO
     )
 
+    fun getAllKeyWord() = keyWordDao.getAll()
+
+    suspend fun insertKeyWord(keyWord: KeyWordCacheEntity) = keyWordDao.insert(keyWord)
 }

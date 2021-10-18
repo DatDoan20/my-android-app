@@ -3,8 +3,10 @@ package com.doanducdat.shoppingapp.di
 import android.content.Context
 import androidx.room.Room
 import com.doanducdat.shoppingapp.room.dao.ImageDao
+import com.doanducdat.shoppingapp.room.dao.KeyWordDao
 import com.doanducdat.shoppingapp.room.dao.ProductDao
 import com.doanducdat.shoppingapp.room.database.ImageDB
+import com.doanducdat.shoppingapp.room.database.KeyWordDB
 import com.doanducdat.shoppingapp.room.database.ProductDB
 import dagger.Module
 import dagger.Provides
@@ -37,5 +39,16 @@ object RoomModule {
     @Provides
     fun provideImageDao(imageDB: ImageDB): ImageDao {
         return imageDB.imageDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideKeyWordDB(@ApplicationContext appContext: Context): KeyWordDB {
+        return Room.databaseBuilder(appContext, KeyWordDB::class.java, KeyWordDB.KEYWORD_DB).build()
+    }
+
+    @Provides
+    fun provideKeyWordDao(keyWordDB: KeyWordDB): KeyWordDao {
+        return keyWordDB.keyWordDao()
     }
 }

@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.request.CachePolicy
 import com.doanducdat.shoppingapp.R
@@ -32,10 +29,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
         container: ViewGroup?
     ): FragmentProfileBinding = FragmentProfileBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     private val verifyEmailDialog: MyVerifyEmailDialog by lazy { MyVerifyEmailDialog(requireActivity()) }
     val viewModel: ProfileViewModel by viewModels()
 
@@ -107,14 +100,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                 }
             }
             AppConstants.ActionClick.NAV_MANAGE_ORDER -> {
-                controller.navigate(R.id.orderManagementFragment)
+                controllerMain.navigate(R.id.orderManagementFragment)
             }
             AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT -> {
-                controller.navigate(R.id.purchasedProductFragment)
+                controllerMain.navigate(R.id.purchasedProductFragment)
             }
             AppConstants.ActionClick.NAV_EDIT_PROFILE -> {
                 val bitmapAvatar = (binding.imgAvatar.drawable as BitmapDrawable).bitmap
-                controller.navigate(R.id.profileUpdateFragment )
+                controllerMain.navigate(R.id.profileUpdateFragment )
             }
 
         }

@@ -8,8 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentSignUpBinding
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
@@ -25,10 +23,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), MyActionApp {
 
     val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
-    }
     private val viewModel: SignUpViewModel by viewModels()
 
     override fun getFragmentBinding(
@@ -146,7 +140,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), MyActionApp {
                 handleSendOTP()
             }
             AppConstants.ActionClick.NAV_SIGN_IN -> {
-                controller.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignInFragment())
+                controllerLogin.navigate(SignUpFragmentDirections.actionSignUpFragmentToSignInFragment())
             }
         }
     }
@@ -213,7 +207,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(), MyActionApp {
                     "VERIFICATION_ID" to verificationId
                 )
                 viewModel.isLoading.value = false
-                controller.navigate(R.id.verifyOTPFragment, bundle)
+                controllerLogin.navigate(R.id.verifyOTPFragment, bundle)
             }
 
             override fun onCodeSentFailed(msg: String) {

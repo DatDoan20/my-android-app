@@ -17,8 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentProfileUpdateBinding
 import com.doanducdat.shoppingapp.model.response.Status
@@ -44,11 +42,6 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         container: ViewGroup?
     ): FragmentProfileUpdateBinding =
         FragmentProfileUpdateBinding.inflate(inflater, container, false)
-
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
 
     val viewModel: ProfileViewModel by viewModels()
     private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
@@ -78,7 +71,7 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 
@@ -216,7 +209,7 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
             viewModel.name == InfoLocalUser.currentUser?.name &&
                     viewModel.birthYear == InfoLocalUser.currentUser?.birthYear &&
                     viewModel.sex == InfoLocalUser.currentUser?.sex -> {
-                controller.popBackStack()
+                controllerMain.popBackStack()
                 return
             }
         }
@@ -246,7 +239,7 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
                     InfoLocalUser.currentUser?.avatar =
                         "user-${InfoLocalUser.currentUser?.id}.png"
                     viewModel.isLoading.value = false
-                    controller.popBackStack()
+                    controllerMain.popBackStack()
                 }
             }
         })

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.PurchasedProductAdapter
@@ -30,10 +28,6 @@ class PurchasedProductFragment : BaseFragment<FragmentPurchasedProductBinding>()
     ): FragmentPurchasedProductBinding =
         FragmentPurchasedProductBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     private val purchasedProductAdapter by lazy { PurchasedProductAdapter() }
     private val myRatingDialog by lazy { MyRatingDialog(requireContext()) }
 
@@ -59,7 +53,7 @@ class PurchasedProductFragment : BaseFragment<FragmentPurchasedProductBinding>()
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 

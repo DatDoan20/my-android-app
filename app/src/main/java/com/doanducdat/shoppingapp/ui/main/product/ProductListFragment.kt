@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +16,7 @@ import com.doanducdat.shoppingapp.databinding.FragmentProductListBinding
 import com.doanducdat.shoppingapp.model.category.Category
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.handler.HandlerSwitch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -26,10 +25,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     private lateinit var categorySearch: Category
 
     private val productAdapter = ProductPagingAdapter()
@@ -59,7 +54,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
     private fun setUpBackFragment() {
         binding.myAppBarLayout.imgBack.visibility = View.VISIBLE
         binding.myAppBarLayout.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 
@@ -70,9 +65,8 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
     private fun setUpSearchView() {
         val callbackOnSearch: () -> Unit = {
-            controller.navigate(R.id.searchFragment)
+            HandlerSwitch.navigationToFragment(R.id.searchFragment, controllerMain)
         }
-        hideSearchPlate(binding.myAppBarLayout.searchView)
         setOnSearchView(binding.myAppBarLayout.searchView, callbackOnSearch)
     }
 
@@ -83,7 +77,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         binding.rcvListProductByCategory.setHasFixedSize(false)
         binding.rcvListProductByCategory.adapter = productAdapter
         productAdapter.mySetOnClickProduct {
-            controller.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
+            controllerMain.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
         }
     }
 
@@ -128,6 +122,11 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
                     loadSaleProduct()
                     binding.txtTitleNameListProduct.text = "Sản phẩm giảm giá"
                 }
+                str.SEE_PRODUCT_BY_SEARCH -> {
+                    val nameProduct = bundle.getString(str.SEE_PRODUCT_BY_SEARCH, null)
+                    loadProductBySearch(nameProduct)
+                    binding.txtTitleNameListProduct.text = nameProduct ?: "Có lỗi xảy ra..."
+                }
             }
         }
     }
@@ -135,7 +134,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
     private fun loadProductByCategory() {
         if (productAdapter.itemCount != 0) return
         lifecycleScope.launch {
-            viewModel.getProductPaging(categorySearch.category, categorySearch.type, null)
+            viewModel.getProductPaging(categorySearch.category, categorySearch.type, null, null)
                 .collectLatest {
                     productAdapter.submitData(it)
                 }
@@ -145,16 +144,27 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
     private fun loadNewProduct() {
         if (productAdapter.itemCount != 0) return
         lifecycleScope.launch {
-            viewModel.getProductPaging(null, null, null).collectLatest {
-                productAdapter.submitData(it)
-            }
+            viewModel.getProductPaging(null, null, null, null)
+                .collectLatest {
+                    productAdapter.submitData(it)
+                }
         }
     }
 
     private fun loadSaleProduct() {
         if (productAdapter.itemCount != 0) return
         lifecycleScope.launch {
-            viewModel.getProductPaging(null, null, 0)
+            viewModel.getProductPaging(null, null, 0, null)
+                .collectLatest {
+                    productAdapter.submitData(it)
+                }
+        }
+    }
+
+    private fun loadProductBySearch(name: String?) {
+        if (productAdapter.itemCount != 0) return
+        lifecycleScope.launch {
+            viewModel.getProductPaging(null, null, null, name)
                 .collectLatest {
                     productAdapter.submitData(it)
                 }

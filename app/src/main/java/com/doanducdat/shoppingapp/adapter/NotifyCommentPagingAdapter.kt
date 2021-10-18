@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.review.NotifyComment
-import com.doanducdat.shoppingapp.utils.handler.HandlerTime
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
-import com.doanducdat.shoppingapp.utils.validation.FormValidation
+import com.doanducdat.shoppingapp.utils.handler.HandlerTime
 import com.doanducdat.shoppingapp.utils.handler.HandlerViewState
+import com.doanducdat.shoppingapp.utils.validation.FormValidation
 
 class NotifyCommentPagingAdapter(
     context: Context,

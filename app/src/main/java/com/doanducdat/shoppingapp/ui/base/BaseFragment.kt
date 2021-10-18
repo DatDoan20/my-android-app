@@ -2,7 +2,10 @@ package com.doanducdat.shoppingapp.ui.base
 
 import android.animation.AnimatorSet
 import android.content.Context
-import android.graphics.*
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +20,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
@@ -28,6 +33,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     protected lateinit var binding: VB
     val setAnimationSearchView = AnimatorSet()
+    val controllerLogin by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
+    }
+    val controllerMain by lazy {
+        (requireActivity().supportFragmentManager
+            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
+    }
     val notificationShareViewModel by lazy {
         ViewModelProvider(requireActivity()).get(NotificationShareViewModel::class.java)
     }
@@ -77,15 +90,6 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         view.visibility = isVisible
     }
 
-    /**
-     *  use when there is searchView in form
-     */
-    fun hideSearchPlate(view: View) {
-        val searchPlate = resources.getIdentifier("android:id/search_plate", null, null)
-        val mSearchPlate = view.findViewById(searchPlate) as View
-        mSearchPlate.setBackgroundColor(Color.TRANSPARENT)
-    }
-
     /** use when click searchView -> navigate to Search Fragment
      *
      * Not show keyboard when click edittext.
@@ -95,12 +99,9 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
      * Set event for SearchView(click on icon).
      */
     fun setOnSearchView(searchView: View, callback: () -> Unit) {
-        val id = resources.getIdentifier("android:id/search_src_text", null, null)
-        val searchViewEdt: EditText = searchView.findViewById(id)
-        // not show keyboard when click edittext
-        searchViewEdt.showSoftInputOnFocus = false
+        val editText = searchView.findViewById(R.id.search_src_text) as EditText
         //can't not use setOnClick, click single and handle event -> use focusChange
-        searchViewEdt.setOnFocusChangeListener { _, hasFocus ->
+        editText.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 callback.invoke()
             }
@@ -154,9 +155,9 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 //
 //    }
 
-    fun View.showKeyboard() {
+    fun View.showKeyboard(view: View) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        imm.showSoftInput(view, 0)
     }
 
     private fun View.hideKeyboard() {

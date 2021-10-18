@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
@@ -28,10 +26,6 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
         container: ViewGroup?
     ): FragmentReviewBinding = FragmentReviewBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     var productId: String = ""
     private val viewModel: ReviewViewModel by viewModels()
     private val reviewAdapter: ReviewPagingAdapter by lazy { ReviewPagingAdapter() }
@@ -50,7 +44,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 
@@ -68,7 +62,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
         binding.rcvReview.adapter = reviewAdapter
 
         reviewAdapter.mySetOnClickReview {
-            controller.navigate(R.id.commentFragment, bundleOf("REVIEW_ID" to it.id))
+            controllerMain.navigate(R.id.commentFragment, bundleOf("REVIEW_ID" to it.id))
         }
     }
 

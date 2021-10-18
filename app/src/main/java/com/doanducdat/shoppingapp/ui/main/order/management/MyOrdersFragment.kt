@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
@@ -31,10 +29,6 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         container: ViewGroup?
     ): FragmentOrdersBinding = FragmentOrdersBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     val viewModel: OrderViewModel by viewModels()
     private val orderAdapter: OrderPagingAdapter = OrderPagingAdapter()
     private val myYesNoDialog by lazy { MyYesNoDialog(requireContext()) }

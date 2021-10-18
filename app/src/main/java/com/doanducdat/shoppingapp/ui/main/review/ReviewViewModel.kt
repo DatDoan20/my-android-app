@@ -13,7 +13,6 @@ import com.doanducdat.shoppingapp.model.review.CommentPost
 import com.doanducdat.shoppingapp.model.review.Review
 import com.doanducdat.shoppingapp.model.review.ReviewPost
 import com.doanducdat.shoppingapp.repository.CommentRepository
-import com.doanducdat.shoppingapp.repository.ProductRepository
 import com.doanducdat.shoppingapp.repository.ReviewRepository
 import com.doanducdat.shoppingapp.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

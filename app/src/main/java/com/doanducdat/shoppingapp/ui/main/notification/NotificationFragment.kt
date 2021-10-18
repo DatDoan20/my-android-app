@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.NotificationPagerAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentNotificationBinding
@@ -23,11 +21,6 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
         container: ViewGroup?
     ): FragmentNotificationBinding = FragmentNotificationBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpBackFragment()
@@ -37,7 +30,7 @@ class NotificationFragment : BaseFragment<FragmentNotificationBinding>() {
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 

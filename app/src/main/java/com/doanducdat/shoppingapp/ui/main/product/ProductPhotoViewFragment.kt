@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.SlideImageSmallProductAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductPhotoViewBinding
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
@@ -21,10 +18,6 @@ class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>()
     ): FragmentProductPhotoViewBinding =
         FragmentProductPhotoViewBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     var urlImages: MutableList<String> = mutableListOf()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +29,7 @@ class ProductPhotoViewFragment : BaseFragment<FragmentProductPhotoViewBinding>()
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 

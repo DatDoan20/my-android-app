@@ -7,9 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentVerifyOTPBinding
 import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
@@ -24,10 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp {
 
     private val dialog: MyBasicDialog by lazy { MyBasicDialog(requireContext()) }
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_login) as NavHostFragment).findNavController()
-    }
+
     private val viewModel: SignUpViewModel by viewModels()
 
     private var verificationId: String? = null
@@ -87,7 +81,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
                 Status.SUCCESS -> {
                     showLongToast(AppConstants.PhoneAuth.VERIFY_OTP_MSG_SUCCESS)
                     viewModel.isLoading.value = false
-                    controller.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignInFragment())
+                    controllerLogin.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignInFragment())
                 }
             }
         })
@@ -108,7 +102,7 @@ class VerifyOTPFragment : BaseFragment<FragmentVerifyOTPBinding>(), MyActionApp 
                 verifyOTP()
             }
             AppConstants.ActionClick.NAV_SIGN_UP -> {
-                controller.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignUpFragment())
+                controllerLogin.navigate(VerifyOTPFragmentDirections.actionVerifyOTPFragmentToSignUpFragment())
             }
         }
     }

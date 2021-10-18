@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
@@ -34,10 +32,6 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
         container: ViewGroup?
     ): FragmentCommentBinding = FragmentCommentBinding.inflate(inflater, container, false)
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     private var reviewId: String? = null
     private val viewModel: ReviewViewModel by viewModels()
     private val commentAdapter: CommentPagingAdapter by lazy { CommentPagingAdapter() }
@@ -78,7 +72,7 @@ class CommentFragment : BaseFragment<FragmentCommentBinding>(), MyActionApp {
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 

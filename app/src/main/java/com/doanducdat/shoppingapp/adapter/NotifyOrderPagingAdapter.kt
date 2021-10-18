@@ -10,10 +10,10 @@ import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ItemNotificationBinding
 import com.doanducdat.shoppingapp.model.order.NotifyOrder
 import com.doanducdat.shoppingapp.utils.AppConstants
-import com.doanducdat.shoppingapp.utils.handler.HandlerTime
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
-import com.doanducdat.shoppingapp.utils.validation.FormValidation
+import com.doanducdat.shoppingapp.utils.handler.HandlerTime
 import com.doanducdat.shoppingapp.utils.handler.HandlerViewState
+import com.doanducdat.shoppingapp.utils.validation.FormValidation
 
 class NotifyOrderPagingAdapter(
     context: Context,

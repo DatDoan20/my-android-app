@@ -33,9 +33,10 @@ class ProductViewModel @Inject constructor(
     fun getProductPaging(
         category: String?,
         type: String?,
-        discountDifferent: Int?
+        discountDifferent: Int?,
+        name:String?
     ): Flow<PagingData<Product>> {
-        return productRepository.getProductPagingAPI(category, type, discountDifferent)
+        return productRepository.getProductPagingAPI(category, type, discountDifferent, name)
             .cachedIn(viewModelScope)
     }
 

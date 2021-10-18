@@ -7,9 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentOrderBinding
 import com.doanducdat.shoppingapp.model.order.PurchasedProduct
 import com.doanducdat.shoppingapp.model.response.Status
@@ -30,10 +27,6 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
 
     val viewModel: OrderViewModel by viewModels()
     val myBasicDialog by lazy { MyBasicDialog(requireContext()) }
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +51,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
 
     private fun setUpBackFragment() {
         binding.imgBack.setOnClickListener {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
     }
 
@@ -186,7 +179,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
         )
         myBasicDialog.setTextButton(AppConstants.MsgInfo.CLOSE)
         myBasicDialog.setOnClick {
-            controller.popBackStack()
+            controllerMain.popBackStack()
         }
         myBasicDialog.show()
     }

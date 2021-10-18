@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
@@ -20,10 +18,6 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 
 
 class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyActionApp {
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
 
     val womanCategoryAdapter by lazy { CategoryBasicAdapter() }
     lateinit var listNameCategory: MutableList<TextView>
@@ -60,7 +54,7 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
         binding.rcvWomanCategory.adapter = womanCategoryAdapter
         womanCategoryAdapter.mySetOnClickCategoryAdapter {
             val bundleCategory = bundleOf("CATEGORY" to it)
-            controller.navigate(R.id.productListFragment, bundleCategory)
+            controllerMain.navigate(R.id.productListFragment, bundleCategory)
         }
     }
 

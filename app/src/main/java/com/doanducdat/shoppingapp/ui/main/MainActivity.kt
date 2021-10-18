@@ -1,25 +1,19 @@
 package com.doanducdat.shoppingapp.ui.main
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityMainBinding
 import com.doanducdat.shoppingapp.service.WebSocketIO
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
 import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
-import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.handler.HandlerSwitch
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-    private val controller by lazy {
-        (supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
+
     private val webSocketIO by lazy { WebSocketIO() }
     private val notificationShareViewModel by lazy {
         ViewModelProvider(this).get(NotificationShareViewModel::class.java)
@@ -50,25 +44,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             //navigate fragment when click
             when (position) {
                 0 -> {
-                    navigationToFragment(R.id.homeFragment)
+                    HandlerSwitch.navigationToFragment(R.id.homeFragment, controllerMain)
                 }
                 1 -> {
-                    navigationToFragment(R.id.categoryFragment)
+                    HandlerSwitch.navigationToFragment(R.id.categoryFragment, controllerMain)
                 }
                 2 -> {
-                    navigationToFragment(R.id.searchFragment)
+                    HandlerSwitch.navigationToFragment(R.id.searchFragment, controllerMain)
                 }
                 3 -> {
-                    navigationToFragment(R.id.cartFragment)
+                    HandlerSwitch.navigationToFragment(R.id.cartFragment, controllerMain)
                 }
                 4 -> {
-                    navigationToFragment(R.id.profileFragment)
+                    HandlerSwitch.navigationToFragment(R.id.profileFragment, controllerMain)
                 }
             }
             updateBadgeCountCart()
         }
         //hide bottom navigation
-        controller.addOnDestinationChangedListener { _, destination, _ ->
+        controllerMain.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.searchFragment -> {
                     binding.bubbleBtmNvgMain.setCurrentActiveItem(2)
@@ -89,26 +83,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 else -> binding.bubbleBtmNvgMain.visibility = View.GONE
             }
             updateBadgeCountCart()
-        }
-    }
-
-    private fun navigationToFragment(idFragment: Int) {
-        if (fragmentIsInBackStack(idFragment)) {
-            //this fragment is in backstack
-            controller.popBackStack(idFragment, false)
-        } else {
-            controller.navigate(idFragment)
-        }
-    }
-
-    private fun fragmentIsInBackStack(idFragment: Int): Boolean {
-        return try {
-            controller.getBackStackEntry(idFragment)
-            true
-        } catch (e: Exception) {
-            Log.e(AppConstants.TAG.BACK_FRAGMENT, "fragmentIsInBackStack: ${e.message}")
-            Log.e(AppConstants.TAG.BACK_FRAGMENT, "fragmentIsInBackStack: ${e.printStackTrace()}")
-            false
         }
     }
 

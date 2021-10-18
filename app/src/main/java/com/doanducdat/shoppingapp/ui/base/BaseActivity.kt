@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.network.NetworkMonitorUtil
 
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: VB
-
+    val controllerMain by lazy {
+        (supportFragmentManager
+            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
+    }
     private var backPressTime: Long = System.currentTimeMillis()
     private lateinit var toastExitApp: Toast
 

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CartAdapter
@@ -31,10 +29,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     ): FragmentCartBinding = FragmentCartBinding.inflate(inflater, container, false)
 
 
-    private val controller by lazy {
-        (requireActivity().supportFragmentManager
-            .findFragmentById(R.id.container_main) as NavHostFragment).findNavController()
-    }
     private val dialogYesNo by lazy { MyYesNoDialog(requireContext()) }
     private val dialogBasic by lazy { MyBasicDialog(requireContext()) }
     private val cartAdapter: CartAdapter = CartAdapter()
@@ -218,6 +212,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
             dialogBasic.show()
             return
         }
-        controller.navigate(R.id.orderFragment)
+        controllerMain.navigate(R.id.orderFragment)
     }
 }
