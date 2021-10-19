@@ -12,10 +12,10 @@ class CategoryPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
     override fun createFragment(position: Int): Fragment {
-        when (position) {
-            0 -> return WomanCategoryFragment()
-            1 -> return ManCategoryFragment()
+        return when (position) {
+            0 -> WomanCategoryFragment()
+            1 -> ManCategoryFragment()
+            else -> WomanCategoryFragment()
         }
-        return WomanCategoryFragment()
     }
 }

@@ -8,7 +8,7 @@ object HandlerTime {
         if (time < 1000000000000L) {
             time *= 1000
         }
-        val now = System.currentTimeMillis()
+        val now = System.currentTimeMillis() + 1000
         if (time > now || time <= 0) {
             return null
         }

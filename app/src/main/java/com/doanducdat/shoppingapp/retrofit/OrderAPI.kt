@@ -56,7 +56,7 @@ interface OrderAPI {
         @Body readAllOrderNoti: ReadAllOrderNoti
     ): ResponseUser
 
-    @DELETE(" api/users/notify-orders/{idNotifyOrder}/force")
+    @DELETE("api/users/notify-orders/{idNotifyOrder}/force")
     suspend fun deleteNotifyOrder(
         @Header("Authorization") authorization: String,
         @Path("idNotifyOrder") idNotifyOrder: String,

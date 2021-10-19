@@ -168,9 +168,16 @@ class PurchasedProductFragment : BaseFragment<FragmentPurchasedProductBinding>()
                     if (indexProductNeedRemove != null) {
                         purchasedProductAdapter.deleteProductItem(indexProductNeedRemove!!)
                     }
-                    myRatingDialog.setStateDialog(true)
                     myRatingDialog.setStateProgressBar(View.GONE)
+                    if (purchasedProductAdapter.itemCount == 0) {
+                        setStateInfoToView(
+                            R.drawable.empty_product,
+                            AppConstants.MsgErr.EMPTY_PURCHASED_PRODUCT
+                        )
+                    }
                     myRatingDialog.dismiss()
+                    myRatingDialog.setStateDialog(true)
+
                 }
             }
         })

@@ -26,6 +26,6 @@ data class User(
     fun getUrlAvatar(): String {
         //avatar is name of image, not link
         // thi fun return URL of avatar
-        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.USER}${avatar}"
+        return "${AppConstants.Server.PUBLIC_HOST}${AppConstants.LinkImg.USER}${avatar}"
     }
 }

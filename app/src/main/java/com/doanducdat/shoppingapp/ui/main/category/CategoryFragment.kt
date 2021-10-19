@@ -39,10 +39,9 @@ class CategoryFragment : BaseFragment<FragmentCategoryBinding>() {
     private fun setUpTabLayoutWithViewPager() {
         TabLayoutMediator(binding.tabLayoutCategory, binding.viewPagerCategory) { tab, position ->
             when (position) {
-                0 -> {
-                    tab.text = AppConstants.TextTab.WOMAN
-                }
+                0 -> tab.text = AppConstants.TextTab.WOMAN
                 1 -> tab.text = AppConstants.TextTab.MAN
+                else -> tab.text = AppConstants.TextTab.WOMAN
             }
         }.attach()
     }

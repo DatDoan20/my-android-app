@@ -51,7 +51,8 @@ object AppConstants {
 
     annotation class Server {
         companion object {
-            const val HOST = "http://10.0.2.2:3000"
+            const val PUBLIC_HOST = "https://my-shopping-web-server.herokuapp.com"
+            const val LOCAL_HOST = "http://10.0.2.2:3000"
         }
     }
 
@@ -157,8 +158,8 @@ object AppConstants {
 
     annotation class TextTab() {
         companion object {
-            const val MAN = "Nữ"
-            const val WOMAN = "Nam"
+            const val MAN = "Nam"
+            const val WOMAN = "Nữ"
             const val COMMENT = "Bình luận"
             const val ORDER = "Đơn hàng"
             const val ALL_ORDER = "Tất cả đơn hàng"

@@ -82,7 +82,7 @@ class Product(
     private fun getUrlImg(name: String): String {
         //imageCover and images are name of image, not link
         // thi fun return URL of image
-        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.PRODUCT}${id}/${name}"
+        return "${AppConstants.Server.PUBLIC_HOST}${AppConstants.LinkImg.PRODUCT}${id}/${name}"
     }
 
 }

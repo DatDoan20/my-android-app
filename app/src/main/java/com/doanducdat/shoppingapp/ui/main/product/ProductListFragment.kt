@@ -83,6 +83,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
     private fun setUpRefreshLayout() {
         binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
         }
     }
 

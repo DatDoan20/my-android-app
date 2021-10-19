@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.di
 
 import com.doanducdat.shoppingapp.retrofit.*
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -25,7 +26,7 @@ object RetrofitModule {
     @Provides
     fun provideRetrofit(gson: Gson): Retrofit.Builder {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:3000")
+            .baseUrl(AppConstants.Server.PUBLIC_HOST)
             .addConverterFactory(GsonConverterFactory.create(gson))
     }
 

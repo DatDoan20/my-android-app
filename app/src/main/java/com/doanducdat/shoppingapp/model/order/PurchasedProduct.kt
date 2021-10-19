@@ -27,6 +27,6 @@ class PurchasedProduct(
     var orderId:String?
 ) {
     fun getUrlImgCover(): String {
-        return "${AppConstants.Server.HOST}${AppConstants.LinkImg.PRODUCT}${productId}/${imageCover}"
+        return "${AppConstants.Server.PUBLIC_HOST}${AppConstants.LinkImg.PRODUCT}${productId}/${imageCover}"
     }
 }

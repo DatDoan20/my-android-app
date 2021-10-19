@@ -34,7 +34,7 @@ class WebSocketIO {
     @Synchronized
     fun initSocket(context: Context) {
         try {
-            mSocket = IO.socket("http://10.0.2.2:3000")
+            mSocket = IO.socket(AppConstants.Server.PUBLIC_HOST)
             handlerNotification = HandlerNotification(context)
         } catch (e: URISyntaxException) {
             Log.e(AppConstants.TAG.SOCKET_IO, "initSocket: ${e.message}")
