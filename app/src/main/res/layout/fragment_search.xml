@@ -50,5 +50,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_search_history" />
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit_progress_bar"
+            style="@style/SpinKitView.Large.FadingCircle"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/bgColorBtnGeneric"
+            app:circularflow_defaultRadius="@dimen/_50sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

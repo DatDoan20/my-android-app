@@ -23,4 +23,8 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch(scopeIO + NonCancellable) {
             productRepository.insertKeyWord(keyWord)
         }
+
+    fun deleteKeyWord() = viewModelScope.launch(scopeIO + NonCancellable) {
+        productRepository.deleteAllKeyWord()
+    }
 }

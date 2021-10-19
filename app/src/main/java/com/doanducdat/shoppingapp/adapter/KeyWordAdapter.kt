@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,10 +14,24 @@ class KeyWordAdapter : RecyclerView.Adapter<KeyWordAdapter.KeyWordViewHolder>() 
         this.keyWordList = keyWordList
     }
 
+    var callback: (keyWord: String) -> Unit = {}
+    fun setOnClick(funCallback: (keyWord: String) -> Unit) {
+        callback = funCallback
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearAllKeyWord() {
+        keyWordList = emptyList()
+        notifyDataSetChanged()
+    }
+
     inner class KeyWordViewHolder(val binding: ItemKeyWordBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(keyWord: KeyWordCacheEntity) {
             binding.txtKeyWord.text = keyWord.keyWord
+            binding.layoutKeyWord.setOnClickListener {
+                callback.invoke(keyWord.keyWord)
+            }
         }
 
     }

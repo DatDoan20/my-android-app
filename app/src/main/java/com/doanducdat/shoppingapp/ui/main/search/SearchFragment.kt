@@ -37,6 +37,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setUpRcvKeyWord()
         loadHistoryKeyWord()
         setUpClickSearch()
+        deleteKeyWordCache()
+    }
+
+    private fun deleteKeyWordCache() {
+        binding.txtDeleteSearchHistory.setOnClickListener {
+            binding.spinKitProgressBar.visibility = View.VISIBLE
+            val job = viewModel.deleteKeyWord()
+            job.invokeOnCompletion {
+                adapterKeyWord.clearAllKeyWord()
+                binding.spinKitProgressBar.visibility = View.GONE
+            }
+        }
     }
 
 
@@ -49,6 +61,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcvHistoryKeyWord.setHasFixedSize(true)
         binding.rcvHistoryKeyWord.adapter = adapterKeyWord
+
+        //event click
+        adapterKeyWord.setOnClick { keyWord ->
+            navigateSearchProduct(keyWord)
+        }
     }
 
     private fun loadHistoryKeyWord() {
@@ -60,6 +77,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         })
     }
 
+    fun navigateSearchProduct(nameProduct: String) {
+        val str = AppConstants.ActionClick
+        controllerMain.navigate(
+            R.id.productListFragment, bundleOf(
+                str.NAME_EVENT to str.SEE_PRODUCT_BY_SEARCH,
+                str.SEE_PRODUCT_BY_SEARCH to nameProduct
+            )
+        )
+    }
+
     private fun setUpClickSearch() {
         binding.myAppBarLayout.searchView.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
@@ -69,13 +96,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         if (!TextUtils.isEmpty(querySearch)) {
                             viewModel.insertKeyWord(KeyWordCacheEntity(querySearch))
                             // navigate product list
-                            val str = AppConstants.ActionClick
-                            controllerMain.navigate(
-                                R.id.productListFragment, bundleOf(
-                                    str.NAME_EVENT to str.SEE_PRODUCT_BY_SEARCH,
-                                    str.SEE_PRODUCT_BY_SEARCH to querySearch
-                                )
-                            )
+                            navigateSearchProduct(querySearch)
                         }
                     }
                     return true
@@ -87,5 +108,4 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
             })
     }
-
 }

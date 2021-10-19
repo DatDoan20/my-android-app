@@ -139,4 +139,5 @@ class ProductRepository @Inject constructor(
     fun getAllKeyWord() = keyWordDao.getAll()
 
     suspend fun insertKeyWord(keyWord: KeyWordCacheEntity) = keyWordDao.insert(keyWord)
+    suspend fun deleteAllKeyWord() = keyWordDao.deleteAll()
 }

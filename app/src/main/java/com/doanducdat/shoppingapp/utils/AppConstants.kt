@@ -40,6 +40,7 @@ object AppConstants {
             const val NAV_EDIT_PROFILE = 30
             const val PICKER_PHOTO = 31
             const val SAVE_INFO_PERSONAL = 32
+            const val CLICK_SEARCH= 33
 
             const val SEE_ALL_NEW_PRODUCT = "SEE_ALL_NEW_PRODUCT"
             const val SEE_ALL_SALE_PRODUCT = "SEE_ALL_SALE_PRODUCT"

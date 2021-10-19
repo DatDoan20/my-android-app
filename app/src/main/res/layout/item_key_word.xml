@@ -7,9 +7,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_key_word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_item_product_two_style"
         android:padding="@dimen/_10sdp">
 
         <ImageView
