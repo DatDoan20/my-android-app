@@ -52,8 +52,14 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
             RecyclerView.VERTICAL, false
         )
         binding.rcvWomanCategory.adapter = womanCategoryAdapter
-        womanCategoryAdapter.mySetOnClickCategoryAdapter {
-            val bundleCategory = bundleOf("CATEGORY" to it)
+
+        // event click
+        val str = AppConstants.ActionClick
+        womanCategoryAdapter.mySetOnClickCategoryAdapter { categorySelected ->
+            val bundleCategory = bundleOf(
+                str.NAME_EVENT to str.SEE_PRODUCT_BY_CATEGORY,
+                str.SEE_PRODUCT_BY_CATEGORY to categorySelected
+            )
             controllerMain.navigate(R.id.productListFragment, bundleCategory)
         }
     }
@@ -119,6 +125,7 @@ class WomanCategoryFragment : BaseFragment<FragmentWomanCategoryBinding>(), MyAc
             }
         }
     }
+
     private fun setDefaultDataDisplay() {
         //format name category unselected and selected
         formatListNameCategory(listNameCategory, binding.txtDress)

@@ -50,8 +50,13 @@ class ManCategoryFragment : BaseFragment<FragmentManCategoryBinding>(), MyAction
         )
         binding.rcvManCategory.adapter = manCategoryAdapter
 
-        manCategoryAdapter.mySetOnClickCategoryAdapter {
-            val bundleCategory = bundleOf("CATEGORY" to it)
+
+        val str = AppConstants.ActionClick
+        manCategoryAdapter.mySetOnClickCategoryAdapter { categorySelected ->
+            val bundleCategory = bundleOf(
+                str.NAME_EVENT to str.SEE_PRODUCT_BY_CATEGORY,
+                str.SEE_PRODUCT_BY_CATEGORY to categorySelected
+            )
             controllerMain.navigate(R.id.productListFragment, bundleCategory)
         }
     }
