@@ -53,7 +53,8 @@ object AppConstants {
     annotation class Server {
         companion object {
             const val PUBLIC_HOST = "https://my-shopping-web-server.herokuapp.com"
-            //local host is run in ADV
+            // const val PUBLIC_HOST = "https://my-shopping-web-server.herokuapp.com"
+            // local host is run in ADV
             const val LOCAL_HOST = "http://10.0.2.2:3000"
         }
     }
@@ -138,6 +139,7 @@ object AppConstants {
             const val SIGN_UP = "SIGN_UP"
             const val SIGN_IN = "SIGN_IN"
             const val CART = "CART"
+            const val ADD_TO_CART = "ADD_TO_CART"
             const val ORDER = "ORDER"
             const val ORDER_MANAGEMENT = "ORDER_MANAGEMENT"
             const val REVIEW = "REVIEW"
