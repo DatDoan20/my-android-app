@@ -41,6 +41,7 @@ object AppConstants {
             const val PICKER_PHOTO = 31
             const val SAVE_INFO_PERSONAL = 32
             const val CLICK_SEARCH= 33
+            const val NAV_SIGN_OUT = 34
 
             const val SEE_ALL_NEW_PRODUCT = "SEE_ALL_NEW_PRODUCT"
             const val SEE_ALL_SALE_PRODUCT = "SEE_ALL_SALE_PRODUCT"
@@ -295,6 +296,7 @@ object AppConstants {
             const val CLOSE = "Đóng"
             const val PERMISSION_PICK_PHOTO_NOT_GRANTED =
                 "Bạn cần cho phép quyền truy cập để tải ảnh"
+            const val ENTER_TO_SING_IN = "Nhập tài khoản mật khẩu để đăng nhập!"
         }
     }
 

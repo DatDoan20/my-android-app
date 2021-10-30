@@ -121,6 +121,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                 AppConstants.TAG.LOAD_ME,
                 "localToken is empty in datastore, localToken is $token"
             )
+            showLongToast(AppConstants.MsgInfo.ENTER_TO_SING_IN)
             viewModel.isLoading.value = false
         }
     }

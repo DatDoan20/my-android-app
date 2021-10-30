@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.ui.main.profile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
@@ -16,14 +17,23 @@ import com.doanducdat.shoppingapp.model.response.Status
 import com.doanducdat.shoppingapp.model.user.Email
 import com.doanducdat.shoppingapp.myinterface.MyActionApp
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
+import com.doanducdat.shoppingapp.ui.login.LoginActivity
+import com.doanducdat.shoppingapp.ui.main.MainActivity
 import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
+import com.doanducdat.shoppingapp.utils.MyDataStore
 import com.doanducdat.shoppingapp.utils.dialog.MyVerifyEmailDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
-
+    @Inject
+    lateinit var myDataStore: MyDataStore
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -85,7 +95,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
             doActionClick(AppConstants.ActionClick.REVIEW_PURCHASED_PRODUCT)
         }
         binding.layoutSignOutItem.setOnClickListener {
-
+            doActionClick(AppConstants.ActionClick.NAV_SIGN_OUT)
         }
     }
 
@@ -106,10 +116,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                 controllerMain.navigate(R.id.purchasedProductFragment)
             }
             AppConstants.ActionClick.NAV_EDIT_PROFILE -> {
-                val bitmapAvatar = (binding.imgAvatar.drawable as BitmapDrawable).bitmap
-                controllerMain.navigate(R.id.profileUpdateFragment )
+//                val bitmapAvatar = (binding.imgAvatar.drawable as BitmapDrawable).bitmap
+                controllerMain.navigate(R.id.profileUpdateFragment)
             }
-
+            AppConstants.ActionClick.NAV_SIGN_OUT -> {
+                //delete jwt in datastore
+                CoroutineScope(Dispatchers.IO + NonCancellable).launch {
+                    myDataStore.writeJwt("")
+                }
+                startLoginActivity()
+            }
         }
     }
 
@@ -146,5 +162,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(), MyActionApp {
                 }
             }
         })
+    }
+
+    private fun startLoginActivity() {
+        startActivity(Intent(requireActivity(), LoginActivity::class.java))
+        requireActivity().finish()
     }
 }
