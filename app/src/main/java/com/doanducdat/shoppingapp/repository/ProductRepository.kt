@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.doanducdat.shoppingapp.model.cart.Cart
 import com.doanducdat.shoppingapp.model.product.Product
-import com.doanducdat.shoppingapp.model.product.ProductId
+import com.doanducdat.shoppingapp.model.product.CardId
 import com.doanducdat.shoppingapp.model.response.DataState
 import com.doanducdat.shoppingapp.model.response.ResponseProduct
 import com.doanducdat.shoppingapp.paging.ProductPagingSource
@@ -128,10 +128,10 @@ class ProductRepository @Inject constructor(
         }, IO
     )
 
-    suspend fun deleteProductInCart(idProduct: String) = safeThreadDefaultCatch(
+    suspend fun deleteProductInCart(id: String) = safeThreadDefaultCatch(
         flow {
             emit(loading)
-            val resHandleProductInCard = userAPI.deleteProductInCart(token, ProductId(idProduct))
+            val resHandleProductInCard = userAPI.deleteProductInCart(token, CardId(id))
             emit(DataState.success(resHandleProductInCard))
         }, IO
     )

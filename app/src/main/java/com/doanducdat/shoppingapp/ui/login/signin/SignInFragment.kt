@@ -48,7 +48,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
     }
 
     private fun listenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             with(binding) {
                 setStateEnableViews(
                     !it, btnSignIn, txtInputEdtPhone, txtInputEdtPassword,
@@ -60,11 +60,11 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     setStateVisibleView(View.GONE, spinKitProgressBar)
                 }
             }
-        })
+        }
     }
 
     private fun listenLoadMe() {
-        viewModel.dataStateUser.observe(viewLifecycleOwner, {
+        viewModel.dataStateUser.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> viewModel.isLoading.value = true
                 Status.ERROR -> {
@@ -81,11 +81,11 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     startMain()
                 }
             }
-        })
+        }
     }
 
     private fun listenSignIn() {
-        viewModel.dataStateSignIn.observe(viewLifecycleOwner, {
+        viewModel.dataStateSignIn.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> viewModel.isLoading.value = true
                 Status.ERROR -> {
@@ -99,14 +99,14 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                     viewModel.writeTokenLocal(it.response!!.token)
                 }
             }
-        })
+        }
     }
 
     private fun autoSignInWithToken() {
         viewModel.isLoading.value = true
-        viewModel.token.observe(viewLifecycleOwner, { token ->
+        viewModel.token.observe(viewLifecycleOwner) { token ->
             token?.let { checkTokenToLoadMe(token) }
-        })
+        }
         viewModel.getTokenLocal()
     }
 
@@ -121,7 +121,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(), MyActionApp {
                 AppConstants.TAG.LOAD_ME,
                 "localToken is empty in datastore, localToken is $token"
             )
-            showLongToast(AppConstants.MsgInfo.ENTER_TO_SING_IN)
+//            showLongToast(AppConstants.MsgInfo.ENTER_TO_SING_IN)
             viewModel.isLoading.value = false
         }
     }

@@ -24,8 +24,8 @@ class CartViewModel @Inject constructor(
     val dataStateDeleteProductInCart: LiveData<DataState<ResponseHandleProductInCart>>
         get() = _dataStateDeleteProductInCart
 
-    fun deleteProductInCart(idProduct: String) = viewModelScope.launch {
-        productRepository.deleteProductInCart(idProduct).onEach {
+    fun deleteProductInCart(id: String) = viewModelScope.launch {
+        productRepository.deleteProductInCart(id).onEach {
             _dataStateDeleteProductInCart.value = it
         }.launchIn(viewModelScope)
     }

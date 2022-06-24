@@ -11,7 +11,8 @@ class PopulatedCart(
     var price: Int,
     val infoProduct: Product,
     var quantity: Int,
-    val size: String
+    val size: String,
+    val id:String? = null
 ) {
 
     fun getFormatPrice(): String {

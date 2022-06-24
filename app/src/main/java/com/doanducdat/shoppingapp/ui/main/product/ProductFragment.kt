@@ -226,7 +226,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
 
     //region listen
     private fun listenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it) {
                 with(binding) {
                     setStateVisibleView(View.VISIBLE, spinKitProgressBar)
@@ -252,11 +252,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                     )
                 }
             }
-        })
+        }
     }
 
     private fun listenAddToCart() {
-        viewModel.dataStateHandleProductInCart.observe(viewLifecycleOwner, {
+        viewModel.dataStateHandleProductInCart.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
                     viewModel.isLoading.value = true
@@ -264,7 +264,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                 Status.ERROR -> {
                     myBasicDialog.setText(AppConstants.MsgErr.GENERIC_ERR_MSG)
                     myBasicDialog.show()
-                    Log.e(AppConstants.TAG.ADD_TO_CART, "listenAddToCart: ${it.message}" )
+                    Log.e(AppConstants.TAG.ADD_TO_CART, "listenAddToCart: ${it.message}")
                     viewModel.isLoading.value = false
                 }
                 Status.SUCCESS -> {
@@ -277,7 +277,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
                     viewModel.isLoading.value = false
                 }
             }
-        })
+        }
     }
     //endregion
 
@@ -317,13 +317,13 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
             return
         }
         //check if product is exist in cart
-        InfoLocalUser.currentUser?.cart?.forEach {
-            if (it.infoProduct.id == productSelected.id) {
-                myBasicDialog.setText(AppConstants.MsgInfo.PRODUCT_IS_EXIST_IN_CART)
-                myBasicDialog.show()
-                return
-            }
-        }
+//        InfoLocalUser.currentUser?.cart?.forEach {
+//            if (it.infoProduct.id == productSelected.id) {
+//                myBasicDialog.setText(AppConstants.MsgInfo.PRODUCT_IS_EXIST_IN_CART)
+//                myBasicDialog.show()
+//                return
+//            }
+//        }
         addToCart()
     }
 

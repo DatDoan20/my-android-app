@@ -10,5 +10,6 @@ data class Cart(
     val price: Int,
     val infoProduct: String,
     val quantity: Int,
-    val size: String
+    val size: String,
+    val id:String? = null,
 )

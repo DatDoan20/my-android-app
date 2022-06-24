@@ -26,8 +26,8 @@ class CartAdapter(
         notifyDataSetChanged()
     }
 
-    private var callbackDelete: (idProduct: String) -> Unit = {}
-    fun mySetOnClickDelete(funClickDelete: (idProduct: String) -> Unit) {
+    private var callbackDelete: (id: String) -> Unit = {}
+    fun mySetOnClickDelete(funClickDelete: (id: String) -> Unit) {
         callbackDelete = funClickDelete
     }
 
@@ -86,7 +86,7 @@ class CartAdapter(
                 )
             }
             binding.imgDelete.setOnClickListener {
-                callbackDelete.invoke(populatedCart.infoProduct.id)
+                callbackDelete.invoke(populatedCart.id ?: "")
             }
         }
     }

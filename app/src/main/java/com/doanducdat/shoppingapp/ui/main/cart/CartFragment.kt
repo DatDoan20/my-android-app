@@ -46,14 +46,14 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     }
 
     private fun listenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             cartAdapter.isClickAble = !it
             if (it) {
                 setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
             } else {
                 setStateVisibleView(View.GONE, binding.spinKitProgressBar)
             }
-        })
+        }
     }
 
     /**
@@ -63,10 +63,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
      */
     @SuppressLint("SetTextI18n")
     private fun listenSumMoneyCart() {
-        viewModel.sumMoneyCart.observe(viewLifecycleOwner, {
+        viewModel.sumMoneyCart.observe(viewLifecycleOwner) {
             binding.btnExtendedFab.text = "${FormValidation.formatMoney(it)}/Tiến hành đặt hàng"
             Log.e(AppConstants.TAG.CART, "listenSumMoneyCart: $it")
-        })
+        }
     }
 
     private fun setUpRcvCart() {
@@ -115,7 +115,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
                     viewModel.sumMoneyCart.value = viewModel.sumMoneyCart.value?.plus(priceOneItem)
                 } else {
                     if (populatedCart.quantity == 1) {
-                        showDialogConfirmDeleteProductInCart(populatedCart.infoProduct.id)
+                        showDialogConfirmDeleteProductInCart(populatedCart.id ?: "")
                     } else {
                         populatedCart.quantity -= 1
                         populatedCart.price -= priceOneItem
@@ -135,22 +135,22 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
         }
     }
 
-    private fun showDialogConfirmDeleteProductInCart(idProduct: String) {
+    private fun showDialogConfirmDeleteProductInCart(id: String) {
         dialogYesNo.setText(AppConstants.MsgInfo.CONFIRM_DELETE_PRODUCT_IN_CART)
         dialogYesNo.mySetOnClickYes {
-            deleteProductInCart(idProduct)
+            deleteProductInCart(id)
         }
         dialogYesNo.show()
     }
 
-    private fun deleteProductInCart(idProduct: String) {
+    private fun deleteProductInCart(id: String) {
         listenDeleteProductInCart()
-        viewModel.deleteProductInCart(idProduct)
+        viewModel.deleteProductInCart(id)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun listenDeleteProductInCart() {
-        viewModel.dataStateDeleteProductInCart.observe(viewLifecycleOwner, {
+        viewModel.dataStateDeleteProductInCart.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
                     viewModel.isLoading.value = true
@@ -178,7 +178,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
                     viewModel.isLoading.value = false
                 }
             }
-        })
+        }
     }
 
     private fun setUpActionClick() {
@@ -199,7 +199,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(), MyActionApp {
     private fun checkPreOrder() {
         //check verify email?
         if (InfoLocalUser.currentUser?.stateVerifyEmail == false) {
-            Log.e(AppConstants.TAG.CART, "checkPreOrder: ${InfoLocalUser.currentUser?.stateVerifyEmail}")
+            Log.e(
+                AppConstants.TAG.CART,
+                "checkPreOrder: ${InfoLocalUser.currentUser?.stateVerifyEmail}"
+            )
             dialogBasic.setTextButton("Đã hiểu")
             dialogBasic.setText(AppConstants.MsgInfo.MSG_NOT_VERIFY_EMAIl)
             dialogBasic.show()

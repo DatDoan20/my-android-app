@@ -1,7 +1,7 @@
 package com.doanducdat.shoppingapp.retrofit
 
 import com.doanducdat.shoppingapp.model.cart.Cart
-import com.doanducdat.shoppingapp.model.product.ProductId
+import com.doanducdat.shoppingapp.model.product.CardId
 import com.doanducdat.shoppingapp.model.response.ResponseAuth
 import com.doanducdat.shoppingapp.model.response.ResponseHandleProductInCart
 import com.doanducdat.shoppingapp.model.response.ResponseUpdateEmail
@@ -47,7 +47,7 @@ interface UserAPI {
     @PATCH("api/users/delete-product-in-cart")
     suspend fun deleteProductInCart(
         @Header("Authorization") authorization: String,
-        @Body ProductId: ProductId
+        @Body cardId: CardId
     ): ResponseHandleProductInCart
 
     @Multipart
