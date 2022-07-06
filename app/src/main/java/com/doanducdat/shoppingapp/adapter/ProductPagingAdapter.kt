@@ -6,8 +6,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.doanducdat.shoppingapp.databinding.ItemProductBinding
 import com.doanducdat.shoppingapp.model.product.Product
+import com.doanducdat.shoppingapp.databinding.ItemProductGrid2Binding
 
 class ProductPagingAdapter :
     PagingDataAdapter<Product, ProductPagingAdapter.ProductPagingViewHolder>(PRODUCT_COMPARATOR) {
@@ -18,7 +18,7 @@ class ProductPagingAdapter :
         callbackClickProduct = callbackFun
     }
 
-    inner class ProductPagingViewHolder(val binding: ItemProductBinding) :
+    inner class ProductPagingViewHolder(val binding: ItemProductGrid2Binding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product?) {
             if (product != null) {
@@ -39,7 +39,7 @@ class ProductPagingAdapter :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductPagingViewHolder {
-        val binding = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemProductGrid2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ProductPagingViewHolder(binding)
     }
 

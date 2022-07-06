@@ -42,7 +42,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:gravity="center"
                 android:textColor="@color/textTitleColorGeneric"
-                android:textSize="@dimen/_21sdp"
+                android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:text="abc@gmail.com"
                 android:textColor="@color/textTitleColorGeneric"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_sex_and_birth_year" />
@@ -133,7 +133,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:text="@string/desEditProfile"
                     android:textColor="@color/textDesColorGeneric"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_12sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_title_edit_profile" />
@@ -187,7 +187,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:text="@string/desManageOrder"
                     android:textColor="@color/textDesColorGeneric"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_12sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_title_manage_order" />
@@ -241,7 +241,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:text="@string/desReviewPurchasedProduct"
                     android:textColor="@color/textDesColorGeneric"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_12sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_title_review_purchased_product" />
@@ -294,7 +294,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:text="@string/desSignOut"
                     android:textColor="@color/textDesColorGeneric"
-                    android:textSize="@dimen/_14sdp"
+                    android:textSize="@dimen/_12sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_title_sign_out" />

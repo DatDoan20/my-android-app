@@ -30,7 +30,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/textTitleColorGeneric"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/img_history"
             app:layout_constraintTop_toTopOf="parent" />

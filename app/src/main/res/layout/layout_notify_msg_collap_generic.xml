@@ -6,8 +6,8 @@
     <!-- 64 colap and expan 256dp-->
     <ImageView
         android:id="@+id/img_avatar_notify"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
        />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_toEndOf="@id/img_avatar_notify"
         android:text="@string/reviewPurchasedProduct"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/_12sdp" />
 
     <TextView
         android:id="@+id/txt_content_notify"
@@ -31,7 +31,7 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_toEndOf="@id/img_avatar_notify"
         android:text="@string/reviewPurchasedProduct"
-        android:textSize="@dimen/_14sdp" />
+        android:textSize="@dimen/_12sdp" />
 
 
 </RelativeLayout>

@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.doanducdat.shoppingapp.R
@@ -47,6 +49,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
         override fun onPageSelected(position: Int) {
             switchSlide(position)
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("TEST", "onCreate: HOME")
     }
 
     override fun getFragmentBinding(
@@ -126,7 +133,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun setUpViewPager() {
-
+        val compositePageTransformer = CompositePageTransformer()
+        compositePageTransformer.addTransformer(MarginPageTransformer(20))
+        compositePageTransformer.addTransformer { page, position ->
+            val r: Float = 1 - Math.abs(position)
+            page.scaleY = (0.85f + r * 0.15f)
+        }
+        binding.viewPagerIntroTop.setPageTransformer(compositePageTransformer)
         binding.viewPagerIntroTop.adapter = slideImageIntroAdapter
         binding.viewPagerIntroTop.offscreenPageLimit = 5
 

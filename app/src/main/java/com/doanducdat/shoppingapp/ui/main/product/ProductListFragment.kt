@@ -1,6 +1,7 @@
 package com.doanducdat.shoppingapp.ui.main.product
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,17 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.doanducdat.shoppingapp.R
+import com.doanducdat.shoppingapp.adapter.GridSpacingItemDecoration
 import com.doanducdat.shoppingapp.adapter.ProductPagingAdapter
 import com.doanducdat.shoppingapp.databinding.FragmentProductListBinding
 import com.doanducdat.shoppingapp.model.category.Category
 import com.doanducdat.shoppingapp.ui.base.BaseFragment
 import com.doanducdat.shoppingapp.utils.AppConstants
+import com.doanducdat.shoppingapp.utils.dialog.MyFilterDialog
 import com.doanducdat.shoppingapp.utils.handler.HandlerSwitch
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -30,6 +34,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
     private val productAdapter = ProductPagingAdapter()
     private var jobLoadProducts: Job? = null
     private val viewModel: ProductViewModel by viewModels()
+    private val filterDialog: MyFilterDialog by lazy { MyFilterDialog(requireActivity()) }
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
@@ -49,6 +54,9 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
 
         //get category form another fragment to search in here
         getDataFromAnotherFragment()
+
+        //filter
+        setUpFilter()
     }
 
     private fun setUpBackFragment() {
@@ -74,11 +82,17 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         binding.rcvListProductByCategory.layoutManager =
             GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
 
-        binding.rcvListProductByCategory.setHasFixedSize(false)
+        binding.rcvListProductByCategory.setHasFixedSize(true)
         binding.rcvListProductByCategory.adapter = productAdapter
         productAdapter.mySetOnClickProduct {
             controllerMain.navigate(R.id.productFragment, bundleOf("PRODUCT" to it))
         }
+        //can set in file xml, here way to set = code
+        binding.rcvListProductByCategory.addItemDecoration(
+            GridSpacingItemDecoration(
+                bottom = 13,
+            )
+        )
     }
 
     private fun setUpRefreshLayout() {
@@ -104,7 +118,11 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         }
     }
 
-    private fun getDataFromAnotherFragment() {
+    private fun getDataFromAnotherFragment(
+        fromPrice: String? = null,
+        toPrice: String? = null,
+        sort: String? = null
+    ) {
         val bundle = arguments
         val str = AppConstants.ActionClick
         if (bundle != null) {
@@ -125,7 +143,7 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
                 }
                 str.SEE_PRODUCT_BY_SEARCH -> {
                     val nameProduct = bundle.getString(str.SEE_PRODUCT_BY_SEARCH, null)
-                    loadProductBySearch(nameProduct)
+                    loadProductBySearch(nameProduct, fromPrice, toPrice, sort)
                     binding.txtTitleNameListProduct.text = nameProduct ?: "Có lỗi xảy ra..."
                 }
             }
@@ -162,13 +180,43 @@ class ProductListFragment : BaseFragment<FragmentProductListBinding>() {
         }
     }
 
-    private fun loadProductBySearch(name: String?) {
+    private fun loadProductBySearch(
+        name: String?,
+        fromPrice: String?,
+        toPrice: String?,
+        sort: String?,
+    ) {
+        Log.d("TEST_SEARCH", "getDataFromAnotherFragment1: ")
         if (productAdapter.itemCount != 0) return
+        Log.d("TEST_SEARCH", "getDataFromAnotherFragment2: ")
         lifecycleScope.launch {
-            viewModel.getProductPaging(null, null, null, name)
+            viewModel.getProductPaging(
+                null, null, null, name, fromPrice, toPrice, sort
+            )
                 .collectLatest {
                     productAdapter.submitData(it)
                 }
+        }
+    }
+
+    private fun setUpFilter() {
+        binding.icFilter.setOnClickListener {
+            filterDialog.setOnClick { fromPrice, toPrice, idRdoSort ->
+                val sort = sortProductQuery(idRdoSort)
+                productAdapter.submitData(lifecycle, PagingData.empty())
+                getDataFromAnotherFragment(fromPrice, toPrice, sort)
+            }
+            filterDialog.showDialogFilter()
+        }
+    }
+
+    private fun sortProductQuery(idRdoSort: Int): String {
+        return when (idRdoSort) {
+            R.id.rdo_price_asc -> "price-asc"
+            R.id.rdo_price_desc -> "price-desc"
+            R.id.rdo_newest -> "newest"
+            R.id.rdo_top_sale -> "top-sale"
+            else -> "price-desc"
         }
     }
 }

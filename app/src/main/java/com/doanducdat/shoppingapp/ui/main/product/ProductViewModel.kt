@@ -34,9 +34,20 @@ class ProductViewModel @Inject constructor(
         category: String?,
         type: String?,
         discountDifferent: Int?,
-        name:String?
+        name: String?,
+        fromPrice: String? = null,
+        toPrice: String? = null,
+        sort: String? = null,
     ): Flow<PagingData<Product>> {
-        return productRepository.getProductPagingAPI(category, type, discountDifferent, name)
+        return productRepository.getProductPagingAPI(
+            category,
+            type,
+            discountDifferent,
+            name,
+            fromPrice,
+            toPrice,
+            sort
+        )
             .cachedIn(viewModelScope)
     }
 

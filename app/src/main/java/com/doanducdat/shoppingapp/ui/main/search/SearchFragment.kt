@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doanducdat.shoppingapp.R
@@ -33,11 +35,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         super.onViewCreated(view, savedInstanceState)
         listenUpdateBadgeCountNotify(binding.myAppBarLayout.layoutNotification.imgRedDot)
 
-        setUpSearchView()
+
         setUpRcvKeyWord()
         loadHistoryKeyWord()
         setUpClickSearch()
         deleteKeyWordCache()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setUpSearchView()
     }
 
     private fun deleteKeyWordCache() {
@@ -53,7 +60,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
 
     private fun setUpSearchView() {
-        binding.myAppBarLayout.searchView.requestFocus()
+        if (binding.myAppBarLayout.searchView.requestFocus()) {
+            requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        }
     }
 
     private fun setUpRcvKeyWord() {
@@ -69,12 +78,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun loadHistoryKeyWord() {
-        viewModel.getAllKeyWord().observe(viewLifecycleOwner, { historyKeyWord ->
+        viewModel.getAllKeyWord().observe(viewLifecycleOwner) { historyKeyWord ->
             if (historyKeyWord.isNotEmpty()) {
                 Log.e("TEST", "loadHistoryKeyWord: do it")
                 adapterKeyWord.setKeyWordList(historyKeyWord)
             }
-        })
+        }
     }
 
     fun navigateSearchProduct(nameProduct: String) {

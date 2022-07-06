@@ -6,13 +6,18 @@ import com.doanducdat.shoppingapp.utils.AppConstants
 
 object HandlerSwitch {
 
-    fun navigationToFragment(idFragment: Int, controller: NavController) {
-        if (fragmentIsInBackStack(idFragment, controller)) {
-            //this fragment is in backstack
-            controller.popBackStack(idFragment, false)
-        } else {
-            controller.navigate(idFragment)
-        }
+    fun navigationToFragment(
+        idFragment: Int,
+        controller: NavController,
+        isOpened: Boolean? = null
+    ) {
+        controller.navigate(idFragment)
+//        if (fragmentIsInBackStack(idFragment, controller)) {
+//            Log.d("TEST", "navigationToFragment: ")
+//            controller.popBackStack(idFragment, false)
+//        } else {
+//            controller.navigate(idFragment)
+//        }
     }
 
     private fun fragmentIsInBackStack(idFragment: Int, controller: NavController): Boolean {
@@ -25,4 +30,6 @@ object HandlerSwitch {
             false
         }
     }
+
+
 }

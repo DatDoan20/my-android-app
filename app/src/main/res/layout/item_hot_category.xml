@@ -7,8 +7,8 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_90sdp"
-        android:layout_height="@dimen/_110sdp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_margin="@dimen/_5sdp"
         app:cardCornerRadius="@dimen/_13sdp">
 
@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/img_hot_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_10sdp"
                 android:src="@drawable/nu_vay_suong"
@@ -43,7 +43,7 @@
                 android:gravity="center"
                 android:text="Váy nữ test test"
                 android:textColor="@color/textTitleColorGeneric"
-                android:textSize="@dimen/_14sdp"
+                android:textSize="@dimen/_12sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

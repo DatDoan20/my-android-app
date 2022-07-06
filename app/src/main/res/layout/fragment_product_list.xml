@@ -23,20 +23,42 @@
                 android:id="@+id/my_app_bar_layout"
                 layout="@layout/my_app_bar_layout" />
 
-            <TextView
-                android:id="@+id/txt_title_name_list_product"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:gravity="center"
-                android:textColor="@color/textTitleColorGeneric"
-                android:textSize="@dimen/_14sdp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:id="@+id/ic_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_filter" />
+
+                <TextView
+                    android:id="@+id/txt_title_name_list_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textColor="@color/textTitleColorGeneric"
+                    android:textSize="@dimen/_14sdp" />
+
+                <ImageView
+                    android:id="@+id/ic_filter2"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_filter" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_list_product_by_category"
                 android:layout_width="match_parent"
+                android:layout_gravity="center"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_10sdp" />
 

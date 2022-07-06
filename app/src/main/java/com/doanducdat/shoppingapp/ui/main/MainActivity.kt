@@ -11,6 +11,12 @@ import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.handler.HandlerSwitch
 import dagger.hilt.android.AndroidEntryPoint
 
+/*
+* c1. use viewpager(1) to load fragment of list bottom navigation
+* c2. use NavigationController(2) to load fragment into FragmentView(3) in
+ MainActivity (so lag when load fragment on FragmentView-layout(4) )
+ */
+
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
@@ -36,51 +42,71 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun updateBadgeCountCart() {
-        binding.bubbleBtmNvgMain.setBadgeValue(3, InfoLocalUser.currentUser?.cart?.size.toString())
+        val badge = binding.bubbleBtmNvgMain.getOrCreateBadge(3)
+        badge.isVisible = true
+        badge.number = InfoLocalUser.currentUser?.cart?.size ?: 0
     }
 
     private fun setUpActionClick() {
-        binding.bubbleBtmNvgMain.setNavigationChangeListener { _, position ->
-            //navigate fragment when click
-            when (position) {
-                0 -> {
+//        val arrFragment = ArrayList<Fragment>()
+//        arrFragment.add(HomeFragment())
+//        arrFragment.add(CategoryFragment())
+//        arrFragment.add(SearchFragment())
+//        arrFragment.add(CartFragment())
+//        arrFragment.add(ProfileFragment())
+//        val bottomNavigationAdapter = BtmViewPagerAdapter(this, arrFragment)
+//        binding.vpMain.adapter = bottomNavigationAdapter
+//        binding.vpMain.isUserInputEnabled = false
+//        binding.vpMain.offscreenPageLimit = 5
+
+        binding.bubbleBtmNvgMain.setOnItemSelectedListener { item ->
+            updateBadgeCountCart()
+            when (item.itemId) {
+                R.id.menu_home -> {
                     HandlerSwitch.navigationToFragment(R.id.homeFragment, controllerMain)
                 }
-                1 -> {
+                R.id.menu_category -> {
                     HandlerSwitch.navigationToFragment(R.id.categoryFragment, controllerMain)
                 }
-                2 -> {
+                R.id.menu_search -> {
                     HandlerSwitch.navigationToFragment(R.id.searchFragment, controllerMain)
                 }
-                3 -> {
+                R.id.menu_cart -> {
                     HandlerSwitch.navigationToFragment(R.id.cartFragment, controllerMain)
                 }
-                4 -> {
+                R.id.menu_profile -> {
                     HandlerSwitch.navigationToFragment(R.id.profileFragment, controllerMain)
                 }
             }
-            updateBadgeCountCart()
+            true
         }
         //hide bottom navigation
         controllerMain.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.searchFragment -> {
-                    binding.bubbleBtmNvgMain.setCurrentActiveItem(2)
+//                    binding.containerMain.visibility = View.GONE
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
                 R.id.homeFragment -> {
+//                    binding.containerMain.visibility = View.GONE
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
                 R.id.categoryFragment -> {
+//                    binding.containerMain.visibility = View.GONE
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
                 R.id.profileFragment -> {
+//                    binding.containerMain.visibility = View.GONE
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
                 R.id.cartFragment -> {
+//                    binding.containerMain.visibility = View.GONE
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
-                else -> binding.bubbleBtmNvgMain.visibility = View.GONE
+                else -> {
+//                    binding.containerMain.visibility = View.VISIBLE
+                    binding.bubbleBtmNvgMain.visibility = View.GONE
+                }
             }
             updateBadgeCountCart()
         }

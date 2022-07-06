@@ -8,6 +8,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable-v24/bg_item_product_unclick.xml" value="0.2743589743589744" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable-v24/bg_item_profile_click.xml" value="0.28615384615384615" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_back.xml" value="0.2786458333333333" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_border_top.xml" value="0.1685" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_btn_cancel_generic_click.xml" value="0.2743589743589744" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_btn_cancel_generic_two_style.xml" value="0.2743589743589744" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_btn_cancel_generic_unclick.xml" value="0.2743589743589744" />
@@ -38,9 +39,11 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_state_order_canceled.xml" value="0.23333333333333334" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_state_order_received.xml" value="0.1" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_state_order_waiting.xml" value="0.23333333333333334" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_tv_price.xml" value="0.1685" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/bg_un_read_dot.xml" value="0.2712962962962963" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/circle_progress_bar.xml" value="0.2743589743589744" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/circle_proress_bar.xml" value="0.2786458333333333" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/custom_bottom_nav_color.xml" value="0.16" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_add_cart.xml" value="0.127" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_back.xml" value="0.18703703703703703" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/drawable/ic_back_blue.xml" value="0.2786458333333333" />
@@ -76,6 +79,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/activity_onboard_screen.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/activity_onboarding_screen.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/activity_splash.xml" value="0.264" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/alert_filter.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_cart.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_category.xml" value="0.2" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/fragment_comment.xml" value="0.2" />
@@ -113,8 +117,9 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_key_word.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_notification.xml" value="0.27447916666666666" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_order.xml" value="0.264" />
-        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product.xml" value="0.536" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_color.xml" value="0.25" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_grid2.xml" value="0.2074074074074074" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_in_cart.xml" value="0.264" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_in_order.xml" value="0.20925925925925926" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/item_product_size.xml" value="0.6" />
@@ -132,6 +137,7 @@
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/my_rating_dialog.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/my_verify_email_dialog.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/layout/my_yes_no_dialog.xml" value="0.2625" />
+        <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/menu/menu_bottom_nav_main.xml" value="0.2625" />
         <entry key="..\:/1.AndroidTopPic/Project/ShopingAppProject/SHOPPING_APP/app/src/main/res/menu/popup_menu_item_notification.xml" value="0.2625" />
       </map>
     </option>

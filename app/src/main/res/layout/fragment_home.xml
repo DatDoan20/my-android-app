@@ -36,7 +36,7 @@
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/view_pager_intro_top"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_180sdp"
+                        android:layout_height="@dimen/_130sdp"
                         android:layout_centerInParent="true"
                         android:background="@color/textTitleColorGeneric"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/hotCategory"
                         android:textColor="@color/textTitleColorGeneric"
-                        android:textSize="@dimen/_16sdp"
+                        android:textSize="@dimen/_14sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/view_pager_intro_top" />
 
@@ -70,7 +70,7 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/seeAll"
                         android:textColor="@color/textDesColorGeneric"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="@dimen/_12sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/view_pager_intro_top" />
 
@@ -88,7 +88,7 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/saleProduct"
                         android:textColor="@color/textTitleColorGeneric"
-                        android:textSize="@dimen/_16sdp"
+                        android:textSize="@dimen/_14sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rcv_hot_category" />
 
@@ -99,7 +99,7 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/seeAll"
                         android:textColor="@color/textDesColorGeneric"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="@dimen/_12sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rcv_hot_category" />
 
@@ -118,7 +118,7 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/newProduct"
                         android:textColor="@color/textTitleColorGeneric"
-                        android:textSize="@dimen/_16sdp"
+                        android:textSize="@dimen/_14sdp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rcv_sale_product" />
 
@@ -129,7 +129,7 @@
                         android:layout_margin="@dimen/_10sdp"
                         android:text="@string/seeAll"
                         android:textColor="@color/textDesColorGeneric"
-                        android:textSize="@dimen/_14sdp"
+                        android:textSize="@dimen/_12sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rcv_sale_product" />
 

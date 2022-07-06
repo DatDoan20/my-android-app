@@ -16,7 +16,10 @@ class ProductPagingSource(
     private val category: String?,
     private val type: String?,
     private val discountDifferent: Int?,
-    private val name: String?
+    private val name: String?,
+    private val fromPrice: String?,
+    private val toPrice: String?,
+    private val sort: String?
 ) : PagingSource<Int, Product>() {
 
     override fun getRefreshKey(state: PagingState<Int, Product>): Int? {
@@ -39,7 +42,10 @@ class ProductPagingSource(
                     discountDifferent,
                     category,
                     type,
-                    name
+                    name,
+                    fromPrice,
+                    toPrice,
+                    sort
                 )
             val products = response.data
             LoadResult.Page(

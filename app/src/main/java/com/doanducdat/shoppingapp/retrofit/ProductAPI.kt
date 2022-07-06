@@ -23,5 +23,8 @@ interface ProductAPI {
         @Query("category") category: String? = null,
         @Query("type") type: String? = null,
         @Query("name") name: String? = null,
+        @Query("fromPrice") fromPrice: String? = null,
+        @Query("toPrice") toPrice: String? = null,
+        @Query("sort") sort: String? = null,
     ): ResponseProduct
 }

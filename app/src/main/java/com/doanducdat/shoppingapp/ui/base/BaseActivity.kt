@@ -26,7 +26,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getViewBinding())
-
         /*this fun will init result to return state network,
          that have to IN ADVANCE register in onResume()
          */

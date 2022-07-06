@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/_10sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="Chọn khoảng giá"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/layout_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView6">
+
+                <EditText
+                    android:id="@+id/edtFromPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="Giá từ"
+                    android:background="@drawable/bg_tv_price"
+                    android:hint="Giá từ"
+                    android:inputType="number"
+                    android:minWidth="@dimen/_100sdp"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:text="-"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
+
+                <EditText
+                    android:id="@+id/edtToPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="Giá từ"
+                    android:background="@drawable/bg_tv_price"
+                    android:hint="Giá đến"
+                    android:inputType="number"
+                    android:minWidth="@dimen/_100sdp"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:paddingVertical="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/_13sdp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="Sắp xếp theo"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_price" />
+
+            <RadioGroup
+                android:id="@+id/rdo_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView7">
+
+                <RadioButton
+                    android:id="@+id/rdo_price_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/bgColorBtnGeneric"
+                    android:checked="true"
+                    android:text="Giá giảm dần"
+                    android:textSize="@dimen/_12sdp" />
+
+                <RadioButton
+                    android:id="@+id/rdo_price_asc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/bgColorBtnGeneric"
+                    android:text="Giá tăng dần"
+                    android:textSize="@dimen/_12sdp" />
+
+                <RadioButton
+                    android:id="@+id/rdo_newest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/bgColorBtnGeneric"
+                    android:text="Mới nhất"
+                    android:textSize="@dimen/_12sdp" />
+
+                <RadioButton
+                    android:id="@+id/rdo_top_sale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/bgColorBtnGeneric"
+                    android:text="Sản phẩm đang giảm giá"
+                    android:textSize="@dimen/_12sdp" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/bg_btn_generic_two_style"
+                android:paddingHorizontal="@dimen/_13sdp"
+                android:text="Áp dụng"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorBtnGeneric"
+                android:textSize="@dimen/_13sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rdo_group" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
