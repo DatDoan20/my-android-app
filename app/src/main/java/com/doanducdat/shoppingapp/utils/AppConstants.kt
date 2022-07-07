@@ -42,6 +42,7 @@ object AppConstants {
             const val SAVE_INFO_PERSONAL = 32
             const val CLICK_SEARCH= 33
             const val NAV_SIGN_OUT = 34
+            const val ORDER_VN_PAY = 35
 
             const val SEE_ALL_NEW_PRODUCT = "SEE_ALL_NEW_PRODUCT"
             const val SEE_ALL_SALE_PRODUCT = "SEE_ALL_SALE_PRODUCT"
@@ -94,6 +95,7 @@ object AppConstants {
             const val DISCOUNTING = 0
             const val WAITING = "waiting"
             const val PAYMENT_MODE = "COD"
+            const val PAYMENT_MODE_VN_PAY_PAID = "Banking"
         }
     }
 

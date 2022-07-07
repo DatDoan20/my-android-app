@@ -290,6 +290,10 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(), MyActionApp {
 //            val flag = AppConstants.ActionClick.NAV_REVIEW_PRODUCT
             controllerMain.navigate(R.id.reviewFragment, bundleOf("PRODUCT_ID" to productSelected.id))
         }
+        binding.layoutMyCart.imgMyCart.setOnClickListener {
+//            val flag = AppConstants.ActionClick.NAV_REVIEW_PRODUCT
+            controllerMain.navigate(R.id.cartFragment)
+        }
     }
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {

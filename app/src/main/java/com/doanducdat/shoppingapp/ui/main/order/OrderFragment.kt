@@ -1,11 +1,16 @@
 package com.doanducdat.shoppingapp.ui.main.order
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.doanducdat.shoppingapp.databinding.FragmentOrderBinding
 import com.doanducdat.shoppingapp.model.order.PurchasedProduct
@@ -25,6 +30,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
         container: ViewGroup?
     ): FragmentOrderBinding = FragmentOrderBinding.inflate(inflater, container, false)
 
+    private var activityResultLauncher: ActivityResultLauncher<Intent>? = null
     val viewModel: OrderViewModel by viewModels()
     val myBasicDialog by lazy { MyBasicDialog(requireContext()) }
 
@@ -36,17 +42,28 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
         setUpClickRadio()
         setUpInfo()
         setUpActionClick()
+        initResultLauncher()
+        listenOrder()
+    }
+
+    private fun initResultLauncher() {
+        activityResultLauncher =
+            registerForActivityResult(StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    viewModel.order(AppConstants.QueryRequest.PAYMENT_MODE_VN_PAY_PAID)
+                }
+            }
     }
 
     private fun listenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             setStateEnableViews(!it, binding.btnOrder)
             if (it) {
                 setStateVisibleView(View.VISIBLE, binding.spinKitProgressBar)
             } else {
                 setStateVisibleView(View.GONE, binding.spinKitProgressBar)
             }
-        })
+        }
     }
 
     private fun setUpBackFragment() {
@@ -59,15 +76,28 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
         binding.layoutCod.setOnClickListener {
             binding.rdoCod.isChecked = true
             binding.rdoMomo.isChecked = false
+            binding.rdoVnPay.isChecked = false
         }
         binding.layoutMomo.setOnClickListener {
+            binding.rdoVnPay.isChecked = false
             binding.rdoCod.isChecked = false
             binding.rdoMomo.isChecked = true
         }
+        binding.layoutVnPay.setOnClickListener {
+            binding.rdoVnPay.isChecked = true
+            binding.rdoCod.isChecked = false
+            binding.rdoMomo.isChecked = false
+        }
         binding.rdoMomo.setOnClickListener {
             binding.rdoCod.isChecked = false
+            binding.rdoVnPay.isChecked = false
         }
         binding.rdoCod.setOnClickListener {
+            binding.rdoVnPay.isChecked = false
+            binding.rdoMomo.isChecked = false
+        }
+        binding.rdoVnPay.setOnClickListener {
+            binding.rdoCod.isChecked = false
             binding.rdoMomo.isChecked = false
         }
     }
@@ -87,19 +117,19 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
 
     private fun setUpActionClick() {
         binding.btnOrder.setOnClickListener {
-            doActionClick(AppConstants.ActionClick.ORDER)
+            var action = AppConstants.ActionClick.ORDER
+            if (binding.rdoVnPay.isChecked) {
+                action = AppConstants.ActionClick.ORDER_VN_PAY
+            }
+            doActionClick(action)
         }
     }
 
     override fun doActionClick(CODE_ACTION_CLICK: Int) {
-        when (CODE_ACTION_CLICK) {
-            AppConstants.ActionClick.ORDER -> {
-                preOrderCheckInput()
-            }
-        }
+        preOrderCheckInput(CODE_ACTION_CLICK)
     }
 
-    private fun preOrderCheckInput() {
+    private fun preOrderCheckInput(CODE_ACTION_CLICK: Int) {
         val nameUser = binding.edtName.text.toString().trim()
         val addressUser = binding.edtAddress.text.toString().trim()
         val msgErr = FormValidation.checkValidationName(nameUser)
@@ -114,10 +144,10 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
             showLongToast(AppConstants.MsgErr.ADDRESS_ERR_MSG)
             return
         }
-        preOrderSetInput(nameUser, addressUser)
+        preOrderSetInput(nameUser, addressUser, CODE_ACTION_CLICK)
     }
 
-    private fun preOrderSetInput(nameUser: String, addressUser: String) {
+    private fun preOrderSetInput(nameUser: String, addressUser: String, CODE_ACTION_CLICK: Int) {
         if (InfoLocalUser.currentUser == null) return
 
         viewModel.isLoading.value = true
@@ -148,12 +178,22 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
             purchasedProducts = purchasedProductsInCart
             note = binding.edtNote.text.toString().trim()
         }
-        listenOrder()
-        viewModel.order()
+        when (CODE_ACTION_CLICK) {
+            AppConstants.ActionClick.ORDER -> {
+                viewModel.order()
+            }
+            AppConstants.ActionClick.ORDER_VN_PAY -> {
+                val intent = Intent(requireActivity(), VnPayActivity::class.java)
+                intent.putExtras(bundleOf("ORDER_TOTAL_PAYMENT" to viewModel.totalPayment))
+                viewModel.isLoading.value = false
+                activityResultLauncher?.launch(intent)
+            }
+        }
     }
 
+
     private fun listenOrder() {
-        viewModel.dataStateOrder.observe(viewLifecycleOwner, {
+        viewModel.dataStateOrder.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
                     viewModel.isLoading.value = true
@@ -169,7 +209,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(), MyActionApp {
                     InfoLocalUser.currentUser?.cart?.clear()
                 }
             }
-        })
+        }
     }
 
     private fun showDialog(addressDelivery: String, totalPayment: Int) {

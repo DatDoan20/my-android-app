@@ -41,9 +41,10 @@
             android:text="Tổng giá đơn hàng"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_12sdp"
             app:icon="@drawable/ic_order"
             app:iconTint="@color/white"
+            app:iconSize="@dimen/_12sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

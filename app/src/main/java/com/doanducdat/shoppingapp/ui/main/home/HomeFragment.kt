@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
+import coil.request.CachePolicy
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.adapter.CategoryBasicAdapter
 import com.doanducdat.shoppingapp.adapter.ProductBasicAdapter
@@ -100,9 +101,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun listenLoadingForm() {
-        viewModel.isLoading.observe(viewLifecycleOwner, {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefreshLayout.isRefreshing = it
-        })
+        }
     }
 
     private fun listenCollapsing() {
@@ -112,7 +113,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), MyActionApp {
     }
 
     private fun setUpMyInfo() {
-        binding.myAppBarLayout.imgAvatar.load(InfoLocalUser.currentUser?.getUrlAvatar())
+        Log.d("TEST", "setUpMyInfo: ")
+        binding.myAppBarLayout.imgAvatar.load(InfoLocalUser.currentUser?.getUrlAvatar()){
+            diskCachePolicy(CachePolicy.DISABLED)
+            memoryCachePolicy(CachePolicy.DISABLED)
+        }
     }
 
     //region Slide Image Intro

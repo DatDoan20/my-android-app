@@ -51,8 +51,8 @@ class OrderViewModel @Inject constructor(
     val dataStateReceivedOrder: LiveData<DataState<ResponseOrder>>
         get() = _dataStateReceivedOrder
 
-    fun order() = viewModelScope.launch {
-        val order: Order = Order(
+    fun createOrder(paymentMode: String): Order {
+        return Order(
             null,
             address,
             costDelivery,
@@ -67,10 +67,14 @@ class OrderViewModel @Inject constructor(
             null,
             note
         )
-        orderRepository.order(order).onEach {
-            _dataStateOrder.value = it
-        }.launchIn(viewModelScope)
     }
+
+    fun order(paymentMode: String = AppConstants.QueryRequest.PAYMENT_MODE) =
+        viewModelScope.launch {
+            orderRepository.order(createOrder(paymentMode)).onEach {
+                _dataStateOrder.value = it
+            }.launchIn(viewModelScope)
+        }
 
     fun getOrderPaging(): Flow<PagingData<Order>> {
         return orderRepository.getOrderPaging().cachedIn(viewModelScope)

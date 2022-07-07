@@ -1,12 +1,20 @@
 package com.doanducdat.shoppingapp.ui.main
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.PermissionChecker
 import androidx.lifecycle.ViewModelProvider
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.ActivityMainBinding
+import com.doanducdat.shoppingapp.model.VnPay
 import com.doanducdat.shoppingapp.service.WebSocketIO
 import com.doanducdat.shoppingapp.ui.base.BaseActivity
 import com.doanducdat.shoppingapp.ui.main.notification.NotificationShareViewModel
+import com.doanducdat.shoppingapp.utils.AppConstants
 import com.doanducdat.shoppingapp.utils.InfoLocalUser
 import com.doanducdat.shoppingapp.utils.handler.HandlerSwitch
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,6 +111,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 //                    binding.containerMain.visibility = View.GONE
                     binding.bubbleBtmNvgMain.visibility = View.VISIBLE
                 }
+                R.id.profileUpdateFragment -> {
+                    requestPermissionReadStorage()
+                }
                 else -> {
 //                    binding.containerMain.visibility = View.VISIBLE
                     binding.bubbleBtmNvgMain.visibility = View.GONE
@@ -112,6 +123,40 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    private fun requestPermissionReadStorage() {
+        val result = PermissionChecker.checkSelfPermission(
+            this,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+
+        if (result == PackageManager.PERMISSION_DENIED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    1
+                )
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(
+                        this,
+                        AppConstants.MsgInfo.PERMISSION_PICK_PHOTO_NOT_GRANTED,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

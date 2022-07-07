@@ -2,6 +2,7 @@ package com.doanducdat.shoppingapp.utils.handler
 
 import android.util.Log
 import androidx.navigation.NavController
+import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.utils.AppConstants
 
 object HandlerSwitch {
@@ -11,13 +12,16 @@ object HandlerSwitch {
         controller: NavController,
         isOpened: Boolean? = null
     ) {
-        controller.navigate(idFragment)
-//        if (fragmentIsInBackStack(idFragment, controller)) {
-//            Log.d("TEST", "navigationToFragment: ")
-//            controller.popBackStack(idFragment, false)
-//        } else {
-//            controller.navigate(idFragment)
-//        }
+        if (idFragment == R.id.homeFragment) {
+//            if (fragmentIsInBackStack(idFragment, controller)) {
+//                Log.d("TEST", "navigationToFragment: ")
+            controller.popBackStack(idFragment, false)
+//            } else {
+//                controller.navigate(idFragment)
+//            }
+        } else {
+            controller.navigate(idFragment)
+        }
     }
 
     private fun fragmentIsInBackStack(idFragment: Int, controller: NavController): Boolean {

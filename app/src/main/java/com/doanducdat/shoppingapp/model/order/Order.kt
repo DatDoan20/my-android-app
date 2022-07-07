@@ -21,5 +21,6 @@ class Order(
     val totalPrice: Int,
     val purchasedProducts: MutableList<PurchasedProduct>,
     val createdAt: Date?,
-    val note:String
-) : Serializable
+    val note: String
+) : Serializable {
+}

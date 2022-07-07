@@ -1,5 +1,6 @@
 package com.doanducdat.shoppingapp.ui.main.profile
 
+import android.Manifest
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Intent
@@ -17,6 +18,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker.checkSelfPermission
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import coil.load
+import coil.request.CachePolicy
 import com.doanducdat.shoppingapp.R
 import com.doanducdat.shoppingapp.databinding.FragmentProfileUpdateBinding
 import com.doanducdat.shoppingapp.model.response.Status
@@ -128,7 +131,10 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK && result.data?.data != null) {
                     viewModel.imageUri = result.data!!.data
-                    binding.imgAvatar.setImageURI(viewModel.imageUri)
+                    binding.imgAvatar.load(viewModel.imageUri) {
+                        diskCachePolicy(CachePolicy.DISABLED)
+                        memoryCachePolicy(CachePolicy.DISABLED)
+                    }
                     val realPath =
                         HandlerFile.getPathFromUri(requireContext(), viewModel.imageUri!!)
                     if (realPath != null) {
@@ -171,9 +177,14 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
         if (result == PackageManager.PERMISSION_GRANTED) {
             pickImage()
         } else {
+            requireActivity().requestPermissions(
+                arrayOf(READ_EXTERNAL_STORAGE),
+                1
+            )
             showLongToast(AppConstants.MsgInfo.PERMISSION_PICK_PHOTO_NOT_GRANTED)
         }
     }
+
 
     private fun pickImage() {
         val intent = Intent()
@@ -208,7 +219,8 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
             //check value change?, if there is not change -> not call api update info
             viewModel.name == InfoLocalUser.currentUser?.name &&
                     viewModel.birthYear == InfoLocalUser.currentUser?.birthYear &&
-                    viewModel.sex == InfoLocalUser.currentUser?.sex -> {
+                    viewModel.sex == InfoLocalUser.currentUser?.sex &&
+                    viewModel.imageUri == null -> {
                 controllerMain.popBackStack()
                 return
             }
@@ -222,7 +234,7 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
     }
 
     private fun listenUpdateMe() {
-        viewModel.dataStateUpdateUser.observe(viewLifecycleOwner, {
+        viewModel.dataStateUpdateUser.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.LOADING -> {
                     viewModel.isLoading.value = true
@@ -242,7 +254,7 @@ class ProfileUpdateFragment : BaseFragment<FragmentProfileUpdateBinding>(), MyAc
                     controllerMain.popBackStack()
                 }
             }
-        })
+        }
     }
 
     private fun updateMe() {
