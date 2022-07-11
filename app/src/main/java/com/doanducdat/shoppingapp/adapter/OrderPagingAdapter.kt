@@ -54,18 +54,22 @@ class OrderPagingAdapter :
                 AppConstants.Order.WAITING -> {
                     msgState = AppConstants.Order.MSG_WAITING
                     nameDrawable = R.drawable.bg_state_order_waiting
+                    binding.btnCancelOrder.visibility = View.VISIBLE
                 }
                 AppConstants.Order.ACCEPTED -> {
                     msgState = AppConstants.Order.MSG_ACCEPTED
                     nameDrawable = R.drawable.bg_state_order_accepted
+                    binding.btnCancelOrder.visibility = View.GONE
                 }
                 AppConstants.Order.CANCELED -> {
                     msgState = AppConstants.Order.MSG_CANCELED
                     nameDrawable = R.drawable.bg_state_order_canceled
+                    binding.btnCancelOrder.visibility = View.GONE
                 }
                 AppConstants.Order.RECEIVED -> {
                     msgState = AppConstants.Order.MSG_RECEIVED
                     nameDrawable = R.drawable.bg_state_order_received
+                    binding.btnCancelOrder.visibility = View.GONE
                 }
             }
             binding.txtState.background = ContextCompat.getDrawable(context, nameDrawable)
@@ -77,7 +81,6 @@ class OrderPagingAdapter :
                 callbackClickViewDetail(order)
             }
             if (order.state == AppConstants.Order.WAITING) {
-                binding.btnCancelOrder.visibility = View.VISIBLE
                 binding.btnCancelOrder.setOnClickListener {
                     callbackClickCancel(order)
                 }

@@ -165,7 +165,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/bg_btn_generic_two_style"
             android:paddingLeft="@dimen/_15sdp"
@@ -173,7 +173,7 @@
             android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/textColorBtnGeneric"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_12sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/list_sex" />

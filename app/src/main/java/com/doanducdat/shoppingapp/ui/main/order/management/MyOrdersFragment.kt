@@ -110,6 +110,7 @@ class MyOrdersFragment : BaseFragment<FragmentOrdersBinding>() {
             cancelOrder(it)
         }
         orderAdapter.mySetOnClickViewDetail {
+            showLongToast("Chức năng này đang phát triển")
         }
     }
 

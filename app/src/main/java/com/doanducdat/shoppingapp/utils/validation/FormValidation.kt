@@ -111,7 +111,7 @@ object FormValidation {
         val nameFirstProduct = order.purchasedProducts[0].name
         //many product -> custom nameFirstProduct to display
         return if (sizePurchasedProduct > 1) {
-            "${nameFirstProduct.substring(0, 44)} và $sizePurchasedProduct mặt hàng khác..."
+            "${nameFirstProduct.substring(0, 20)} và $sizePurchasedProduct mặt hàng khác..."
         } else {
             nameFirstProduct
         }
